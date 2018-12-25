@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>INFINITE NEST</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="../../../../theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../theme/pygment.css" />
+
+        <script src="../../../../theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="../../../../">Sonny's Blog <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="../../../../">Home</a></li>
+
+                <li><a href="../../../../pages/about.html">About Me</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="../../../../2018/12/23/infinite-nest/" rel="bookmark"
+                   title="Permalink to INFINITE NEST">INFINITE NEST</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-12-23T07:33:00-06:00">
+                Sun 23 December 2018
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="../../../../author/sonny-torres.html"> Sonny Torres</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Proprietary Brickwall</p>
+<p>As I learned to use Python, I built tools to work with commercial real estate data that I used at my job. Just as I was excitedly preparing to publish and show off my new shiny python tools, I realized that I needed the data to show off those tools but the data was proprietary. The proprietary brickwall stopped me in my tracks.</p>
+<p>INFINITE-NEST</p>
+<p>&quot;That's ok&quot;, I thought. I decided to gather publicly available data from the Securities and Exchange Commission website. From the SEC website I could gather data on Commercial Mortgage-Backed Securities (CMBS). The CMBS data consists of;</p>
+<ol class="arabic simple">
+<li>Mortgage data that produce the cash flows for the securities.</li>
+<li>Commercial property data that make up the collateral for the mortgages.</li>
+</ol>
+<p>I could</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="n">working_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Users\Username\Desktop\filename&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;JPC11C05.html&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">sec</span><span class="p">:</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+
+<span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">table</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">attrs</span>
+<span class="p">]</span>
+
+<span class="n">table_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
+
+
+<span class="c1"># Criteria #1.</span>
+<span class="c1"># Header is Bold</span>
+<span class="k">def</span> <span class="nf">is_header</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;bold&#39;</span><span class="p">):</span>
+    <span class="c1"># returns bs4.element.Tag or None</span>
+    <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;font&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">keyword</span><span class="p">)})</span>
+
+
+<span class="c1"># Criteria #2.</span>
+<span class="c1"># Does NOT contain &quot;BORDER-BOTTOM&quot; in the style attribute</span>
+<span class="k">def</span> <span class="nf">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tag</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;colspan&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="n">colspan_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;colspan&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">colspan_val</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+
+
+<span class="c1"># Simple function to see if tag object passes Criteria # 1 &amp; 2.</span>
+<span class="k">def</span> <span class="nf">is_good_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_header</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+
+<span class="c1"># Criteria #3, Cells must span the same number of columns.</span>
+<span class="k">def</span> <span class="nf">cells_same_colspan</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
+    <span class="c1"># reduce colspan dict values</span>
+    <span class="n">max_colspan_per_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_colspan_per_row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+<span class="c1"># -------------------THE FUN PART---------------------------------------------------------------------------------------</span>
+<span class="c1"># If criteria #3 is not met, we create a nested dictionary from our simple colspan dictionary.</span>
+<span class="c1"># The nested_colspan_dict is a record of rows and all of their colspan values in each row.</span>
+<span class="c1"># This object will be used to store all the information needed to make changes to the actual</span>
+<span class="c1"># cells of data.</span>
+
+
+<span class="k">def</span> <span class="nf">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
+    <span class="n">nested_colspan_obj</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">colspan_tuple</span> <span class="k">for</span> <span class="n">colspan_tuple</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">nested_colspan_obj</span>
+
+<span class="c1"># Next, since we may need to extract data from the nested dictionary</span>
+<span class="c1"># multiple times, it makes sense to create a function.</span>
+<span class="c1"># This function returns a generator object.</span>
+<span class="c1"># This is helpful in extracting only the values we need</span>
+<span class="c1"># and not loading everything into memory if it can be</span>
+<span class="c1"># avoided.</span>
+
+
+<span class="k">def</span> <span class="nf">colspans_to_fix</span><span class="p">(</span><span class="n">nested_colspan</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">nested_colspan</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="c1"># tuples are (colspan_index, colspan_value)</span>
+            <span class="k">if</span> <span class="n">tupl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># key = row number</span>
+                <span class="c1"># tuple = (index_of_cell, colspan_value_for_cell)</span>
+                <span class="k">yield</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">tupl</span><span class="p">}</span>
+
+
+<span class="c1"># A function to write the rows to a file.</span>
+<span class="k">def</span> <span class="nf">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">current_table</span><span class="p">)</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="c1"># if row avoids blank rows</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">row</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_count</span><span class="p">):</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">header_rows</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">colspan</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">):</span>
+        <span class="n">colspan</span><span class="p">[</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">td_tag</span><span class="p">[</span><span class="s1">&#39;colspan&#39;</span><span class="p">])</span>
+                               <span class="k">if</span> <span class="s1">&#39;colspan&#39;</span> <span class="ow">in</span> <span class="n">td_tag</span><span class="o">.</span><span class="n">attrs</span> <span class="k">else</span> <span class="mi">1</span>
+                               <span class="k">for</span> <span class="n">td_tag</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">is_good_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+            <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">is_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span>
+                                                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="p">,</span> <span class="n">Tag</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+                                                <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+            <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
+        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nested_cs</span> <span class="o">=</span> <span class="n">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan</span><span class="p">)</span>
+        <span class="n">bad_colspans</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">colspans_to_fix</span><span class="p">(</span><span class="n">nested_cs</span><span class="p">)]</span>
+        <span class="n">headers_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]]</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">colspan_dict</span> <span class="ow">in</span> <span class="n">bad_colspans</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">row_index</span> <span class="o">=</span> <span class="n">k</span>
+                    <span class="n">colspan_ind</span><span class="p">,</span> <span class="n">colspan_val</span> <span class="o">=</span> <span class="n">v</span>
+                    <span class="n">colspan_minus_one</span> <span class="o">=</span> <span class="n">colspan_val</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="n">index_for_insert</span> <span class="o">=</span> <span class="n">colspan_ind</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">row_index</span> <span class="ow">in</span> <span class="n">headers_only</span><span class="p">:</span>
+                        <span class="n">headers</span> <span class="o">=</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
+                            <span class="n">headers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">rows</span> <span class="o">=</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
+                            <span class="n">rows</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">colspan</span><span class="p">[</span><span class="n">row_index</span><span class="p">][</span><span class="n">colspan_ind</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+</pre></div>
+
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="../../../../pages/about.html">About Me</a></li>
+  </ul>
+
+
+
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="#">You can add links in your config file</a></li>
+    <li><a href="#">Another social link</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="../../../../theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="../../../../theme/js/libs/gumby.min.js"></script>
+  <script src="../../../../theme/js/plugins.js"></script>
+</body>
+</html>
