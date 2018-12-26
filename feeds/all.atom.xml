@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/all.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2018-12-23T07:33:00-06:00</updated><entry><title>INFINITE NEST</title><link href="https://sonnycruz.github.io%5C2018/12/23/infinite-nest/" rel="alternate"></link><published>2018-12-23T07:33:00-06:00</published><updated>2018-12-23T07:33:00-06:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2018,2018-12-23:/12/23/infinite-nest/</id><summary type="html">&lt;p class="first last"&gt;Web Scraping tutorial.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;Proprietary Brickwall&lt;/p&gt;
-&lt;p&gt;As I learned to use Python, I built tools to work with commercial real estate data that I used at my job. Just as I was excitedly preparing to publish and show off my new shiny python tools, I realized that I needed the data to show off those tools but the data was proprietary. The proprietary brickwall stopped me in my tracks.&lt;/p&gt;
-&lt;p&gt;INFINITE-NEST&lt;/p&gt;
-&lt;p&gt;&amp;quot;That's ok&amp;quot;, I thought. I decided to gather publicly available data from the Securities and Exchange Commission website. From the SEC website I could gather data on Commercial Mortgage-Backed Securities (CMBS). The CMBS data consists of;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/all.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2018-12-23T07:33:00-06:00</updated><entry><title>INFINITE NEST</title><link href="https://sonnycruz.github.io%5C2018/12/23/infinite-nest/" rel="alternate"></link><published>2018-12-23T07:33:00-06:00</published><updated>2018-12-23T07:33:00-06:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2018,2018-12-23:/12/23/infinite-nest/</id><summary type="html">&lt;p class="first last"&gt;Parse, Wrangle, Merge, Clean&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;strong&gt;Proprietary Data&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;After orienting myself within the Python ecosystem, I began to build tools that I could make use of at my job.
+Since the commercial real estate loan data our company used was proprietary, I gathered publicly available data from the Securities and Exchange Commission website.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Data&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Commercial Mortgage-Backed Securities (CMBS), which are bonds backed by pools of commercial mortgages. The CMBS data consists of:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;Mortgage data that produce the cash flows for the securities.&lt;/li&gt;
-&lt;li&gt;Commercial property data that make up the collateral for the mortgages.&lt;/li&gt;
+&lt;li&gt;Mortgage data (Loan Balance, Interest Rate, Balloon Payment Due Date, etc.)&lt;/li&gt;
+&lt;li&gt;Commercial property data (Location, Property Type, Square Feet/Units, etc.)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;img alt="" src="/images/penguin.jpg" /&gt;
+&lt;p&gt;Sometimes copying and pasting directly from your browser to an excel file is the fastest way to extract data. However, my goal with this specific data extraction task was to create rules that could generalize and apply to many other SEC webpages with CMBS Data.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Tag&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;

@@ -63,15 +63,16 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>Proprietary Brickwall</p>
-<p>As I learned to use Python, I built tools to work with commercial real estate data that I used at my job. Just as I was excitedly preparing to publish and show off my new shiny python tools, I realized that I needed the data to show off those tools but the data was proprietary. The proprietary brickwall stopped me in my tracks.</p>
-<p>INFINITE-NEST</p>
-<p>&quot;That's ok&quot;, I thought. I decided to gather publicly available data from the Securities and Exchange Commission website. From the SEC website I could gather data on Commercial Mortgage-Backed Securities (CMBS). The CMBS data consists of;</p>
+              <p><strong>Proprietary Data</strong></p>
+<p>After orienting myself within the Python ecosystem, I began to build tools that I could make use of at my job.
+Since the commercial real estate loan data our company used was proprietary, I gathered publicly available data from the Securities and Exchange Commission website.</p>
+<p><strong>The Data</strong></p>
+<p>Commercial Mortgage-Backed Securities (CMBS), which are bonds backed by pools of commercial mortgages. The CMBS data consists of:</p>
 <ol class="arabic simple">
-<li>Mortgage data that produce the cash flows for the securities.</li>
-<li>Commercial property data that make up the collateral for the mortgages.</li>
+<li>Mortgage data (Loan Balance, Interest Rate, Balloon Payment Due Date, etc.)</li>
+<li>Commercial property data (Location, Property Type, Square Feet/Units, etc.)</li>
 </ol>
-<img alt="" src="/images/penguin.jpg" />
+<p>Sometimes copying and pasting directly from your browser to an excel file is the fastest way to extract data. However, my goal with this specific data extraction task was to create rules that could generalize and apply to many other SEC webpages with CMBS Data.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
