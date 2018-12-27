@@ -29,7 +29,7 @@
 &lt;p&gt;&lt;strong&gt;Links to Data&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;An important note is that I saved the website data as an html file and scraped the html file.
 URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;HTML File: &lt;a class="reference external" href="/files/JPC11C05.html"&gt;file&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HTML File: &lt;a class="reference external" href="content/files/JPC11C05.html"&gt;file&lt;/a&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Tag&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;
