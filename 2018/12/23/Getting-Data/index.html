@@ -65,19 +65,34 @@
             <div class="entry-content">
               <p><strong>Why SEC.gov?</strong></p>
 <p>After orienting myself within the Python ecosystem, I began to build tools that I could use on the data I used at work. I knew I wanted to create a blog consisting of my programming projects and I wanted to make the data available for others to use along with the tools I built. However, since the data I use at work is propreitary, I decided to gather publicly available data from the Securities and Exchange Commission website.</p>
-<p><strong>CMBS Data: A little more Context</strong></p>
-<p>Commercial Mortgage-Backed Securities (.._CMBS: <a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">https://www.investopedia.com/terms/c/cmbs.asp</a>) are .._Bonds: <a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds/">https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds/</a> backed by pools of commercial mortgages. The CMBS data consist of attributes (columns) that fall into two broad categories.</p>
+<p><strong>Understanding the Data</strong></p>
+<p>Commercial Mortgage-Backed Securities (<a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">CMBS</a>) are
+<a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds">Bonds</a> backed by pools of commercial mortgages. The CMBS data consists of attributes (columns) that fall into two broad categories.</p>
 <ol class="arabic simple">
 <li>Mortgage data (Loan Balance, Interest Rate, Balloon Payment Due Date, etc.)</li>
 <li>Commercial property data (Location, Property Type, Square Feet/Units, etc.)</li>
 </ol>
-<p><strong>The Goal</strong>
-My goal was to acquire pubicly-available data that I could use to show the tools I built. More granularly, I wanted to program rules that could generalize to many CMBS pages on the SEC website.</p>
+<p><strong>The Goal</strong></p>
+<p>My goal was to acquire pubicly-available data that I could use to show, online, the tools I built. More granularly, I wanted to program rules that could generalize to many CMBS pages on the SEC website.</p>
 <p><strong>The Challange: &quot;Unraveled&quot; &amp; Inconsistent Data Tables</strong></p>
-<p>The challenge was the way the tables of data are vertically organized. The charts below illustrate at a high level how the tables must be arranged to be formatted into an excel-like file.</p>
-<img alt="" src="/images/p1" />
-<img alt="" src="/images/P2" />
-<img alt="" src="/images/p3" />
+<p>The challenge was the way the tables of data are vertically organized. The charts below illustrates, at a high level, how the first four tables must be arranged to be formatted into an excel-like file.</p>
+<p>The yellow row marks where tables should be stacked together and the blue column marks where tables should be joined together. Each &quot;Header&quot; represents one or more header rows that make up the text for a given column. Prop is short for &quot;Property&quot;, as in a commercial property.</p>
+<p>There are a number of things to notice about the basic layout of the tables that make extracting data challenging.</p>
+<ol class="arabic simple">
+<li>A single column, runs down two different tables.</li>
+<li>With two different tables making up a single column, there will be excess headers, meaning we only need to keep the first group of headers for every two tables.</li>
+<li>Since each instance of the word &quot;Header&quot; represents a single header row and some columns have multiple header rows and others do not, this can make joining a pair of stacked tables with another pair of stacked tables to misalign.</li>
+<li>Finally, in Tables 1 &amp; 2, you can see that there is an extra column of white space that does not appear in tables 3 &amp; 4. This, too, occurs sporadically in the actual website.</li>
+</ol>
+<img alt="" class="align-left" src="/images/step1.JPG" />
+<p>The tables are stacked appropriately and excess headers are removed.</p>
+<img alt="" class="align-left" src="/images/step2.JPG" />
+<p>Next, the tables are joined together along the columns.</p>
+<img alt="" class="align-left" src="/images/step3.JPG" />
+<p><strong>Links to Data</strong></p>
+<p>An important note is that I saved the website data as an html file and scraped the html file.
+URL: <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm</a></p>
+<p>HTML File: <a class="reference external" href="/files/JPC11C05.html">file</a></p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
