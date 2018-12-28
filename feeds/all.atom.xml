@@ -12,8 +12,7 @@
 &lt;p&gt;&lt;strong&gt;The Goal&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;My goal was to acquire pubicly-available data that I could use to show, online, the tools I built. More granularly, I wanted to program rules that could generalize to many CMBS pages on the SEC website.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;The Challange: &amp;quot;Unraveled&amp;quot; &amp;amp; Inconsistent Data Tables&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The challenge was the way the tables of data are vertically organized. The charts below illustrates, at a high level, how the first four tables must be arranged to be formatted into an excel-like file.&lt;/p&gt;
-&lt;p&gt;The yellow row marks where tables should be stacked together and the blue column marks where tables should be joined together. Each &amp;quot;Header&amp;quot; represents one or more header rows that make up the text for a given column. Prop is short for &amp;quot;Property&amp;quot;, as in a commercial property.&lt;/p&gt;
+&lt;p&gt;The challenge was the way the tables of data are vertically organized.&lt;/p&gt;
 &lt;p&gt;There are a number of things to notice about the basic layout of the tables that make extracting data challenging.&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;A single column, runs down two different tables.&lt;/li&gt;
@@ -21,15 +20,19 @@
 &lt;li&gt;Since each instance of the word &amp;quot;Header&amp;quot; represents a single header row and some columns have multiple header rows and others do not, this can make joining a pair of stacked tables with another pair of stacked tables to misalign.&lt;/li&gt;
 &lt;li&gt;Finally, in Tables 1 &amp;amp; 2, you can see that there is an extra column of white space that does not appear in tables 3 &amp;amp; 4. This, too, occurs sporadically in the actual website.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;img alt="step1good" class="align-left" src="/images/step1.JPG" /&gt;
+&lt;p&gt;The charts below illustrates, at a high level, how the first four tables must be arranged to be formatted into an excel-like file.&lt;/p&gt;
+&lt;p&gt;Legend for Charts&lt;/p&gt;
+&lt;img alt="" src="/images/Legend.JPG" /&gt;
+&lt;p&gt;Below, the visual illustrates how the first four tables of data are organized.&lt;/p&gt;
+&lt;img alt="" src="/images/step1.JPG" /&gt;
 &lt;p&gt;The tables are stacked appropriately and excess headers are removed.&lt;/p&gt;
-&lt;img alt="step2good" class="align-left" src="/images/step2.JPG" /&gt;
+&lt;img alt="" src="/images/step2.JPG" /&gt;
 &lt;p&gt;Next, the tables are joined together along the columns.&lt;/p&gt;
-&lt;img alt="step3good" class="align-left" src="/images/step3.JPG" /&gt;
+&lt;img alt="" src="/images/step3.JPG" /&gt;
 &lt;p&gt;&lt;strong&gt;Links to Data&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;An important note is that I saved the website data as an html file and scraped the html file.
 URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;HTML File: &lt;a class="reference external" href="{filename}/content/files/JPC11C05.html"&gt;file&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here is a backup link that you can right-click &amp;amp; save as an html file: &lt;a class="reference external" href="https://sonnycruz.github.io/files/JPC11C05.html"&gt;Download&lt;/a&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Tag&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;
