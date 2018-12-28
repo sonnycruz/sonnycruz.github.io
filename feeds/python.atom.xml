@@ -21,11 +21,11 @@
 &lt;li&gt;Since each instance of the word &amp;quot;Header&amp;quot; represents a single header row and some columns have multiple header rows and others do not, this can make joining a pair of stacked tables with another pair of stacked tables to misalign.&lt;/li&gt;
 &lt;li&gt;Finally, in Tables 1 &amp;amp; 2, you can see that there is an extra column of white space that does not appear in tables 3 &amp;amp; 4. This, too, occurs sporadically in the actual website.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;img alt="" class="align-left" src="/images/step1.JPG" /&gt;
+&lt;img alt="step1good" class="align-left" src="/images/step1.JPG" /&gt;
 &lt;p&gt;The tables are stacked appropriately and excess headers are removed.&lt;/p&gt;
-&lt;img alt="" class="align-left" src="/images/step2.JPG" /&gt;
+&lt;img alt="step2good" class="align-left" src="/images/step2.JPG" /&gt;
 &lt;p&gt;Next, the tables are joined together along the columns.&lt;/p&gt;
-&lt;img alt="" class="align-left" src="/images/step3.JPG" /&gt;
+&lt;img alt="step3good" class="align-left" src="/images/step3.JPG" /&gt;
 &lt;p&gt;&lt;strong&gt;Links to Data&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;An important note is that I saved the website data as an html file and scraped the html file.
 URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
