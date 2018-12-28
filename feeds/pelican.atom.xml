@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog - pelican</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/pelican.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2018-12-12T23:25:00-06:00</updated><entry><title>First Blog Post</title><link href="https://sonnycruz.github.io%5C2018/12/12/my-super-post/" rel="alternate"></link><published>2018-12-12T23:25:00-06:00</published><updated>2018-12-12T23:25:00-06:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2018,2018-12-12:/12/12/my-super-post/</id><summary type="html">&lt;p class="first last"&gt;First Post&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;Does this thing work?&lt;/p&gt;
-</content><category term="python"></category><category term="pelican"></category><category term="data"></category></entry></feed>
