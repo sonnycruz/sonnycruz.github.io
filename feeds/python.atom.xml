@@ -1,38 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog - python</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/python.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2018-12-23T07:33:00-06:00</updated><entry><title>Getting Data: Web Scraping data from SEC.gov</title><link href="https://sonnycruz.github.io%5C2018/12/23/Getting-Data/" rel="alternate"></link><published>2018-12-23T07:33:00-06:00</published><updated>2018-12-23T07:33:00-06:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2018,2018-12-23:/12/23/Getting-Data/</id><summary type="html">&lt;p class="first last"&gt;Web Scraping Data from the SEC website&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;&lt;strong&gt;Why SEC.gov?&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;After orienting myself within the Python ecosystem, I began to build tools that I could use on the data I used at work. I knew I wanted to create a blog consisting of my programming projects and I wanted to make the data available for others to use along with the tools I built. However, since the data I use at work is propreitary, I decided to gather publicly available data from the Securities and Exchange Commission website.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog - python</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/python.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2018-12-23T07:33:00-06:00</updated><entry><title>Getting Data: Parsing HTML Files</title><link href="https://sonnycruz.github.io%5C2018/12/23/Getting-Data/" rel="alternate"></link><published>2018-12-23T07:33:00-06:00</published><updated>2018-12-23T07:33:00-06:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2018,2018-12-23:/12/23/Getting-Data/</id><summary type="html">&lt;p class="first last"&gt;Parsing messy HTML files downloaded from SEC.gov.&lt;/p&gt;
+</summary><content type="html">&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Why SEC.gov?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;After working with Python to manipulate and analyze commercial loan data at my job, I wanted to share my projects and start a data science blog. However, the loan data we used was subject to copyright protection and using it for a public blog was not possible. Luckily, the Securities and Exchange Commission website publishes the same type of commercial loan data. The data used at my job was a monthly updated snapshot of commercial property loan data, which showed the performance of the properties and the mortgage payments being made, and the SEC data reflects a given group of loans that were just originated, before any payments are made.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Download the HTML File&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;To retrieve the HTML file that I used, you can download the HTML file hosted on my github page:&lt;/p&gt;
+&lt;p&gt;Right-click on the link &amp;amp; save as an html file: &lt;a class="reference external" href="https://sonnycruz.github.io/files/JPC11C05.html"&gt;Download&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or you can visit the SEC url and press control + S to save the file as an html document:&lt;/p&gt;
+&lt;p&gt;URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Understanding the Data&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Commercial Mortgage-Backed Securities (&lt;a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp"&gt;CMBS&lt;/a&gt;) are
-&lt;a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds"&gt;Bonds&lt;/a&gt; backed by pools of commercial mortgages. The CMBS data consists of attributes (columns) that fall into two broad categories.&lt;/p&gt;
+&lt;p&gt;Working with one &lt;em&gt;type&lt;/em&gt; of data has made me appreciate the importance of understanding the scope and limitations of a given dataset. For example, does a column of data represent a monthly figure or a cumulative figure? Is the payoff date of a loan &lt;em&gt;really&lt;/em&gt; the payoff date or are there exceptions? Before getting into the data, I want to describe at a higher level what the data covers. In this instance, we are looking at CMBS data. Commercial Mortgage-Backed Securities (&lt;a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp"&gt;CMBS&lt;/a&gt;) are &lt;a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds"&gt;Bonds&lt;/a&gt; backed by a group of commercial mortgages. The bonds are then sold to investors on the open market and thus subject to SEC regulations. The SEC data being used in this post covers one pool, or group, of CMBS loans. The CMBS data points can be thought of as belonging to one of two main categories:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;Mortgage data (Loan Balance, Interest Rate, Balloon Payment Due Date, etc.)&lt;/li&gt;
-&lt;li&gt;Commercial property data (Location, Property Type, Square Feet/Units, etc.)&lt;/li&gt;
+&lt;li&gt;Mortgage data (Loan Balance, Interest Rate, Due Date, etc.)&lt;/li&gt;
+&lt;li&gt;Commercial property data (Location, Property Type, Square Feet, etc.)&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;The Goal&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;My goal was to acquire pubicly-available data that I could use to show, online, the tools I built. More granularly, I wanted to program rules that could generalize to many CMBS pages on the SEC website.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;The Challange: &amp;quot;Unraveled&amp;quot; &amp;amp; Inconsistent Data Tables&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The challenge was the way the tables of data are vertically organized.&lt;/p&gt;
-&lt;p&gt;There are a number of things to notice about the basic layout of the tables that make extracting data challenging.&lt;/p&gt;
+&lt;p&gt;My goal with this project was twofold.&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;A single column, runs down two different tables.&lt;/li&gt;
-&lt;li&gt;With two different tables making up a single column, there will be excess headers, meaning we only need to keep the first group of headers for every two tables.&lt;/li&gt;
-&lt;li&gt;Since each instance of the word &amp;quot;Header&amp;quot; represents a single header row and some columns have multiple header rows and others do not, this can make joining a pair of stacked tables with another pair of stacked tables to misalign.&lt;/li&gt;
-&lt;li&gt;Finally, in Tables 1 &amp;amp; 2, you can see that there is an extra column of white space that does not appear in tables 3 &amp;amp; 4. This, too, occurs sporadically in the actual website.&lt;/li&gt;
+&lt;li&gt;To acquire commercial loan data that I could freely use and publish in my data analysis blog/portfolio.&lt;/li&gt;
+&lt;li&gt;Create a script to achieve 1. but with rules that could generalize with minimal modifications and work on many other CMBS HTML files available on the SEC website.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The charts below illustrates, at a high level, how the first four tables must be arranged to be formatted into an excel-like file.&lt;/p&gt;
-&lt;p&gt;Legend for Charts&lt;/p&gt;
-&lt;img alt="" src="/images/Legend.JPG" /&gt;
-&lt;p&gt;Below, the visual illustrates how the first four tables of data are organized.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Let's Get Started&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The data set, which represents one pool of mortgage loans, is split into many different tables that are vertically lined up on one page. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together in a tabular format. The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file. For simplification we can pretend the data set has 10 Commercial Properties.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Step 1: &lt;em&gt;Analyze the layout&lt;/em&gt;. We can see four tables with various headers, columns and rows (See Legend). Each column is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.&lt;/p&gt;
 &lt;img alt="" src="/images/step1.JPG" /&gt;
-&lt;p&gt;The tables are stacked appropriately and excess headers are removed.&lt;/p&gt;
+&lt;img alt="" src="/images/Legend2.JPG" /&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Step 2: Tables 1 &amp;amp; 2 need to be glued together and 3 &amp;amp; 4 need to be glued together, both along the horizonal axis.&lt;/p&gt;
 &lt;img alt="" src="/images/step2.JPG" /&gt;
-&lt;p&gt;Next, the tables are joined together along the columns.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Step 3: The pairs of tables will be joined together on their respective vertical axes.&lt;/p&gt;
 &lt;img alt="" src="/images/step3.JPG" /&gt;
-&lt;p&gt;&lt;strong&gt;Links to Data&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;An important note is that I saved the website data as an html file and scraped the html file.
-URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Here is a backup link that you can right-click &amp;amp; save as an html file: &lt;a class="reference external" href="https://sonnycruz.github.io/files/JPC11C05.html"&gt;Download&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Steps 2 &amp;amp; 3, when done iteratively over &lt;em&gt;every 2 tables&lt;/em&gt; in the html file, will result in a single tabular data set. The table layout ended up being one of the easier steps in the process. The layout of the data points within the tables required many rules to properly extract.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;The HTML Parsing Code&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This code was constructed by carefully examining the HTML itself, brushing up on BeautifulSoup4 and RegEx and then creating my main script that completes the task (the very long for loop at the end). To avoid unecessarily repeating verbose instructions in the main script, I pulled out the instructions I used repeatedly and turned them into helper functions that I could then &amp;quot;plug-in&amp;quot; to my script.&lt;/p&gt;
+&lt;p&gt;But First, import the various libraries and the HTML file itself.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Tag&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;
@@ -47,17 +76,17 @@ URL: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/d
 
 &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;sec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;soup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sec&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lxml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-&lt;span class="n"&gt;tables&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-    &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;border&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We start with a list comprehension that grabs all the data tables by targeting the &amp;quot;table&amp;quot; HTML tag. After studying the HTML layout, you can see the data tables that contain data, and not paragraphs of words, do &lt;em&gt;not&lt;/em&gt; have a 'border' attribute in their &amp;quot;table&amp;quot; tag.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;tables&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+     &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;border&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;
 &lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="n"&gt;table_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tables&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-
-&lt;span class="c1"&gt;# Criteria #1.&lt;/span&gt;
-&lt;span class="c1"&gt;# Header is Bold&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;is_header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;keyword&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;The Helper Functions&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Because the table headers came with their own unique challenges, I wanted to split and keep track of my headers and table data separately. In order to split up the table data from the header data, I first needed to see what distinguished a header from the table data. The table consists of rows that all have the HTML tag &amp;lt;tr&amp;gt; or &amp;quot;table row&amp;quot;. Each row has data, or &amp;quot;cells&amp;quot; in excel-speak, and these cells are organized with the &amp;lt;td&amp;gt; or &amp;quot;table data&amp;quot; HTML tag. Within the &amp;lt;td&amp;gt; tag, there is a &amp;quot;font&amp;quot; tag with a &amp;quot;style&amp;quot; attribute. After a few trial and error&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;is_header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;keyword&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="c1"&gt;# returns bs4.element.Tag or None&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;font&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;style&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;keyword&lt;/span&gt;&lt;span class="p"&gt;)})&lt;/span&gt;
 
