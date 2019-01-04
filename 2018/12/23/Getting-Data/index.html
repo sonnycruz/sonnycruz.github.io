@@ -68,25 +68,13 @@
               <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Why SEC.gov?</strong></p>
-<p>After working with Python to manipulate and analyze commercial loan data at my job, I wanted to share my projects and start a data science blog. However, the loan data we used was subject to copyright protection and using it for a public blog was not possible. Luckily, the Securities and Exchange Commission website publishes the same type of commercial loan data. The data used at my job was a monthly updated snapshot of commercial property loan data, which showed the performance of the properties and the mortgage payments being made, and the SEC data reflects a given group of loans that were just originated, before any payments are made.</p>
+<p><strong>Problem: Sharing Projects that use Proprietary Data</strong></p>
+<p>After working with Python to manipulate and analyze commercial loan data at my job, I wanted to share my projects and start a data science blog. However, the loan data we used was subject to copyright protection and using proprietary data for a public blog was not possible.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Download the HTML File</strong></p>
-<p>To retrieve the HTML file that I used, you can download the HTML file hosted on my github page:</p>
-<p>Right-click on the link &amp; save as an html file: <a class="reference external" href="../../../../files/JPC11C05.html">Download</a></p>
-<p>or you can visit the SEC url and press control + S to save the file as an html document:</p>
-<p>URL: <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm</a></p>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p><strong>Understanding the Data</strong></p>
-<p>Working with one <em>type</em> of data has made me appreciate the importance of understanding the scope and limitations of a given dataset. For example, does a column of data represent a monthly figure or a cumulative figure? Is the payoff date of a loan <em>really</em> the payoff date or are there exceptions? Before getting into the data, I want to describe at a higher level what the data covers. In this instance, we are looking at CMBS data. Commercial Mortgage-Backed Securities (<a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">CMBS</a>) are <a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds">Bonds</a> backed by a group of commercial mortgages. The bonds are then sold to investors on the open market and thus subject to SEC regulations. The SEC data being used in this post covers one pool, or group, of CMBS loans. The CMBS data points can be thought of as belonging to one of two main categories:</p>
-<ol class="arabic simple">
-<li>Mortgage data (Loan Balance, Interest Rate, Due Date, etc.)</li>
-<li>Commercial property data (Location, Property Type, Square Feet, etc.)</li>
-</ol>
+<p><strong>The Workaround: SEC.gov</strong></p>
+<p>Luckily, the Securities and Exchange Commission website publishes the same type of commercial loan data I analyzed at work but with one key difference. The data used at my job was a monthly updated snapshot of commercial property loan data, which showed the performance of the properties and the mortgage payments being made, and the SEC data reflects a smaller group of loans that were just originated, before any payments were made.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -94,39 +82,63 @@
 <p>My goal with this project was twofold.</p>
 <ol class="arabic simple">
 <li>To acquire commercial loan data that I could freely use and publish in my data analysis blog/portfolio.</li>
-<li>Create a script to achieve 1. but with rules that could generalize with minimal modifications and work on many other CMBS HTML files available on the SEC website.</li>
+<li>Create a script to achieve 1, but with rules that could generalize with minimal modifications and work on many other CMBS webpages hosted by SEC.gov.</li>
 </ol>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Let's Get Started</strong></p>
+<p><strong>The Data: HTML file from SEC.gov</strong></p>
+<p>To retrieve the HTML file that I used, you can download the HTML file hosted on my github page or you can visit the SEC url and press Ctrl + S to save the file as an HTML document. To view the HTML, open the HTML file in your browser and right click anywhere on the webpage and click &quot;Inspect&quot;. Ctrl+Shift+I is the windows shortcut to do this:</p>
+<p>Right-click on the link &amp; save as an html file: <a class="reference external" href="../../../../files/JPC11C05.html">Download</a></p>
+<p>URL: <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm</a></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Understanding the Data: What is CMBS?</strong></p>
+<p>Commercial Mortgage-Backed Securities (<a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">CMBS</a>) are <a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds">Bonds</a> backed by a group of commercial mortgages. The bonds are then sold to investors on the open market and thus subject to SEC regulations. The SEC data being used in this post covers one pool, or group, of CMBS loans. The CMBS data points fall into four main categories:</p>
+<ol class="arabic simple">
+<li>Mortgage data (Loan Balance, Interest Rate, Maturity Date, etc.)</li>
+<li>Commercial property data (Location, Property Type, Square Feet, etc.)</li>
+<li>Securitization Data (characteristics that describe the Securitized structure such as a given loan's loan balance as a proportion of the entire pool/group of loans).</li>
+<li>Performance Data (historical financial performance of the commercial properties).</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Understanding the Data: Table Arrangement</strong></p>
 <p>The data set, which represents one pool of mortgage loans, is split into many different tables that are vertically lined up on one page. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together in a tabular format. The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file. For simplification we can pretend the data set has 10 Commercial Properties.</p>
 <div class="line-block">
 <div class="line"><br /></div>
-<div class="line"><br /></div>
 </div>
-<p>Step 1: <em>Analyze the layout</em>. We can see four tables with various headers, columns and rows (See Legend). Each column is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.</p>
-<img alt="" src="/images/step1.JPG" />
-<img alt="" src="/images/Legend2.JPG" />
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-</div>
-<p>Step 2: Tables 1 &amp; 2 need to be glued together and 3 &amp; 4 need to be glued together, both along the horizonal axis.</p>
-<img alt="" src="/images/step2.JPG" />
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-</div>
-<p>Step 3: The pairs of tables will be joined together on their respective vertical axes.</p>
-<img alt="" src="/images/step3.JPG" />
-<p>Steps 2 &amp; 3, when done iteratively over <em>every 2 tables</em> in the html file, will result in a single tabular data set. The table layout ended up being one of the easier steps in the process. The layout of the data points within the tables required many rules to properly extract.</p>
+<p>We can see four tables with various headers, columns and rows (See Legend). Each column, which includes a data point for every row, is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.</p>
+<img alt="" src="/images/sec1.png" />
+<img alt="" src="/images/Legend.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>The HTML Parsing Code</strong></p>
-<p>This code was constructed by carefully examining the HTML itself, brushing up on BeautifulSoup4 and RegEx and then creating my main script that completes the task (the very long for loop at the end). To avoid unecessarily repeating verbose instructions in the main script, I pulled out the instructions I used repeatedly and turned them into helper functions that I could then &quot;plug-in&quot; to my script.</p>
-<p>But First, import the various libraries and the HTML file itself.</p>
+<p>Tables 1 &amp; 2 need to be glued together and 3 &amp; 4 need to be glued together, both along the horizonal axis. Notice how the excess headers, (the grey-shaded headers in the above figure) have been eliminated.</p>
+<img alt="" src="/images/sec2.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The pairs of tables will be joined together on their respective vertical axes. Because &quot;Prop1, Prop2..etc.&quot; represents not only commercial properties in the pool of mortgages, but also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.</p>
+<img alt="" src="/images/sec4.png" />
+<p>When iteratively joining every 4 tables in this way, the result will be a single tabular data set, albeit with plenty of clean up work left to do. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will attempt to explain below.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Understanding the Data: the HTML Structure</strong></p>
+<p>This code was constructed by first carefully examining the HTML structure (I often used the command Ctrl+Shift+I to view the HTML followed by Ctrl+F to <em>find</em> what I was looking for and sometimes writing down the results on notebook paper and then creating) my main script that completes the task (the very long for loop at the end of this blog post). The key to understanding the HTML, for me, was understanding the <a class="reference external" href="https://www.w3schools.com/tags/tag_html.asp">HTML tag</a> structure, as well as what makes certain kinds of data unique, specifically what <a class="reference external" href="https://www.w3schools.com/html/html_attributes.asp">HTML tag attributes</a> make a given row of data unique.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>The Main Tools Used &amp; General Code Structure</strong></p>
+<p>The code utilizes the main Python library as well as <a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> and <a class="reference external" href="https://docs.python.org/3.7/library/re.html">Regular Expressions</a> . To avoid unecessarily repeating verbose instructions in the main script, I pulled out the instructions I used repeatedly and turned them into helper functions that I could then plug-in to my main script.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Let's Get Started</strong></p>
+<p>Here are the libraries I used for this task. Using Python's with open syntax to create a file object gives us the level of detail needed for parsing the HTML file at a granular level.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
@@ -135,64 +147,93 @@
 <span class="kn">import</span> <span class="nn">os</span>
 
 
-<span class="n">working_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Users\Username\Desktop\filename&#39;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;JPC11C05.html&#39;</span>
-
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">sec</span><span class="p">:</span>
     <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
 </pre></div>
-<p>We start with a list comprehension that grabs all the data tables by targeting the &quot;table&quot; HTML tag. After studying the HTML layout, you can see the data tables that contain data, and not paragraphs of words, do <em>not</em> have a 'border' attribute in their &quot;table&quot; tag.</p>
+<p>After studying the HTML layout, I recognized that I needed to target the <cite>&lt;table&gt;</cite> tags in the HTML document. However, there were tables that I did not want, specifically the &lt;table&gt; tags that consist of only footnotes (at bottom of HTML document). These tables all had a 'border' attribute within the main table tag (see below).</p>
+<img alt="" src="/images/bad_table.JPG" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>So, to <em>exclude</em> these tables of text, I chose all table tags that did <em>not</em> contain 'border' in the table tag's attributes. Below is what a &quot;good table&quot; looks like in the HTML (no &quot;border&quot; attribute).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="" src="/images/good_table.JPG" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>I used a list comprehension that grabs all the tables by targeting the &quot;table&quot; HTML tag and excluded all &lt;table&gt; tags with a 'border' tag attribute.  The table_count object will be used later to iterate over all relevant tables.</p>
 <div class="highlight"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
      <span class="n">table</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">attrs</span>
 <span class="p">]</span>
 
 <span class="n">table_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
 </pre></div>
-<p><strong>The Helper Functions</strong></p>
-<p>Because the table headers came with their own unique challenges, I wanted to split and keep track of my headers and table data separately. In order to split up the table data from the header data, I first needed to see what distinguished a header from the table data. The table consists of rows that all have the HTML tag &lt;tr&gt; or &quot;table row&quot;. Each row has data, or &quot;cells&quot; in excel-speak, and these cells are organized with the &lt;td&gt; or &quot;table data&quot; HTML tag. Within the &lt;td&gt; tag, there is a &quot;font&quot; tag with a &quot;style&quot; attribute. After a few trial and error</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>The Headers</strong></p>
+<p>Because the table headers came with their own unique challenges, I wanted to split and keep track of my headers and table data separately. In order to split up the table data from the header data, I first needed to see what distinguished the headers in the HTML. The table consists of rows that all have the tag &lt;tr&gt;, for each &quot;table row&quot;, this includes headers. Each row has individual data points, in Excel these would be called &quot;cells&quot;, and each cell of data is organized by the &lt;td&gt; or the &quot;table data&quot; tag. Embedded in the &lt;td&gt; tag, there is a &quot;font&quot; tag with a &quot;style&quot; attribute. I found that <em>all</em> header cells contained the word &quot;bold&quot; in the attribute value for the &quot;style&quot; attribute (see below).</p>
+<img alt="" src="/images/header_td.JPG" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Rule 1: All Headers are Bold</strong></p>
+<p>So I made a rule to identify all rows with the &quot;bold&quot; attribute value to identify headers. Below is a function with two parameters, tag and keyword. The tag parameter will receive an HTML tag to search for the keyword 'bold' within the font's style attribute value. The .find method <em>only</em> returns the first instance of the match it finds, which is OK because a table row either has bold words and is a header or there are no instances of the 'bold' string and the table row is not a header. When the function below does <em>not</em> find the &quot;bold&quot; keyword, it will return a None object, which is important to know as we continue building rules.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_header</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;bold&#39;</span><span class="p">):</span>
     <span class="c1"># returns bs4.element.Tag or None</span>
     <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;font&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">keyword</span><span class="p">)})</span>
-
-
-<span class="c1"># Criteria #2.</span>
-<span class="c1"># Does NOT contain &quot;BORDER-BOTTOM&quot; in the style attribute</span>
-<span class="k">def</span> <span class="nf">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tag</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;colspan&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="n">colspan_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;colspan&#39;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">colspan_val</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>However, I wanted to <em>exclude</em> some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns. See the &quot;Hotel Operating Statistics&quot; header which is extraneous for my purposes of transforming data into tabular format.</p>
+<img alt="" src="/images/trythisheader.png" />
+<p>The above &quot;unwanted header&quot; is differentiated in the HTML from the &quot;wanted headers&quot; by having a large &quot;colspan&quot; value. &quot;colspan&quot; tells us how many columns a given data point spans across.</p>
+<img alt="" src="/images/colspan15.JPG" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Rule 2: Skip All Headers with Colspan Value &gt; 2</strong></p>
+<p>I then searched the HTML document manually in my browser, using Ctrl+f, for &quot;colspan&quot;. There are only 20 instances of &quot;colspan&quot; in the entire HTML document. I saw that the highest colspan value for a <em>good</em> header was 2. So, any colspan values over 2 will be disregarded and not written to the CSV file. To be clear, in this HTML file, <em>all</em> colspan attribute values are associated with headers but not all headers are associated with a colspan attribute. The function below will take the &lt;tr&gt; tag as the argument for the tag parameter and the colspan_limit default value is 2. <tt class="docutils literal">colspan_obj</tt> test test test</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">colspan_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">colspan_obj</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">)})</span>
+        <span class="k">if</span> <span class="n">colspan_obj</span><span class="p">:</span>
+            <span class="n">colspan_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">colspan_obj</span><span class="p">[</span><span class="s1">&#39;colspan&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">colspan_val</span> <span class="o">&gt;</span> <span class="n">colspan_limit</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">False</span>
-
-
-<span class="c1"># Simple function to see if tag object passes Criteria # 1 &amp; 2.</span>
-<span class="k">def</span> <span class="nf">is_good_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+</pre></div>
+<p>Then I created a simple function to combine the two previous functions.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_good_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_header</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
-
-
-<span class="c1"># Criteria #3, Cells must span the same number of columns.</span>
-<span class="k">def</span> <span class="nf">cells_same_colspan</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
+</pre></div>
+<p>But what about the <em>good</em> header data points with a colspan equal to 2? These must be identified to properly align the header rows with the actual data rows. When converting each &lt;td&gt; data point to a CSV file, if a given column header has a colspan of 2, the header cell will still be written as <em>one</em> cell in the csv file (one &lt;td&gt; tag = one cell in excel). In the image below, the figure labeled &quot;HTML&quot; reflects how the website's tags are organized in this situation. Two &lt;td&gt; tags (one yellow, one blue) are underneath a single &lt;td&gt; header value (&quot;Other Reserve Cap&quot;) that spans two columns. This makes sense in an HTML context. However, because my script iterates over every &lt;td&gt; tag and writes each data point to a cell in my CSV file, I ran into the cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;.</p>
+<img alt="" src="/images/cell_align.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Below is a simple boolean function that returns True when all &lt;td&gt; tags span the same number of columns, 1 each, and returns False when we run into the issue shown above. This is achieved by using the max() function on each value in the colspan_dict which will be shown later.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cells_same_colspan</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
     <span class="c1"># reduce colspan dict values</span>
     <span class="n">max_colspan_per_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
     <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_colspan_per_row</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
-
-<span class="c1"># -------------------THE FUN PART---------------------------------------------------------------------------------------</span>
-<span class="c1"># If criteria #3 is not met, we create a nested dictionary from our simple colspan dictionary.</span>
-<span class="c1"># The nested_colspan_dict is a record of rows and all of their colspan values in each row.</span>
-<span class="c1"># This object will be used to store all the information needed to make changes to the actual</span>
-<span class="c1"># cells of data.</span>
-
-
-<span class="k">def</span> <span class="nf">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Infinite Nest</strong></p>
+<p>Like the book <a class="reference external" href="https://en.wikipedia.org/wiki/Infinite_Jest">Infinite Jest</a>, where the author has a tendency to write one thought, which leads to another thought, and another thought, until one sentence practically covers an entire page, the code here ended up being very... <em>nested</em>.</p>
+<p>If the function above, cells_same_colspan, returns False, meaning there is a colspan value <em>not</em> equal to one, then we need to create a nested dictionary. The nested_dictionary, nested_colspan_dict, is a record of rows and all of their colspan values in each row. More specifically, This object will be used to store all the information needed to make cell alignment changes to the actual cells of data.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
     <span class="n">nested_colspan_obj</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">colspan_tuple</span> <span class="k">for</span> <span class="n">colspan_tuple</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
