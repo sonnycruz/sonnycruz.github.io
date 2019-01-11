@@ -4,8 +4,6 @@
 
         <title>Getting Data: Parsing HTML Files</title>
         <meta charset="utf-8" />
-        <link href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Full Atom Feed" />
-        <link href="https://sonnycruz.github.io/feeds/python.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -68,17 +66,17 @@
               <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Problem: Sharing Projects that use Proprietary Data</strong></p>
+<p><strong>Introduction: Need for Non-Proprietary Data</strong></p>
 <p>After working with Python to manipulate and analyze commercial loan data at my job, I wanted to share my projects and start a data science blog. However, the loan data we used was subject to copyright protection and using proprietary data for a public blog was not possible.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>The Workaround: SEC.gov</strong></p>
-<p>Luckily, the Securities and Exchange Commission website publishes the same type of commercial loan data I analyzed at work but with one key difference. The data used at my job was a monthly updated snapshot of commercial property loan data, which showed the performance of the properties and the mortgage payments being made, and the SEC data reflects a smaller group of loans that were just originated, before any payments were made.</p>
+<p><strong>Introduction: Data Source SEC.gov</strong></p>
+<p>Luckily, the Securities and Exchange Commission website publishes the same type of commercial loan data I analyzed at work, although with some differences. The data used at my job was a monthly updated snapshot of commercial property loan data, which showed the performance of the properties and the mortgage payments being made, and the SEC data reflects a smaller group of loans that were just originated, before any payments were made.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>The Goal</strong></p>
+<p><strong>Introduction: The Goal</strong></p>
 <p>My goal with this project was twofold.</p>
 <ol class="arabic simple">
 <li>To acquire commercial loan data that I could freely use and publish in my data analysis blog/portfolio.</li>
@@ -87,7 +85,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>The Data: HTML file from SEC.gov</strong></p>
+<p><strong>Introduction: Download the HTML file from SEC.gov</strong></p>
 <p>To retrieve the HTML file that I used, you can download the HTML file hosted on my github page or you can visit the SEC url and press Ctrl + S to save the file as an HTML document. To view the HTML, open the HTML file in your browser and right click anywhere on the webpage and click &quot;Inspect&quot;. Ctrl+Shift+I is the windows shortcut to do this:</p>
 <p>Right-click on the link &amp; save as an html file: <a class="reference external" href="../../../../files/JPC11C05.html">Download</a></p>
 <p>URL: <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm</a></p>
@@ -95,7 +93,7 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Understanding the Data: What is CMBS?</strong></p>
-<p>Commercial Mortgage-Backed Securities (<a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">CMBS</a>) are <a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds">Bonds</a> backed by a group of commercial mortgages. The bonds are then sold to investors on the open market and thus subject to SEC regulations. The SEC data being used in this post covers one pool, or group, of CMBS loans. The CMBS data points fall into four main categories:</p>
+<p>Commercial Mortgage-Backed Securities (<a class="reference external" href="https://www.investopedia.com/terms/c/cmbs.asp">CMBS</a>) are <a class="reference external" href="https://www.pimco.com/en-us/resources/education/everything-you-need-to-know-about-bonds">Bonds</a> backed by a group of commercial mortgages. The bonds are then sold to investors on the open market and thus subject to SEC regulations. The SEC data being used in this post covers one pool, or group, of CMBS loans. There are 44 loans and 214 properties. The individual CMBS data points included in the dataset fall into four main categories:</p>
 <ol class="arabic simple">
 <li>Mortgage data (Loan Balance, Interest Rate, Maturity Date, etc.)</li>
 <li>Commercial property data (Location, Property Type, Square Feet, etc.)</li>
@@ -138,7 +136,7 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Let's Get Started</strong></p>
-<p>Here are the libraries I used for this task. Using Python's with open syntax to create a file object gives us the level of detail needed for parsing the HTML file at a granular level.</p>
+<p>Here are the libraries I used for this task. Using Python's <tt class="docutils literal">with open</tt> syntax to create a file object gives us the level of detail needed for parsing the HTML file at a granular level.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
@@ -150,20 +148,15 @@
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">sec</span><span class="p">:</span>
     <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
 </pre></div>
-<p>After studying the HTML layout, I recognized that I needed to target the <cite>&lt;table&gt;</cite> tags in the HTML document. However, there were tables that I did not want, specifically the &lt;table&gt; tags that consist of only footnotes (at bottom of HTML document). These tables all had a 'border' attribute within the main table tag (see below).</p>
+<p>After studying the HTML layout, I recognized that I needed to target the <tt class="docutils literal">&lt;table&gt;</tt> tags in the HTML document. However, there were tables that I did not want, specifically the <tt class="docutils literal">&lt;table&gt;</tt> tags that consist of only footnotes (at bottom of HTML document). These tables all had a <tt class="docutils literal">'border'</tt> attribute within the main table tag (see below).</p>
+<p><strong>Rule 1: Unwanted Tables have 'border' attribute</strong></p>
 <img alt="" src="/images/bad_table.JPG" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>So, to <em>exclude</em> these tables of text, I chose all table tags that did <em>not</em> contain 'border' in the table tag's attributes. Below is what a &quot;good table&quot; looks like in the HTML (no &quot;border&quot; attribute).</p>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
+<p><strong>Rule 2: Good Tables have no 'border' attribute</strong></p>
 <img alt="" src="/images/good_table.JPG" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>I used a list comprehension that grabs all the tables by targeting the &quot;table&quot; HTML tag and excluded all &lt;table&gt; tags with a 'border' tag attribute.  The table_count object will be used later to iterate over all relevant tables.</p>
+<p>So, to <em>exclude</em> these tables of text, I chose all table tags that did <em>not</em> contain <tt class="docutils literal">'border'</tt> in the table tag's attributes. I used a list comprehension to grab all the tables by targeting the <tt class="docutils literal">&lt;table&gt;</tt> HTML tag and excluded all <tt class="docutils literal">&lt;table&gt;</tt> tags with a <tt class="docutils literal">'border'</tt> tag attribute.  The <tt class="docutils literal">table_count</tt> object will be used later to iterate over all relevant tables.</p>
 <div class="highlight"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
      <span class="n">table</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">attrs</span>
 <span class="p">]</span>
@@ -174,13 +167,13 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>The Headers</strong></p>
-<p>Because the table headers came with their own unique challenges, I wanted to split and keep track of my headers and table data separately. In order to split up the table data from the header data, I first needed to see what distinguished the headers in the HTML. The table consists of rows that all have the tag &lt;tr&gt;, for each &quot;table row&quot;, this includes headers. Each row has individual data points, in Excel these would be called &quot;cells&quot;, and each cell of data is organized by the &lt;td&gt; or the &quot;table data&quot; tag. Embedded in the &lt;td&gt; tag, there is a &quot;font&quot; tag with a &quot;style&quot; attribute. I found that <em>all</em> header cells contained the word &quot;bold&quot; in the attribute value for the &quot;style&quot; attribute (see below).</p>
+<p>Because the table headers came with their own unique challenges, I wanted to split and keep track of my headers and table data separately. In order to split up the table data from the header data, I first needed to see what distinguished the headers in the HTML. The table consists of rows that all have the tag <tt class="docutils literal">&lt;tr&gt;</tt>, for each &quot;table row&quot;, this includes headers. Each row has individual data points, in Excel these would be called &quot;cells&quot;, and each cell of data is organized by the <tt class="docutils literal">&lt;td&gt;</tt> or the &quot;table data&quot; tag. Embedded in the <tt class="docutils literal">&lt;td&gt;</tt> tag, there is a <tt class="docutils literal">&lt;font&gt;</tt> tag with a <tt class="docutils literal">style</tt> attribute. I found that <em>all</em> header cells contained the word &quot;bold&quot; in the attribute value for the &quot;style&quot; attribute (see below).</p>
 <img alt="" src="/images/header_td.JPG" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Rule 1: All Headers are Bold</strong></p>
-<p>So I made a rule to identify all rows with the &quot;bold&quot; attribute value to identify headers. Below is a function with two parameters, tag and keyword. The tag parameter will receive an HTML tag to search for the keyword 'bold' within the font's style attribute value. The .find method <em>only</em> returns the first instance of the match it finds, which is OK because a table row either has bold words and is a header or there are no instances of the 'bold' string and the table row is not a header. When the function below does <em>not</em> find the &quot;bold&quot; keyword, it will return a None object, which is important to know as we continue building rules.</p>
+<p><strong>Rule 3: All Headers are Bold</strong></p>
+<p>So I made a rule to identify all rows with the &quot;bold&quot; attribute value to identify headers. Below is a function with two parameters, tag and keyword. The tag parameter will receive an HTML tag to search for the keyword &quot;bold&quot; within the font's style attribute. The .find method <em>only</em> returns the first instance of the match it finds, which is sufficient because a table row either has the string &quot;bold&quot; and is a header or it does not and isn't a header. When the function below does <em>not</em> find the &quot;bold&quot; keyword, it will return a None object, which is important to know as we continue building rules.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_header</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;bold&#39;</span><span class="p">):</span>
     <span class="c1"># returns bs4.element.Tag or None</span>
     <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;font&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">keyword</span><span class="p">)})</span>
@@ -189,14 +182,22 @@
 <div class="line"><br /></div>
 </div>
 <p>However, I wanted to <em>exclude</em> some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns. See the &quot;Hotel Operating Statistics&quot; header which is extraneous for my purposes of transforming data into tabular format.</p>
-<img alt="" src="/images/trythisheader.png" />
-<p>The above &quot;unwanted header&quot; is differentiated in the HTML from the &quot;wanted headers&quot; by having a large &quot;colspan&quot; value. &quot;colspan&quot; tells us how many columns a given data point spans across.</p>
+<img alt="" src="/images/trythisheadercropped.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The above &quot;unwanted header&quot; is differentiated in the HTML from the &quot;wanted headers&quot; by having a large &quot;colspan&quot; attribute value. The &quot;colspan&quot; attribute tells us how many columns a given data point spans across. The HTML below shows that the &quot;Hotel Operating Statistics&quot; header has a colspan value of 15.</p>
 <img alt="" src="/images/colspan15.JPG" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Rule 2: Skip All Headers with Colspan Value &gt; 2</strong></p>
-<p>I then searched the HTML document manually in my browser, using Ctrl+f, for &quot;colspan&quot;. There are only 20 instances of &quot;colspan&quot; in the entire HTML document. I saw that the highest colspan value for a <em>good</em> header was 2. So, any colspan values over 2 will be disregarded and not written to the CSV file. To be clear, in this HTML file, <em>all</em> colspan attribute values are associated with headers but not all headers are associated with a colspan attribute. The function below will take the &lt;tr&gt; tag as the argument for the tag parameter and the colspan_limit default value is 2. <tt class="docutils literal">colspan_obj</tt> test test test</p>
+<p>To be clear, in this HTML file, <em>all</em> colspan attribute values are associated with headers but not all headers are associated with a colspan attribute. I then searched the HTML document manually in my browser, using Ctrl+f, for &quot;colspan&quot;. There are only 20 instances of &quot;colspan&quot; in the entire HTML document. I saw that the highest colspan value for a <em>good</em> header was 2.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Rule 4: Skip All Headers with Colspan Value &gt; 2</strong></p>
+<p>So, any colspan values greater than 2 will be disregarded and not written to the CSV file. In Python, an <tt class="docutils literal">if</tt> statement can be a boolean expression where the existence or non-existence of an object determines if the boolean expression is <tt class="docutils literal">True</tt> or <tt class="docutils literal">False</tt>, respectively. So if <tt class="docutils literal">colspan_obj</tt> exists, the <tt class="docutils literal">if</tt> statement will be <tt class="docutils literal">True</tt> and if it does not, the result is <tt class="docutils literal">False</tt>.
+To go step-by-step, The function below will take the <tt class="docutils literal">&lt;tr&gt;</tt> tag as the argument for the <tt class="docutils literal">tag</tt> parameter and the <tt class="docutils literal">colspan_limit</tt> default value is 2. <tt class="docutils literal">unwanted_header</tt> will search the <tt class="docutils literal">&lt;tr&gt;</tt> tag for just one instance of a <tt class="docutils literal">&lt;td&gt;</tt> tag which has a <tt class="docutils literal">colspan</tt> attribute with a numerical string value. The <tt class="docutils literal">re.compile</tt> is a Regular Expressions method that creates a Regular Expression object with a pattern that can be searched for. The 'r' tells Python not to interpret any backslash characters (for example &quot;n&quot; is interpreted by Python as a newline) and to let BeautifulSoup interpret the backslashes. In this case, <tt class="docutils literal">\d+</tt> will be interpreted by BeautifulSoup to mean &quot;any numerical digit occuring at least one time&quot;. If the <tt class="docutils literal">colspan</tt> attribute is present in one of the row's <tt class="docutils literal">&lt;td&gt;</tt> tags then the <tt class="docutils literal">colspan_obj</tt> will exists as a Tag object and the <tt class="docutils literal">if</tt> statement is <tt class="docutils literal">True</tt>. If the specific tag is not found, the object will be a None value and the <tt class="docutils literal">if</tt> statement is <tt class="docutils literal">False</tt>. <tt class="docutils literal">colspan_val</tt> will access the numerical string value for the found <tt class="docutils literal">colspan</tt> value and it is converted to an integer by using the <tt class="docutils literal">int()</tt> function. Finally, if the integer is larger than 2, the function will return True and if there is no <tt class="docutils literal">colspan_obj</tt> or if the integer is equal to or less than 2, the function will return <tt class="docutils literal">False</tt>.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unwanted_header</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">colspan_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="n">colspan_obj</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">)})</span>
         <span class="k">if</span> <span class="n">colspan_obj</span><span class="p">:</span>
@@ -213,12 +214,17 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
 </pre></div>
-<p>But what about the <em>good</em> header data points with a colspan equal to 2? These must be identified to properly align the header rows with the actual data rows. When converting each &lt;td&gt; data point to a CSV file, if a given column header has a colspan of 2, the header cell will still be written as <em>one</em> cell in the csv file (one &lt;td&gt; tag = one cell in excel). In the image below, the figure labeled &quot;HTML&quot; reflects how the website's tags are organized in this situation. Two &lt;td&gt; tags (one yellow, one blue) are underneath a single &lt;td&gt; header value (&quot;Other Reserve Cap&quot;) that spans two columns. This makes sense in an HTML context. However, because my script iterates over every &lt;td&gt; tag and writes each data point to a cell in my CSV file, I ran into the cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>The Cell Alignment Problem when colspan = 2</strong></p>
+<p>Before, I mentioned that there are <em>some</em> good headers with a colspan value <strong>equal</strong> to 2. These must be identified to fix any cell alignment issues. When converting the data to a CSV file, each &lt;td&gt; tag will be written to exactly one cell in the CSV file. In the image below, the figure labeled &quot;HTML&quot; reflects how the website's tags are organized when a header value spans across 2 columns. Two &lt;td&gt; tags (one yellow, one blue) are underneath a single &lt;td&gt; header value (&quot;Other Reserve Cap&quot;) that spans two columns. This is 2-to-1 arrangement is not visible on the website, however, because my script iterates over every &lt;td&gt; tag and writes each data point to a cell in my CSV file, I ran into the cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;.</p>
 <img alt="" src="/images/cell_align.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Below is a simple boolean function that returns True when all &lt;td&gt; tags span the same number of columns, 1 each, and returns False when we run into the issue shown above. This is achieved by using the max() function on each value in the colspan_dict which will be shown later.</p>
+<p>Before fixing any cell alignment issues, I needed to identify when these instances occured. Below is a simple boolean function that returns True when all &lt;td&gt; tags span the same number of columns, 1 each, and returns False when we run into the issue shown above. This is achieved by using the max() function on each value in the colspan_dict.</p>
+<p><strong>Rule 5: Identify All Colspan Values &gt; 2</strong></p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cells_same_colspan</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
     <span class="c1"># reduce colspan dict values</span>
     <span class="n">max_colspan_per_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
@@ -230,24 +236,49 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<p>The colspan dict will be created later but will be look similar to the example below.</p>
+<div class="highlight"><pre><span></span><span class="c1"># COLSPAN_DICT object</span>
+
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+ <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+
+<span class="c1"># where the dict keys are table rows (including headers)</span>
+<span class="c1"># and the dict values are lists containing</span>
+<span class="c1"># each data point&#39;s colspan value</span>
+</pre></div>
+<p>If the function above, <tt class="docutils literal">cells_same_colspan</tt> , returns False, meaning there <em>is</em> a colspan value and it is <em>not</em> equal to one, then we need to create a dictionary to correct the cell alignment problem.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p><strong>Infinite Nest</strong></p>
-<p>Like the book <a class="reference external" href="https://en.wikipedia.org/wiki/Infinite_Jest">Infinite Jest</a>, where the author has a tendency to write one thought, which leads to another thought, and another thought, until one sentence practically covers an entire page, the code here ended up being very... <em>nested</em>.</p>
-<p>If the function above, cells_same_colspan, returns False, meaning there is a colspan value <em>not</em> equal to one, then we need to create a nested dictionary. The nested_dictionary, nested_colspan_dict, is a record of rows and all of their colspan values in each row. More specifically, This object will be used to store all the information needed to make cell alignment changes to the actual cells of data.</p>
+<p>Like the book <a class="reference external" href="https://en.wikipedia.org/wiki/Infinite_Jest">Infinite Jest</a>, where the author's writing style can yield a page-long sentence, with several tangential thoughts nested within the main thought, the data structures I created to track each piece of data (rows, data points, colspan values etc.), as well as the main script itself, ended up being very <em>nested</em> .</p>
+<p>The dictionary object, <tt class="docutils literal">nested_colspan_dict</tt> , is a record of all rows for a given table, the index value of the data points in the row, and the colspan values in each for each data point. This object will be used to store all the information needed to make cell alignment changes to the actual cells of data. Below is an example of what the <em>nested</em> object will look like.</p>
+<div class="highlight"><pre><span></span><span class="c1"># NESTED_COLSPAN_DICT object</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">],</span>
+ <span class="mi">1</span><span class="p">:</span> <span class="p">[</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">]}</span>
+
+<span class="c1"># where the dict keys are table rows</span>
+<span class="c1"># and the dict values are lists containing</span>
+<span class="c1"># a tuple containing&#39;</span>
+<span class="c1"># (index value of a given data point, the colspan value for given point)</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In the function below, <tt class="docutils literal">nested_colspan_dict</tt> , the nested data structure is created by iterating over the key, value pairs in the <tt class="docutils literal">colspan_dict</tt> object. The key, value pairs are accessed via the <tt class="docutils literal">.items()</tt> method on the dictionary object. The key will remain the same and be the row number and act as the key to the new dictionary. Using the <tt class="docutils literal">enumerate()</tt> function on the colspan values in each row will result in a tuple containing the index of a given colspan value and the colspan value itself.</p>
+<p><strong>Rule 6: When Colspan &gt; 2, Create Nested Data Structure</strong></p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
     <span class="n">nested_colspan_obj</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">colspan_tuple</span> <span class="k">for</span> <span class="n">colspan_tuple</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="k">return</span> <span class="n">nested_colspan_obj</span>
-
-<span class="c1"># Next, since we may need to extract data from the nested dictionary</span>
-<span class="c1"># multiple times, it makes sense to create a function.</span>
-<span class="c1"># This function returns a generator object.</span>
-<span class="c1"># This is helpful in extracting only the values we need</span>
-<span class="c1"># and not loading everything into memory if it can be</span>
-<span class="c1"># avoided.</span>
-
-
-<span class="k">def</span> <span class="nf">colspans_to_fix</span><span class="p">(</span><span class="n">nested_colspan</span><span class="p">):</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Next, since we may need to extract data from the nested dictionary multiple times, it makes sense to create a function. This function iterates over the nested dictionary object and checks to see if a given colspan value does not equal 1. The function first iterates over the key, value pairs of the <tt class="docutils literal">nested_colspan</tt> object which was created with the previous function <tt class="docutils literal">nested_colspan_dict</tt>. Because the <tt class="docutils literal">nested_colspan</tt> dict values are lists containing tuples, we have to iterate over the individual tuples to access the information inside them (such as the colspan values). For any tuple, if the colspan value does not equal one, the function will yield a dictionary object which contains the row number as the key and a tuple as the dictionary value. The tuple will then be parsed for the colspan value and the index value it occurs in the row it resides.</p>
+<p><strong>Rule 7: Use Generator Function to Correct Cell Alignment Issues</strong></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">colspans_to_fix</span><span class="p">(</span><span class="n">nested_colspan</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">nested_colspan</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
             <span class="c1"># tuples are (colspan_index, colspan_value)</span>
@@ -255,20 +286,36 @@
                 <span class="c1"># key = row number</span>
                 <span class="c1"># tuple = (index_of_cell, colspan_value_for_cell)</span>
                 <span class="k">yield</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">tupl</span><span class="p">}</span>
-
-
-<span class="c1"># A function to write the rows to a file.</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>The File Writer Function</strong></p>
+<p>Below are commonly used lines of code in Python when doing I/O operations (see Python docs for working with CSV files <a class="reference external" href="https://docs.python.org/3.7/library/csv.html">here</a> ). I put these basic instructions into a function to avoid redundancy. One detail to note is that in the very last line of the function, the <tt class="docutils literal">.writerows</tt> method accepts an iterable which will be lists of each individual data point from each row. If no row (list) is present, the row will not be written to the CSV file.</p>
+<div class="highlight"><pre><span></span><span class="c1"># A function to write the rows to a file.</span>
 <span class="k">def</span> <span class="nf">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">current_table</span><span class="p">)</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="c1"># if row avoids blank rows</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">row</span><span class="p">)</span>
-
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_count</span><span class="p">):</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Putting it All Together: The Script</strong></p>
+<p>The main script is a long for loop with multiple conditional statements to control the flow of the and execution of the various instructions.</p>
+<p>The objects created for each table are the following:
+1. The tables of data: <tt class="docutils literal">for i in range(table_count)</tt> will iterate over every table, starting with 0 and consequently terminating one number less than the number of tables.
+2. The rows in each table: <tt class="docutils literal">for row in <span class="pre">table.findAll('tr')</span></tt> will iterate over every row, or <tt class="docutils literal">&lt;tr&gt;</tt> tag in a given <tt class="docutils literal">&lt;table&gt;</tt> tag.
+3. The data points in each row: The data points are iterated over by using list comprehensions. As stated before, the data points are found in the <tt class="docutils literal">&lt;td&gt;</tt> tags.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Below is the main script in one block of code, which I will break down and elaborate on in pieces.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_count</span><span class="p">):</span>
 
     <span class="n">table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">header_rows</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">headers_rows</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;tdata&#39;</span><span class="p">:</span> <span class="p">{}}</span>
     <span class="n">colspan</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -277,22 +324,22 @@
                                <span class="k">if</span> <span class="s1">&#39;colspan&#39;</span> <span class="ow">in</span> <span class="n">td_tag</span><span class="o">.</span><span class="n">attrs</span> <span class="k">else</span> <span class="mi">1</span>
                                <span class="k">for</span> <span class="n">td_tag</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">is_good_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+            <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
             <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">elif</span> <span class="n">is_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span>
                                                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="p">,</span> <span class="n">Tag</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
                                                 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
             <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">continue</span>
     <span class="k">if</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
-        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
-        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+        <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">nested_cs</span> <span class="o">=</span> <span class="n">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan</span><span class="p">)</span>
         <span class="n">bad_colspans</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">colspans_to_fix</span><span class="p">(</span><span class="n">nested_cs</span><span class="p">)]</span>
-        <span class="n">headers_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]]</span>
+        <span class="n">headers_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]]</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">colspan_dict</span> <span class="ow">in</span> <span class="n">bad_colspans</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -301,18 +348,122 @@
                     <span class="n">colspan_minus_one</span> <span class="o">=</span> <span class="n">colspan_val</span> <span class="o">-</span> <span class="mi">1</span>
                     <span class="n">index_for_insert</span> <span class="o">=</span> <span class="n">colspan_ind</span> <span class="o">+</span> <span class="mi">1</span>
                     <span class="k">if</span> <span class="n">row_index</span> <span class="ow">in</span> <span class="n">headers_only</span><span class="p">:</span>
-                        <span class="n">headers</span> <span class="o">=</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                        <span class="n">headers</span> <span class="o">=</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
                         <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
                             <span class="n">headers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">rows</span> <span class="o">=</span> <span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                        <span class="n">rows</span> <span class="o">=</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
                         <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
                             <span class="n">rows</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
                 <span class="n">colspan</span><span class="p">[</span><span class="n">row_index</span><span class="p">][</span><span class="n">colspan_ind</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
-            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">header_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+            <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
 </pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Part 1: Iterate over each Table and Each Row</strong></p>
+<p>The following objects are created for each loop:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal">table</tt> : Because I previously created the <tt class="docutils literal">tables</tt> object, I can access each table by calling a given table's index value. In this case``i`` will be an integer, generated by the <tt class="docutils literal">range()</tt> function, that will be used to index each table in the list object <tt class="docutils literal">tables</tt> .</li>
+<li>headers_rows: This will be the main data structure that stores the data that will be written to the CSV file. The nested dictionary will have two main keys, one for header data ( <tt class="docutils literal">'headers'</tt> ) and another for table data ( <tt class="docutils literal">'tdata'</tt> ). Because this object's structure is layered, I created a small visual of the data structure below.</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight"><pre><span></span><span class="c1"># headers_rows</span>
+
+<span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+             <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">]}</span>
+ <span class="s1">&#39;tdata&#39;</span><span class="p">:</span>   <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">],</span>
+             <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">]}</span>
+<span class="p">}</span>
+
+<span class="c1"># &#39;headers&#39; is the key for the header dictionary and &#39;tdata&#39; is the key for the table dictionary.</span>
+<span class="c1"># &#39;headers&#39; contains all headers for one table and &#39;tdata&#39; contains all table data for one table.</span>
+<span class="c1"># Each integer, above, represent a row number.</span>
+<span class="c1"># Each list represents a row.</span>
+<span class="c1"># Each letter represents a data point in a row.</span>
+</pre></div>
+<ol class="arabic simple" start="3">
+<li>colspan: This object will be a dictionary that will store the row count as the dictionary keys and the colspan values stored as a list as the dictionary values.</li>
+<li>line_count: a simple row counter.</li>
+</ol>
+<p>The for loop will iterate over a sequence of numbers generated by the <tt class="docutils literal">range()</tt> function. The <tt class="docutils literal">table_count</tt> object is just an integer that tells us how many tables to iterate over. Because table_count is equal to the number 20, <tt class="docutils literal">range()</tt> will produce the sequence 0-19, which will allow us to access each table. The script will start on tables[0], followed by tables[1] and so-on.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_count</span><span class="p">):</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">headers_rows</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;tdata&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">colspan</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>After the iteration starts processing each <tt class="docutils literal">&lt;table&gt;</tt> tag, which is full of all the table information, and the necessary data containers are created, the loop begins iterating over each table row. This is done by using BeautifulSoup's <tt class="docutils literal">.findAll()</tt> method which will return a list of all <tt class="docutils literal">tr</tt> tags.</p>
+<p>Next, the <tt class="docutils literal">colspan</tt> dict will be created by using the line_count, starting at 0, as the dictionary keys and a list of colspan values as the dictionary values.
+The list comprehension says in plain-speak, &quot;for each &lt;td&gt; tag in</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">):</span>
+    <span class="n">colspan</span><span class="p">[</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">td_tag</span><span class="p">[</span><span class="s1">&#39;colspan&#39;</span><span class="p">])</span>
+                           <span class="k">if</span> <span class="s1">&#39;colspan&#39;</span> <span class="ow">in</span> <span class="n">td_tag</span><span class="o">.</span><span class="n">attrs</span> <span class="k">else</span> <span class="mi">1</span>
+                           <span class="k">for</span> <span class="n">td_tag</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_good_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+    <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">elif</span> <span class="n">is_header</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">line_count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">text</span>
+                                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">font</span><span class="p">,</span> <span class="n">Tag</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+                                        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)]</span>
+    <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight"><pre><span></span>    <span class="k">else</span><span class="p">:</span>
+        <span class="k">continue</span>
+<span class="k">if</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
+    <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+    <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+    <span class="n">nested_cs</span> <span class="o">=</span> <span class="n">nested_colspan_dict</span><span class="p">(</span><span class="n">colspan</span><span class="p">)</span>
+    <span class="n">bad_colspans</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">colspans_to_fix</span><span class="p">(</span><span class="n">nested_cs</span><span class="p">)]</span>
+    <span class="n">headers_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]]</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">cells_same_colspan</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">colspan_dict</span> <span class="ow">in</span> <span class="n">bad_colspans</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">colspan_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">row_index</span> <span class="o">=</span> <span class="n">k</span>
+                <span class="n">colspan_ind</span><span class="p">,</span> <span class="n">colspan_val</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="n">colspan_minus_one</span> <span class="o">=</span> <span class="n">colspan_val</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">index_for_insert</span> <span class="o">=</span> <span class="n">colspan_ind</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">row_index</span> <span class="ow">in</span> <span class="n">headers_only</span><span class="p">:</span>
+                    <span class="n">headers</span> <span class="o">=</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
+                        <span class="n">headers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rows</span> <span class="o">=</span> <span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">][</span><span class="n">row_index</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan_minus_one</span><span class="p">):</span>
+                        <span class="n">rows</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index_for_insert</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">colspan</span><span class="p">[</span><span class="n">row_index</span><span class="p">][</span><span class="n">colspan_ind</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+    <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; header&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">])</span>
+    <span class="n">write_rows</span><span class="p">(</span><span class="n">current_table</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39; table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">headers_rows</span><span class="p">[</span><span class="s1">&#39;tdata&#39;</span><span class="p">])</span>
+</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 
             </div><!-- /.entry-content -->
 
