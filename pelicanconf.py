@@ -46,7 +46,7 @@ GITHUB_SKIP_FORK = True
 
 YEAR_ARCHIVE_SAVE_AS = u'posts/{date:%Y}/index.html'
 
-THEME = r'C:\Users\storres.759NYY1\Desktop\Portfolio\sonnysblog\Lib\site-packages\pelican\pelican-themes\gum'
+THEME = r"C:\Users\storres.759NYY1\Desktop\Portfolio\sonnysblog\Lib\site-packages\pelican\themes\pelican-blueidea"
 
 READERS = {'html': None}
 
