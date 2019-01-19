@@ -5,11 +5,8 @@ from __future__ import unicode_literals
 AUTHOR = 'Sonny Torres'
 SITENAME = "Sonny's Blog"
 SITEURL = 'https://sonnycruz.github.io'
-
 PATH = 'content'
-
 TIMEZONE = 'America/Chicago'
-
 DEFAULT_LANG = 'en'
 
 # Feed generation is usually not desired when developing
@@ -21,6 +18,12 @@ AUTHOR_FEED_RSS = None
 ARTICLE_URL = '{date:%Y}/{date:%m}/{date:%d}/{slug}/'
 ARTICLE_SAVE_AS = '{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 
+# index.html
+NEST_HEADER_IMAGES = 'background.jpg'
+NEST_INDEX_HEADER_TITLE = r"Data Analysis Projects"
+NEST_INDEX_HEAD_TITLE = 'Homepage'
+NEST_INDEX_HEADER_SUBTITLE = r'Manipulating & Analyzing Data with Programming'
+NEST_HEADER_LOGO = '/images/blank.png'
 
 # Blogroll
 LINKS = (('Pelican', 'http://getpelican.com/'),
