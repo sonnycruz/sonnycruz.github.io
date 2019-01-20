@@ -95,7 +95,7 @@
 &lt;/div&gt;
 &lt;div class="section" id="the-source-code"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id5"&gt;&lt;strong&gt;The Source Code&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Link to repository here:&lt;/p&gt;
+&lt;p&gt;Link to repository here: &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis/blob/master/1.%20Get%20the%20Data/a_JPC11C05_parser.py"&gt;Github&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="section" id="the-tools-used"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id6"&gt;The Tools Used&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The code in this post is primarily constructed with the main Python library, &lt;a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"&gt;BeautifulSoup&lt;/a&gt; and a little bit of &lt;a class="reference external" href="https://docs.python.org/3.7/library/re.html"&gt;Regular Expressions&lt;/a&gt;.&lt;/p&gt;
@@ -183,7 +183,7 @@
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 
-&lt;span class="n"&gt;working_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C:\Users\storres.759NYY1\Desktop\End to End Data Analysis Project&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;working_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C:\Users\Username\Desktop\End to End Data Analysis Project&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;chdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;working_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;JPC11C05.html&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
