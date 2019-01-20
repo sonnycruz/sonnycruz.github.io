@@ -32,7 +32,7 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
          ('You can modify those links in your config file', '#'),)
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
+SOCIAL = (('Linkedin', r'https://www.linkedin.com/in/sonny-torres-6738b780'),
           ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 10
@@ -49,7 +49,7 @@ GITHUB_SKIP_FORK = True
 
 YEAR_ARCHIVE_SAVE_AS = u'posts/{date:%Y}/index.html'
 
-THEME = r"C:\Users\storres.759NYY1\Desktop\Portfolio\sonnysblog\Lib\site-packages\pelican\themes\nest"
+THEME = "nest"
 
 READERS = {'html': None}
 
