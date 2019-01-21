@@ -29,11 +29,11 @@ NEST_HEADER_LOGO = '/images/blank.png'
 LINKS = (('Pelican', 'http://getpelican.com/'),
          ('Python.org', 'http://python.org/'),
          ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         ('', '#'),)
 
 # Social widget
-SOCIAL = (('Linkedin', r'https://www.linkedin.com/in/sonny-torres-6738b780'),
-          ('Another social link', '#'),)
+SOCIAL = (('', r''),
+          ('', '#'),)
 
 DEFAULT_PAGINATION = 10
 STATIC_PATHS = ['images', 'files']
