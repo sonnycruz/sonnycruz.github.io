@@ -19,16 +19,16 @@ ARTICLE_URL = '{date:%Y}/{date:%m}/{date:%d}/{slug}/'
 ARTICLE_SAVE_AS = '{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 
 # index.html
-NEST_HEADER_IMAGES = 'background.jpg'
+NEST_HEADER_IMAGES = 'art-artistic-background-247676.jpg'
 NEST_INDEX_HEADER_TITLE = r"Data Analysis Projects"
 NEST_INDEX_HEAD_TITLE = 'Homepage'
 NEST_INDEX_HEADER_SUBTITLE = r'Manipulating & Analyzing Data with Programming'
 NEST_HEADER_LOGO = '/images/blank.png'
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
+LINKS = (('LinkedIn', 'linkedin.com/in/sonny-torres-6738b780'),
+         ('Github', 'https://github.com/sonnycruz'),
+         ('Twitter', 'https://twitter.com/sonnyctorres'),
          ('', '#'),)
 
 # Social widget
