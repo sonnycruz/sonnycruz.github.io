@@ -185,12 +185,12 @@
 <h3><a class="toc-backref" href="#id9">Table Arrangement</a></h3>
 <p><strong>The dataset is split into many different tables that are vertically lined up on one page</strong>. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together. <strong>The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file</strong>. For simplification, the visual only includes 10 Commercial Properties.</p>
 <p>Below, you can see four tables with various headers, columns and rows (See Legend). Each column, which includes a data point for every row, is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.</p>
-<img alt="" src="/images/sec1.png" />
-<img alt="" src="/images/Legend.png" />
+<img alt="table of four" src="/images/a_four_tables.jpg" style="width: 346.2px; height: 690.9px;" />
+<img alt="new legend" src="/images/new_legend.jpg" style="width: 375px; height: 140px;" />
 <p><strong>Tables 1 &amp; 2 need to be glued together and 3 &amp; 4 need to be glued together, both along the horizonal axis</strong>. Notice how the excess headers, (the grey-shaded headers in the above figure) have been eliminated in the figure below.</p>
-<img alt="" src="/images/sec2.png" />
+<img alt="table of two" src="/images/table_of_two.jpg" style="width: 375.9px; height: 524.4px;" />
 <p>The pairs of tables will be joined together on their respective vertical axes. Because &quot;Prop1, Prop2..etc.&quot; represents not only commercial properties in the pool of mortgages, but also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.</p>
-<img alt="" src="/images/sec4.png" />
+<img alt="table horizontal" src="/images/table_horizontal.jpg" style="width: 668px; height: 245px;" />
 <p><strong>When iteratively joining every 4 tables in this way, the result will be a single tabular dataset</strong>, albeit with plenty of clean up work left to do.</p>
 <p><strong>Although the data is not merged into a single data set in this post, assessing the layout significantly informed the way I approached the parsing and writing the data to files as you will see in this post</strong>. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will explain later in this post.</p>
 </div>
@@ -302,7 +302,7 @@
 <h3><a class="toc-backref" href="#id17">The Bad Side of Good Headers</a></h3>
 <p>Before, I mentioned that <strong>there are some good headers with a colspan value equal to 2</strong>. These headers need to be identified in order to correct a problem they present.</p>
 <p>In the image below, the figure labeled &quot;HTML&quot; reflects how the website's tags are organized when a header value spans across 2 columns. <strong>A header value with a colspan attribute value of 2 is enclosed in 1 ``td`` tag, while the rows below the single header ``td`` tag have 2 ``td`` tags (see picture for yellow and blue ``td`` tags)</strong>. This 2-to-1 arrangement is not visible on the website and aligns appropriately in the HTML output, however, <strong>because my script iterates over every ``td`` tag and writes each one to a cell in my CSV file, I ran into a cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;</strong>.</p>
-<img alt="" src="/images/cell_align2.png" />
+<img alt="cell align new" src="/images/cell_align_new.jpg" style="width: 601.2px; height: 229.5px;" />
 <p>To identify the good headers with a colspan value of 2, I created a boolean function that returns <tt class="docutils literal">True</tt> when all <tt class="docutils literal">td</tt> tags span the same number of columns, 1 each, and returns False when they do not.</p>
 <ul class="simple">
 <li>Below is the boolean function <tt class="docutils literal">cells_same_colspan()</tt>.</li>
@@ -593,7 +593,7 @@
 <li><tt class="docutils literal">colspan_minus_one</tt> is the <tt class="docutils literal">colspan_val</tt> variable minus 1. Because each data point has a default colspan value of 1, I subtracted 1 from the larger than 1 colspan values so that the net result is the number of spaces that must be added to the right of the larger-than-1 colspan value.</li>
 <li>Again, using the picture below, labeled &quot;HTML&quot;, the header value &quot;Other Reserve Cap&quot; has a colspan value of 2 and the row beneath it has two <tt class="docutils literal">td</tt> tags. In order to avoid the misalignment shown in the &quot;CSV RESULT&quot; table, 1 blank string is added next to &quot;Other Reserve Cap&quot; and the columns are aligned with the data.</li>
 </ul>
-<img alt="" src="/images/cell_align_fix.png" />
+<img alt="cell align new two" src="/images/cell_align_new_two.jpg" style="width: 601.2px; height: 357.3px;" />
 <ul class="simple">
 <li>Similarly, because the blank strings are added to the <em>right</em> of the larger-than-1 colspan values, I <em>add</em> 1 to the colspan index value.</li>
 <li>Because the code iterates over one table at a time, there is only one set of headers and one set of table data rows for every table <em>and</em> each table has one continuous index, the <tt class="docutils literal">row_count</tt> or as stated in current <tt class="docutils literal">for</tt> loop, the <tt class="docutils literal">row_index</tt>. If the <tt class="docutils literal">row index</tt> is only found in the <tt class="docutils literal">headers_only</tt> list of index values, the <tt class="docutils literal">headers</tt> dictionary values are modified by using the <tt class="docutils literal">.insert()</tt> method on the variable <tt class="docutils literal">headers</tt> to insert a blank string one position to the right of the index value (<tt class="docutils literal">index_for_insert</tt>).</li>
