@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Contents Recap of Part 1: The Code for Part 2 Load the Libraries and Set File Path The ``load_headers`` (Header Parser) function The Encoding Problem Account for Duplicate Values in Headers Recap...">
+        <meta name="description" content="Contents Recap of Part 1: The Code for Part 2 Load the Libraries and Set File Path The load_headers (Header Parser) function The Encoding Problem Account for Duplicate Values in Headers Recap of...">
         <meta name="keywords" content="python, tutorial">
         <link rel="icon" href="../../../../favicon.ico">
 
@@ -80,7 +80,7 @@
 <li><a class="reference internal" href="#recap-of-part-1" id="id1"><strong>Recap of Part 1:</strong></a></li>
 <li><a class="reference internal" href="#the-code-for-part-2" id="id2"><strong>The Code for Part 2</strong></a></li>
 <li><a class="reference internal" href="#load-the-libraries-and-set-file-path" id="id3"><strong>Load the Libraries and Set File Path</strong></a></li>
-<li><a class="reference internal" href="#the-load-headers-header-parser-function" id="id4"><strong>The ``load_headers`` (Header Parser) function</strong></a></li>
+<li><a class="reference internal" href="#the-load-headers-header-parser-function" id="id4"><strong>The load_headers (Header Parser) function</strong></a></li>
 <li><a class="reference internal" href="#the-encoding-problem" id="id5"><strong>The Encoding Problem</strong></a></li>
 <li><a class="reference internal" href="#account-for-duplicate-values-in-headers" id="id6"><strong>Account for Duplicate Values in Headers</strong></a></li>
 </ul>
@@ -89,7 +89,7 @@
 <h2><a class="toc-backref" href="#id1"><strong>Recap of Part 1:</strong></a></h2>
 <p>In my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">previous post</a> I explained and showed how I scraped CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> in order to refine my web scraping skills and acquire a dataset that was copyright free. Another practical advantage of this dataset is that it is incredibly messy and requires cleaning up before any kind of analysis can be done.</p>
 <p>After the numerous HTML tables were scraped for their header data and table data, I saved each table and table header to a CSV file. Now I have two folders, one for headers and one for tables, full of csv files. Below is an image of the &quot;headers&quot; folder the script in my previous post created as well as all of the header files that were moved to it.</p>
-<img alt="" src="/images/header_files.jpg" style="width: 1000px; height: 669px;" />
+<img alt="header files" src="/images/header_files.jpg" style="width: 800px; height: 669px;" />
 </div>
 <div class="section" id="the-code-for-part-2">
 <h2><a class="toc-backref" href="#id2"><strong>The Code for Part 2</strong></a></h2>
@@ -195,7 +195,7 @@
 <p><tt class="docutils literal">is_word</tt>, as you might have guessed, searches for words in a given string. The raw character string <tt class="docutils literal"><span class="pre">r'\w'</span></tt> uses the Regular Expressions module to search for any alphanumeric character.</p>
 </div>
 <div class="section" id="the-load-headers-header-parser-function">
-<h2><a class="toc-backref" href="#id4"><strong>The ``load_headers`` (Header Parser) function</strong></a></h2>
+<h2><a class="toc-backref" href="#id4"><strong>The load_headers (Header Parser) function</strong></a></h2>
 <p>The remainder of this blog post will cover the bulk of the script, which is the <tt class="docutils literal">load_headers</tt> function. This function loads in each CSV file, one at a time, parses and cleans the header data and saves the modified headers as a new file. This is necessary because the headers, when concatenated with the table data, would be horribly misaligned and would cascade down one to three rows if they were not parsed prior to joining the data.</p>
 <p>The function <tt class="docutils literal">load_headers</tt> first accepts a filename (for example &quot;2 header.csv&quot;). Below, the <tt class="docutils literal">open</tt> function creates a <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#open">file object</a> to be read by the <tt class="docutils literal">csv</tt> <a class="reference external" href="https://docs.python.org/3.6/library/csv.html">module</a> with the <tt class="docutils literal">.reader</tt> method.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_headers</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
