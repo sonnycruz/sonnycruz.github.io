@@ -91,7 +91,7 @@
 &lt;li&gt;&lt;a class="reference internal" href="#recap-of-part-1" id="id1"&gt;&lt;strong&gt;Recap of Part 1:&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#the-code-for-part-2" id="id2"&gt;&lt;strong&gt;The Code for Part 2&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#load-the-libraries-and-set-file-path" id="id3"&gt;&lt;strong&gt;Load the Libraries and Set File Path&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference internal" href="#the-load-headers-header-parser-function" id="id4"&gt;&lt;strong&gt;The ``load_headers`` (Header Parser) function&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#the-load-headers-header-parser-function" id="id4"&gt;&lt;strong&gt;The load_headers (Header Parser) function&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#the-encoding-problem" id="id5"&gt;&lt;strong&gt;The Encoding Problem&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#account-for-duplicate-values-in-headers" id="id6"&gt;&lt;strong&gt;Account for Duplicate Values in Headers&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -100,7 +100,7 @@
 &lt;h2&gt;&lt;a class="toc-backref" href="#id1"&gt;&lt;strong&gt;Recap of Part 1:&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;In my &lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;previous post&lt;/a&gt; I explained and showed how I scraped CMBS loan data from the &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;SEC.gov website&lt;/a&gt; in order to refine my web scraping skills and acquire a dataset that was copyright free. Another practical advantage of this dataset is that it is incredibly messy and requires cleaning up before any kind of analysis can be done.&lt;/p&gt;
 &lt;p&gt;After the numerous HTML tables were scraped for their header data and table data, I saved each table and table header to a CSV file. Now I have two folders, one for headers and one for tables, full of csv files. Below is an image of the &amp;quot;headers&amp;quot; folder the script in my previous post created as well as all of the header files that were moved to it.&lt;/p&gt;
-&lt;img alt="" src="/images/header_files.jpg" /&gt;
+&lt;img alt="header files" src="/images/header_csv_files.jpg" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="the-code-for-part-2"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id2"&gt;&lt;strong&gt;The Code for Part 2&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
@@ -206,7 +206,7 @@
 &lt;p&gt;&lt;tt class="docutils literal"&gt;is_word&lt;/tt&gt;, as you might have guessed, searches for words in a given string. The raw character string &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;r'\w'&lt;/span&gt;&lt;/tt&gt; uses the Regular Expressions module to search for any alphanumeric character.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="the-load-headers-header-parser-function"&gt;
-&lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;The ``load_headers`` (Header Parser) function&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;The load_headers (Header Parser) function&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The remainder of this blog post will cover the bulk of the script, which is the &lt;tt class="docutils literal"&gt;load_headers&lt;/tt&gt; function. This function loads in each CSV file, one at a time, parses and cleans the header data and saves the modified headers as a new file. This is necessary because the headers, when concatenated with the table data, would be horribly misaligned and would cascade down one to three rows if they were not parsed prior to joining the data.&lt;/p&gt;
 &lt;p&gt;The function &lt;tt class="docutils literal"&gt;load_headers&lt;/tt&gt; first accepts a filename (for example &amp;quot;2 header.csv&amp;quot;). Below, the &lt;tt class="docutils literal"&gt;open&lt;/tt&gt; function creates a &lt;a class="reference external" href="https://docs.python.org/3.6/library/functions.html#open"&gt;file object&lt;/a&gt; to be read by the &lt;tt class="docutils literal"&gt;csv&lt;/tt&gt; &lt;a class="reference external" href="https://docs.python.org/3.6/library/csv.html"&gt;module&lt;/a&gt; with the &lt;tt class="docutils literal"&gt;.reader&lt;/tt&gt; method.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;load_headers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
