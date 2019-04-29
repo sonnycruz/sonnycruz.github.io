@@ -100,7 +100,7 @@
 &lt;h2&gt;&lt;a class="toc-backref" href="#id1"&gt;&lt;strong&gt;Recap of Part 1:&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;In my &lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;previous post&lt;/a&gt; I explained and showed how I scraped CMBS loan data from the &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;SEC.gov website&lt;/a&gt; in order to refine my web scraping skills and acquire a dataset that was copyright free. Another practical advantage of this dataset is that it is incredibly messy and requires cleaning up before any kind of analysis can be done.&lt;/p&gt;
 &lt;p&gt;After the numerous HTML tables were scraped for their header data and table data, I saved each table and table header to a CSV file. Now I have two folders, one for headers and one for tables, full of csv files. Below is an image of the &amp;quot;headers&amp;quot; folder the script in my previous post created as well as all of the header files that were moved to it.&lt;/p&gt;
-&lt;img alt="header files" src="/images/header_csv_files.jpg" /&gt;
+&lt;img alt="header files" src="/images/files_in_header_folder.jpg" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="the-code-for-part-2"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id2"&gt;&lt;strong&gt;The Code for Part 2&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
