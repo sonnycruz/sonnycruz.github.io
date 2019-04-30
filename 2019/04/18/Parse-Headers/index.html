@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Contents Recap of Part 1: The Code for Part 2 Load the Libraries and Set File Path The load_headers (Header Parser) function The Encoding Problem Account for Duplicate Values in Headers Recap of...">
+        <meta name="description" content="Contents Recap of Part 1: The Code for Part 2 Load the Libraries and Set File Path The Header Parser function The Encoding Problem Account for Duplicate Values in Headers Recap of Part 1: In my...">
         <meta name="keywords" content="python, tutorial">
         <link rel="icon" href="../../../../favicon.ico">
 
@@ -18,8 +18,6 @@
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Full Atom Feed" />
-        <link href="https://sonnycruz.github.io/feeds/python.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -82,7 +80,7 @@
 <li><a class="reference internal" href="#recap-of-part-1" id="id1"><strong>Recap of Part 1:</strong></a></li>
 <li><a class="reference internal" href="#the-code-for-part-2" id="id2"><strong>The Code for Part 2</strong></a></li>
 <li><a class="reference internal" href="#load-the-libraries-and-set-file-path" id="id3"><strong>Load the Libraries and Set File Path</strong></a></li>
-<li><a class="reference internal" href="#the-load-headers-header-parser-function" id="id4"><strong>The load_headers (Header Parser) function</strong></a></li>
+<li><a class="reference internal" href="#the-header-parser-function" id="id4"><strong>The Header Parser function</strong></a></li>
 <li><a class="reference internal" href="#the-encoding-problem" id="id5"><strong>The Encoding Problem</strong></a></li>
 <li><a class="reference internal" href="#account-for-duplicate-values-in-headers" id="id6"><strong>Account for Duplicate Values in Headers</strong></a></li>
 </ul>
@@ -196,8 +194,8 @@
 <p>The header files will be contained in the list <tt class="docutils literal">all_header_files</tt>. The <tt class="docutils literal">os.path.join</tt> method simply joins the path provided, <tt class="docutils literal">main_dir</tt>, and the pattern <tt class="docutils literal">header.csv</tt>. Basically the join method appends &quot;header.csv&quot; to the main folder path. In order to utilize the pattern the way I want to use it, that is, to catch any file that ends with &quot;header.csv&quot;, I used the glob library to expand this pattern to generalize to all files that match the pattern. The list comprehension creates a list of each file's absolute path but <tt class="docutils literal">os.path.basename</tt> extracts only the filename and extension from the absolute path. Again, a simple <tt class="docutils literal">for</tt> loop to iterate over each file would suffice in this case, but I included the <tt class="docutils literal">pattern</tt> and <tt class="docutils literal">all_header_files</tt> as a reference for myself and others when looking to do common file manipulation operations. See the <tt class="docutils literal">os.path</tt> <a class="reference external" href="https://docs.python.org/3.6/library/os.path.html">documentation</a> for more.</p>
 <p><tt class="docutils literal">is_word</tt>, as you might have guessed, searches for words in a given string. The raw character string <tt class="docutils literal"><span class="pre">r'\w'</span></tt> uses the Regular Expressions module to search for any alphanumeric character.</p>
 </div>
-<div class="section" id="the-load-headers-header-parser-function">
-<h2><a class="toc-backref" href="#id4"><strong>The load_headers (Header Parser) function</strong></a></h2>
+<div class="section" id="the-header-parser-function">
+<h2><a class="toc-backref" href="#id4"><strong>The Header Parser function</strong></a></h2>
 <p>The remainder of this blog post will cover the bulk of the script, which is the <tt class="docutils literal">load_headers</tt> function. This function loads in each CSV file, one at a time, parses and cleans the header data and saves the modified headers as a new file. This is necessary because the headers, when concatenated with the table data, would be horribly misaligned and would cascade down one to three rows if they were not parsed prior to joining the data.</p>
 <p>The function <tt class="docutils literal">load_headers</tt> first accepts a filename (for example &quot;2 header.csv&quot;). Below, the <tt class="docutils literal">open</tt> function creates a <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#open">file object</a> to be read by the <tt class="docutils literal">csv</tt> <a class="reference external" href="https://docs.python.org/3.6/library/csv.html">module</a> with the <tt class="docutils literal">.reader</tt> method.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_headers</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -305,7 +303,6 @@
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title"></div>
                         <ul class="list-unstyled">
-                            <li><a href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"></a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
