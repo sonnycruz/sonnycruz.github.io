@@ -26,7 +26,7 @@
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 &lt;span class="n"&gt;main_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;C:\Users\Username\Desktop\End-to-End-Data-Analysis\1. Get the Data\table&amp;quot;&lt;/span&gt;
-&lt;span class="n"&gt;parsed_header_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;C:\Users\storres.759NYY1\Desktop\End-to-End-Data-Analysis\1. Get the Data\header\frame.csv&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;parsed_header_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;C:\Users\Username\Desktop\End-to-End-Data-Analysis\1. Get the Data\header\frame.csv&amp;quot;&lt;/span&gt;
 &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;chdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;pattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*table.csv&amp;#39;&lt;/span&gt;
