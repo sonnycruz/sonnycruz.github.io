@@ -8,7 +8,7 @@
         <meta name="keywords" content="python, tutorial">
         <link rel="icon" href="../../../../favicon.ico">
 
-        <title>End-to-End Data Analysis Project: Part 3. Merge and Refine - Sonny's Blog</title>
+        <title>End-to-End Data Analysis Project: Part 3. Join and Stack - Sonny's Blog</title>
 
         <!-- Stylesheets -->
         <link href="../../../../theme/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +18,8 @@
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
+        <link href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Full Atom Feed" />
+        <link href="https://sonnycruz.github.io/feeds/python.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -54,7 +56,7 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">End-to-End Data Analysis Project: Part 3. Merge and Refine</h1>
+                      <h1 class="header-title">End-to-End Data Analysis Project: Part 3. Join and Stack</h1>
                       <p class="header-date"> <a href="../../../../author/sonny-torres.html">Sonny Torres</a>, Tue 23 April 2019,  <a href="../../../../category/python.html">Python</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
@@ -89,7 +91,7 @@
 </div>
 <div class="section" id="recap-of-part-1-2">
 <h2><a class="toc-backref" href="#id1"><strong>Recap of Part 1 &amp; 2:</strong></a></h2>
-<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces and polishing the final data set, the data will <em>finally</em> be ready for analysis in Part 4 of this Data Analysis Project series.</p>
+<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will <em>almost</em> be ready for analysis.</p>
 </div>
 <div class="section" id="join-tables-stack-the-headers">
 <h2><a class="toc-backref" href="#id2"><strong>Join Tables &amp; Stack the Headers</strong></a></h2>
@@ -159,13 +161,7 @@
     <span class="k">return</span> <span class="n">final</span>
 
 <span class="n">cmbs</span> <span class="o">=</span> <span class="n">final_stack_df</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">df_top_half</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">df_bottom_half</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">parsed_header_file</span><span class="p">)</span>
-<span class="n">cmbs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;CMBS Final.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
-
-<span class="c1">##headers.columns = [re.sub(r&#39;_\d&#39;, &#39; &#39;, col) for col in headers.columns]</span>
-<span class="c1">##headers.columns = [re.sub(r&#39;\s+&#39;, &#39; &#39;, col) for col in headers.columns]</span>
-<span class="c1">##headers.columns = [val.strip() for val in headers.columns]</span>
-<span class="c1">##other.columns = headers.columns</span>
-<span class="c1">##other.to_csv(&#39;jpc11c05.csv&#39;, index=False, encoding=&#39;ISO-8859-1&#39;)</span>
+<span class="n">cmbs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;CMBS Table.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
 </pre></div>
 <p>The overall code structure (i.e. many helper functions to process data in CSV files) is similar to my previous post where I parsed the header data. Luckily, the table data is far less complicated and requires just one parsing function, <tt class="docutils literal">blank_rows</tt>, while the rest of the script is simply appending the top half of the table to one list and the bottom half of the table to another list. In the table illustration shown earlier in this post, tables 1 and 2 would be the &quot;top half&quot; and tables 3 and 4 would be the &quot;bottom half&quot;.</p>
 <p>Because I have elaborated on similar code in Posts 1 &amp; 2, I will break down the functionality of the code starting with the <tt class="docutils literal">blank_rows</tt> function.</p>
@@ -260,8 +256,9 @@
 <h2><a class="toc-backref" href="#id8"><strong>Create the Final Dataframe</strong></a></h2>
 <p>Finally, final dataframe is created by utilizing the <tt class="docutils literal">final_stack_df</tt> function and then saving the resultant dataframe to a CSV.</p>
 <div class="highlight"><pre><span></span><span class="n">cmbs</span> <span class="o">=</span> <span class="n">final_stack_df</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">df_top_half</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">df_bottom_half</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">parsed_header_file</span><span class="p">)</span>
-<span class="n">cmbs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;CMBS Final.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
+<span class="n">cmbs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;CMBS Table.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
 </pre></div>
+<p>In the next post, I will refine and clean up the final dataset in order for it to be ready for analysis.</p>
 </div>
 
 
@@ -277,6 +274,7 @@
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title"></div>
                         <ul class="list-unstyled">
+                            <li><a href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"></a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">

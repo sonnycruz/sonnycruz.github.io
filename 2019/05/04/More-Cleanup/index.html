@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Contents Recap of Part 3 Return of the Headers Weapon of Choice The Code The Headers: Before Delete Duplicate Columns Clean Up Headers (again) Delete Columns with All NA Values Headers: After...">
+        <meta name="keywords" content="python, tutorial">
+        <link rel="icon" href="../../../../favicon.ico">
+
+        <title>End-to-End Data Analysis Project: Part 4. More Cleanup!?! - Sonny's Blog</title>
+
+        <!-- Stylesheets -->
+        <link href="../../../../theme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../../theme/css/fonts.css" rel="stylesheet">
+        <link href="../../../../theme/css/nest.css" rel="stylesheet">
+        <link href="../../../../theme/css/pygment.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Full Atom Feed" />
+        <link href="https://sonnycruz.github.io/feeds/python.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../../../images/art-artistic-background-247676.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="../../../../"><img class="mr20" src="../../../../images/blank.png" alt="logo">Sonny's Blog</a>
+                    </div>
+                    <div class="nav pull-right">
+                            <a  href="../../../../pages/about-me.html">About Me</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">End-to-End Data Analysis Project: Part 4. More Cleanup!?!</h1>
+                      <p class="header-date"> <a href="../../../../author/sonny-torres.html">Sonny Torres</a>, Sat 04 May 2019,  <a href="../../../../category/python.html">Python</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="../../../../tag/python.html">python</a>, <a href="../../../../tag/tutorial.html">tutorial</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#recap-of-part-3" id="id1"><strong>Recap of Part 3</strong></a></li>
+<li><a class="reference internal" href="#return-of-the-headers" id="id2"><strong>Return of the Headers</strong></a></li>
+<li><a class="reference internal" href="#weapon-of-choice" id="id3"><strong>Weapon of Choice</strong></a></li>
+<li><a class="reference internal" href="#the-code" id="id4"><strong>The Code</strong></a></li>
+<li><a class="reference internal" href="#the-headers-before" id="id5"><strong>The Headers: Before</strong></a></li>
+<li><a class="reference internal" href="#delete-duplicate-columns" id="id6"><strong>Delete Duplicate Columns</strong></a></li>
+<li><a class="reference internal" href="#clean-up-headers-again" id="id7"><strong>Clean Up Headers (again)</strong></a></li>
+<li><a class="reference internal" href="#delete-columns-with-all-na-values" id="id8"><strong>Delete Columns with All NA Values</strong></a></li>
+<li><a class="reference internal" href="#headers-after" id="id9"><strong>Headers: After</strong></a></li>
+</ul>
+</div>
+<div class="section" id="recap-of-part-3">
+<h2><a class="toc-backref" href="#id1"><strong>Recap of Part 3</strong></a></h2>
+<p>The CMBS Loan data has been <a class="reference external" href="../../../../2018/12/23/Getting-Data/">scraped</a>, the headers have been <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">parsed</a>, the tables and headers have been <a class="reference external" href="../../../../2019/04/23/Join-Stack/">joined</a> and we can now refine the final dataset that will be used for analysis. Thanks to the meticulous extraction and parsing of the data thus far, there are only minor refinements left to do - most of which are just out of preference and for convenience.</p>
+</div>
+<div class="section" id="return-of-the-headers">
+<h2><a class="toc-backref" href="#id2"><strong>Return of the Headers</strong></a></h2>
+<p>After an entire <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">post</a> was dedicated entirely to parsing header data, there are still some ways that the headers could be better. It is important to be able to access columns with as much convenience and ease as possible since indexing by column name is one of the most common operations used while working with data with the Pandas library. Below are the minor changes I will make to the headers and, in some cases, entire columns.</p>
+<ol class="arabic simple">
+<li>Fix inconsistent spacing in headers.</li>
+<li>Delete unnecessary symbols and parenthesis.</li>
+<li>Delete duplicate columns.</li>
+<li>Delete columns that are completely empty.</li>
+</ol>
+</div>
+<div class="section" id="weapon-of-choice">
+<h2><a class="toc-backref" href="#id3"><strong>Weapon of Choice</strong></a></h2>
+<p>Since much of cleaning that I want to do involves parsing and locating string patterns, I will be utilizing <a class="reference external" href="https://docs.python.org/3/library/re.html">Regular Expressions</a> in conjunction with the <a class="reference external" href="https://pandas.pydata.org/">Pandas</a> library.</p>
+</div>
+<div class="section" id="the-code">
+<h2><a class="toc-backref" href="#id4"><strong>The Code</strong></a></h2>
+<p>Below is code that I will be covering in this post.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">main_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Users\Username\Desktop\End-to-End-Data-Analysis\1. Get the Data\table&#39;</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;CMBS Final.csv&#39;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">main_dir</span><span class="p">)</span>
+
+<span class="n">cmbs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
+
+<span class="c1"># Delete extra Loan &amp; Seller columns</span>
+<span class="n">loan_seller_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;(^Loan\s#|^Seller|^Property\sName)&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)][</span><span class="mi">3</span><span class="p">:]</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">loan_seller_cols</span><span class="p">:</span>
+    <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Regex to edit headers</span>
+<span class="n">regex_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_\d&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\(.+\)+&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\/&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\s\s+&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;^\s+&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\s+$&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">regex_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="c1"># Delete</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cmbs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">continue</span>
+</pre></div>
+</div>
+<div class="section" id="the-headers-before">
+<h2><a class="toc-backref" href="#id5"><strong>The Headers: Before</strong></a></h2>
+<p>Loading the CSV file produced in <a class="reference external" href="../../../../2019/04/23/Join-Stack/">Post 3</a> and calling <tt class="docutils literal">print(cmbs.columns.values)</tt> outputs the following:</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Loan #&#39;</span> <span class="s1">&#39;Seller(1)&#39;</span> <span class="s1">&#39;Property Name&#39;</span> <span class="s1">&#39;Street Address&#39;</span> <span class="s1">&#39;City&#39;</span> <span class="s1">&#39;State&#39;</span>
+ <span class="s1">&#39;Zip Code&#39;</span> <span class="s1">&#39;County&#39;</span> <span class="s1">&#39;Number of Properties&#39;</span> <span class="s1">&#39;Property_2 Type&#39;</span>
+ <span class="s1">&#39;Property_9 Subtype&#39;</span> <span class="s1">&#39;Year Built&#39;</span> <span class="s1">&#39;Year Renovated&#39;</span> <span class="s1">&#39;Loan #.1&#39;</span>
+ <span class="s1">&#39;Seller(1).1&#39;</span> <span class="s1">&#39;Property Name.1&#39;</span> <span class="s1">&#39;Units(2)&#39;</span> <span class="s1">&#39;Unit of  Measure&#39;</span>
+ <span class="s1">&#39;Occupancy %&#39;</span> <span class="s1">&#39;Occupancy Date&#39;</span> <span class="s1">&#39;Appraised Value ($)(3)&#39;</span>
+ <span class="s1">&#39;Appraisal Date(3)&#39;</span> <span class="s1">&#39;Current_4 LTV %(3)&#39;</span> <span class="s1">&#39;Original Balance ($)(4)_7&#39;</span>
+ <span class="s1">&#39;Original Balance_4 per Unit ($)_9&#39;</span> <span class="s1">&#39;Current_9 Balance ($)(4)_1&#39;</span>
+ <span class="s1">&#39;Current Balance_0 per Unit ($)_8&#39;</span> <span class="s1">&#39;</span><span class="si">% o</span><span class="s1">f Initial Pool Balance&#39;</span>
+ <span class="s1">&#39;Crossed Loan&#39;</span> <span class="s1">&#39;Related Borrower(5)&#39;</span> <span class="s1">&#39;Interest Rate %(6)_9&#39;</span>
+ <span class="s1">&#39;Admin. Fee %(6)&#39;</span> <span class="s1">&#39;Net Mortgage Rate %(6)_2&#39;</span> <span class="s1">&#39;Accrual Type&#39;</span> <span class="s1">&#39;Loan #.2&#39;</span>
+ <span class="s1">&#39;Seller(1).2&#39;</span> <span class="s1">&#39;Property Name.2&#39;</span> <span class="s1">&#39;Monthly Debt Service ($)(7)&#39;</span>
+ <span class="s1">&#39;Annual Debt Service ($)(8)&#39;</span> <span class="s1">&#39;Note Date&#39;</span> <span class="s1">&#39;First Payment Date(9)&#39;</span>
+ <span class="s1">&#39;Partial IO Last IO Payment&#39;</span> <span class="s1">&#39;Partial IO Loan First P&amp;I Payment&#39;</span>
+ <span class="s1">&#39;Rem._3  Term(9)&#39;</span> <span class="s1">&#39;Rem._8  Amort&#39;</span> <span class="s1">&#39;I/O Period(9)(10)&#39;</span> <span class="s1">&#39;Seasoning&#39;</span>
+ <span class="s1">&#39;Payment Due Date&#39;</span> <span class="s1">&#39;Grace Period_4  (Late Payment)&#39;</span>
+ <span class="s1">&#39;Grace Period_4  (Default)&#39;</span> <span class="s1">&#39;Maturity Date&#39;</span> <span class="s1">&#39;ARD Loan(11)&#39;</span>
+ <span class="s1">&#39;Final Mat Date(11)&#39;</span> <span class="s1">&#39;Maturity/ARD Balance ($)(4)&#39;</span> <span class="s1">&#39;Maturity LTV %(3)&#39;</span>
+ <span class="s1">&#39;Loan #.3&#39;</span> <span class="s1">&#39;Seller(1).3&#39;</span> <span class="s1">&#39;Property Name.3&#39;</span>
+ <span class="s1">&#39;Prepayment Provision (Payments)(9)(12)(13)&#39;</span> <span class="s1">&#39;2008_7 Revenues ($)_9&#39;</span>
+ <span class="s1">&#39;2008_0 Total Expenses ($)_5&#39;</span> <span class="s1">&#39;2008_4 NOI ($)_5&#39;</span> <span class="s1">&#39;2009_2 Revenues ($)_2&#39;</span>
+ <span class="s1">&#39;2009_3 Total Expenses ($)_9&#39;</span> <span class="s1">&#39;2009_0 NOI ($)_8&#39;</span> <span class="s1">&#39;2010_3 Revenues ($)_7&#39;</span>
+ <span class="s1">&#39;2010_5 Total Expenses ($)_6&#39;</span> <span class="s1">&#39;2010_6 NOI ($)_0&#39;</span>
+ <span class="s1">&#39;Most Recent_3  Revenues ($)&#39;</span> <span class="s1">&#39;Most Recent_1  Total Expenses ($)&#39;</span>
+ <span class="s1">&#39;Most Recent_9  NOI ($)(14)&#39;</span> <span class="s1">&#39;As of&#39;</span> <span class="s1">&#39;Loan #.4&#39;</span> <span class="s1">&#39;Seller(1).4&#39;</span>
+ <span class="s1">&#39;Property Name.4&#39;</span> <span class="s1">&#39;UW Economic Occupancy %&#39;</span> <span class="s1">&#39;UW_8 Revenues ($)&#39;</span>
+ <span class="s1">&#39;UW Total Expenses ($)&#39;</span> <span class="s1">&#39;UW NOI ($)(14)&#39;</span> <span class="s1">&#39;UW_8  Capital Items ($)&#39;</span>
+ <span class="s1">&#39;UW NCF ($)(14)&#39;</span> <span class="s1">&#39;UW_7  NOI DSCR(14)&#39;</span> <span class="s1">&#39;UW NCF_7 DSCR(14)&#39;</span>
+ <span class="s1">&#39;UW NOI Debt Yield %&#39;</span> <span class="s1">&#39;UW NCF_5  Debt Yield %&#39;</span> <span class="s1">&#39;Title Type&#39;</span>
+ <span class="s1">&#39;Ground Lease_9  Expiration&#39;</span> <span class="s1">&#39;Ground Lease_6  Extension Terms&#39;</span> <span class="s1">&#39;PML %&#39;</span>
+ <span class="s1">&#39;Loan #.5&#39;</span> <span class="s1">&#39;Seller(1).5&#39;</span> <span class="s1">&#39;Property Name.5&#39;</span> <span class="s1">&#39;Upfront Capex Reserve ($)_6&#39;</span>
+ <span class="s1">&#39;Upfront Engin. Reserve ($)_2&#39;</span> <span class="s1">&#39;Upfront Envir.  Reserve ($)&#39;</span>
+ <span class="s1">&#39;Upfront TI/LC Reserve ($)_4&#39;</span> <span class="s1">&#39;Upfront RE Tax Reserve ($)_8&#39;</span>
+ <span class="s1">&#39;Upfront Ins. Reserve ($)_7&#39;</span> <span class="s1">&#39;Upfront Other Reserve ($)_3&#39;</span> <span class="s1">&#39;Unnamed: 99&#39;</span>
+ <span class="s1">&#39;Monthly Capex Reserve ($)_0&#39;</span> <span class="s1">&#39;Monthly Envir. Reserve ($)_0&#39;</span>
+ <span class="s1">&#39;Monthly TI/LC Reserve ($)_2&#39;</span> <span class="s1">&#39;Monthly RE Tax Reserve ($)_3&#39;</span>
+ <span class="s1">&#39;Monthly Ins. Reserve ($)_2&#39;</span> <span class="s1">&#39;Monthly Other Reserve ($)_0&#39;</span> <span class="s1">&#39;Loan #.6&#39;</span>
+ <span class="s1">&#39;Seller(1).6&#39;</span> <span class="s1">&#39;Property Name.6&#39;</span> <span class="s1">&#39;Capex  Reserve Cap ($)_3&#39;</span>
+ <span class="s1">&#39;Envir.  Reserve Cap ($)_8&#39;</span> <span class="s1">&#39;TI/LC  Reserve Cap ($)_3&#39;</span>
+ <span class="s1">&#39;RE Tax  Reserve Cap ($)_7&#39;</span> <span class="s1">&#39;Insur.  Reserve Cap ($)_5&#39;</span>
+ <span class="s1">&#39;Debt Service  Reserve Cap ($)_3&#39;</span> <span class="s1">&#39;Other  Reserve Cap ($)_8&#39;</span>
+ <span class="s1">&#39;Unnamed: 10_level_1&#39;</span> <span class="s1">&#39;Single Tenant&#39;</span> <span class="s1">&#39;Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size_8&#39;</span>
+ <span class="s1">&#39;Lease_6 Expiration_3&#39;</span> <span class="s1">&#39;Unnamed: 121&#39;</span> <span class="s1">&#39;2nd Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size_9&#39;</span>
+ <span class="s1">&#39;Lease_5 Expiration_1&#39;</span> <span class="s1">&#39;Loan #.7&#39;</span> <span class="s1">&#39;Seller(1).7&#39;</span> <span class="s1">&#39;Property Name.7&#39;</span>
+ <span class="s1">&#39;3rd Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size_4&#39;</span> <span class="s1">&#39;Lease_9 Expiration_2&#39;</span> <span class="s1">&#39;Unnamed: 131&#39;</span>
+ <span class="s1">&#39;4th Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size_5&#39;</span> <span class="s1">&#39;Lease_3 Expiration_8&#39;</span>
+ <span class="s2">&quot;( &#39;     &#39; ,   &#39;     &#39; ) . 1&quot;</span> <span class="s1">&#39;5th Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size_6&#39;</span>
+ <span class="s1">&#39;Lease_5 Expiration_3&#39;</span> <span class="s1">&#39;Loan Purpose&#39;</span> <span class="s1">&#39;Loan #.8&#39;</span> <span class="s1">&#39;Seller(1).8&#39;</span>
+ <span class="s1">&#39;Property Name.8&#39;</span> <span class="s1">&#39;Principal / Carveout Guarantor(20)&#39;</span> <span class="s1">&#39;Lockbox_1  (Y/N)&#39;</span>
+ <span class="s1">&#39;Lockbox_3  Type(21)&#39;</span> <span class="s1">&#39;Additional Debt_2  Permitted (Y/N)&#39;</span>
+ <span class="s1">&#39;Additional Debt_0  Exist (Y/N)(22)&#39;</span> <span class="s1">&#39;Additional Debt_7  Amount ($)(22)&#39;</span>
+ <span class="s1">&#39;Additional Debt_6  Type(22)&#39;</span> <span class="s1">&#39;Total Debt_5 Current Balance ($)&#39;</span>
+ <span class="s1">&#39;Total Debt_9  UW NCF  DSCR&#39;</span> <span class="s1">&#39;Total Debt Current LTV %&#39;</span>
+ <span class="s1">&#39;Total Debt_0  UW NOI  Debt Yield %&#39;</span> <span class="s1">&#39;Loan #_3&#39;</span> <span class="s1">&#39;Seller(1).9&#39;</span>
+ <span class="s1">&#39;Property Name.9&#39;</span> <span class="s1">&#39;2008_0 Occupancy %_8&#39;</span> <span class="s1">&#39;2008_4  ADR ($)_9&#39;</span>
+ <span class="s1">&#39;2008_2  RevPAR ($)_8&#39;</span> <span class="s1">&#39;2009_9  Occupancy %_9&#39;</span> <span class="s1">&#39;2009_9  ADR ($)_7&#39;</span>
+ <span class="s1">&#39;2009_8  RevPAR ($)_6&#39;</span> <span class="s1">&#39;2010_3  Occupancy %_0&#39;</span> <span class="s1">&#39;2010_1  ADR ($)_6&#39;</span>
+ <span class="s1">&#39;2010_6  RevPAR ($)_4&#39;</span> <span class="s1">&#39;Most Recent_2  Occupancy %_3&#39;</span>
+ <span class="s1">&#39;Most Recent_5  ADR ($)_6&#39;</span> <span class="s1">&#39;Most Recent_1  RevPAR ($)_6&#39;</span>
+ <span class="s1">&#39;UW_1 Occupancy %_0&#39;</span> <span class="s1">&#39;UW_8  ADR ($)_9&#39;</span> <span class="s1">&#39;UW_5  RevPAR ($)_8&#39;</span> <span class="s1">&#39;Loan #_7&#39;</span><span class="p">]</span>
+</pre></div>
+<p>There are a number of duplicate columns, numbers appended to column names and other messy symbols that can be deleted. Deleting the various symbols and duplicate columns is relatively easy when utilizing Regular Expressions and iterating over each header.</p>
+</div>
+<div class="section" id="delete-duplicate-columns">
+<h2><a class="toc-backref" href="#id6"><strong>Delete Duplicate Columns</strong></a></h2>
+<p>The duplicate columns stem from the fact that my data source was arranged such that each table of data always contained three specific columns <em>(Loan, Seller &amp; Property Name)</em>. Rather than deleting each observation individually, I decided to create a list of duplicate column names to iterate over which would be used to identify the various columns I want to delete.</p>
+<div class="highlight"><pre><span></span><span class="n">loan_seller_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;(^Loan\s#|^Seller|^Property\sName)&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)][</span><span class="mi">3</span><span class="p">:]</span>
+</pre></div>
+<p>The list comprehension above creates a list of columns by iterating over every column in the dataframe and appending to the list the column names that are one of the three repeated columns.
+The Regular Expression pattern is a group of three individual regex patterns separated <tt class="docutils literal">|</tt> meaning &quot;or&quot;. So, if a given column starts with (<tt class="docutils literal">^</tt> the carrot indicating the pattern is at the beginning of a string) &quot;Loan #&quot;, or &quot;Seller&quot; or &quot;Property Name&quot;, the column value is returned if <tt class="docutils literal">re.search</tt> is <tt class="docutils literal">True</tt>, meaning one of the three subject columns have been found.
+An important note is that I did not want to delete <em>all</em> columns that matches with this pattern. Indexing the list with <tt class="docutils literal">[3:]</tt> skips the first three values because those first three observations of &quot;Loan&quot;, &quot;Seller&quot;, &quot;Property Name&quot; are the <em>good</em> columns I wanted to keep.
+Below, I used a <tt class="docutils literal">for</tt> loop to iterate over the duplicate columns to delete.</p>
+<p>FOR LOOP</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">loan_seller_cols</span><span class="p">:</span>
+    <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+<p>Specifying <tt class="docutils literal">axis=1</tt> will cause the columns to be dropped and <tt class="docutils literal">inplace=True</tt> ensures that the deletions are permanent.</p>
+</div>
+<div class="section" id="clean-up-headers-again">
+<h2><a class="toc-backref" href="#id7"><strong>Clean Up Headers (again)</strong></a></h2>
+<p>There are many ways to creatively use Regular Expressions to complete a given task. I used a dictionary of Regular Expressions patterns with patterns to identify as the dictionary keys and the respective dictionary values were the strings I wanted to replace the matched word with. I got the idea from <a class="reference external" href="http://code.activestate.com/recipes/81330-single-pass-multiple-replace/">this code</a> I found and made a more elementary version of it.</p>
+<div class="highlight"><pre><span></span><span class="n">regex_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_\d&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\(.+\)+&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\/&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\s\s+&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;^\s+&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\s+$&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+</pre></div>
+<p>The regex patterns above are explained below.</p>
+<ul class="simple">
+<li><tt class="docutils literal">'_\d'</tt> an underscore immediately followed by an numerical digit.</li>
+<li><tt class="docutils literal"><span class="pre">'\(.+\)+'</span></tt> parentheses containing one or more characters inside them.</li>
+<li><tt class="docutils literal">'#'</tt>, <tt class="docutils literal">'%'</tt> literal matches of the hashtag and percent symbols.</li>
+<li><tt class="docutils literal"><span class="pre">r'\/'</span></tt> forward slash.</li>
+<li><tt class="docutils literal">'\s\s+'</tt> a space followed by one or more spaces.</li>
+<li><tt class="docutils literal">^\s+'</tt> any space occuring one or more times at the beginning of a string.</li>
+<li><tt class="docutils literal"><span class="pre">'\s+?'</span></tt> any space occuring one or more times at the end of a string.</li>
+</ul>
+<p>Now, I can iterate over the dictionary <tt class="docutils literal">regex_dict</tt> to output and use each dictionary key (the regex pattern) and value (the replacement strings)</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">regex_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+<p>The <tt class="docutils literal">for</tt> loop modifies all columns slightly for each iteration until every regex pattern in the dictionary has been located in the headers and then replaced with replaced with an empty string. All of the replacement values are an empty string except for the one for <tt class="docutils literal">\s\s+</tt> which is replaced by a single space because I want to preserve spaces, I just don't want to have inconsistent spacing.</p>
+</div>
+<div class="section" id="delete-columns-with-all-na-values">
+<h2><a class="toc-backref" href="#id8"><strong>Delete Columns with All NA Values</strong></a></h2>
+<p>As covered in my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">second post</a>, the data I scraped is encoded using the Windows-1252 encoding and Python's default encoding is UTF-8. So, in order to recognize columns which are entirely filled with &quot;NA&quot; values, the column values must be normalized for Unicode first.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cmbs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">continue</span>
+</pre></div>
+<p>Because the &quot;NA&quot; values I am looking for are not actually NA values but non-breaking space characters which, when normalized for Unicode, appear as two single spaces <tt class="docutils literal">'&nbsp; '</tt>, the columns I am looking to delete are completely filled with these double-spaced strings.
+The Pandas library has this really cool feature called &quot;Method Chaining&quot; where you can apply a series of transformations to a dataset by &quot;chaining&quot; multiple Class methods together. So, by calling <tt class="docutils literal"><span class="pre">.str.normalize('NFKD').str.match('</span>&nbsp; <span class="pre">').all()</span></tt> on a given column, I can normalize the column to Unicode, search for string matches and produce a True if all of the column values match the double-space string pattern.
+The <tt class="docutils literal">for</tt> loop is organized by the <tt class="docutils literal">try</tt> / <tt class="docutils literal">except</tt> Python control flow because not all column values are loaded as strings by default and Python produces an <tt class="docutils literal">AttributeError</tt> when a program tries to normalize a non-string object.</p>
+</div>
+<div class="section" id="headers-after">
+<h2><a class="toc-backref" href="#id9"><strong>Headers: After</strong></a></h2>
+<p>Now calling <tt class="docutils literal">print(cmbs.columns.values)</tt> will produce:</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Loan&#39;</span> <span class="s1">&#39;Seller&#39;</span> <span class="s1">&#39;Property Name&#39;</span> <span class="s1">&#39;Street Address&#39;</span> <span class="s1">&#39;City&#39;</span> <span class="s1">&#39;State&#39;</span>
+ <span class="s1">&#39;Zip Code&#39;</span> <span class="s1">&#39;County&#39;</span> <span class="s1">&#39;Number of Properties&#39;</span> <span class="s1">&#39;Property Type&#39;</span>
+ <span class="s1">&#39;Property Subtype&#39;</span> <span class="s1">&#39;Year Built&#39;</span> <span class="s1">&#39;Year Renovated&#39;</span> <span class="s1">&#39;Units&#39;</span>
+ <span class="s1">&#39;Unit of Measure&#39;</span> <span class="s1">&#39;Occupancy&#39;</span> <span class="s1">&#39;Occupancy Date&#39;</span> <span class="s1">&#39;Appraised Value&#39;</span>
+ <span class="s1">&#39;Appraisal Date&#39;</span> <span class="s1">&#39;Current LTV&#39;</span> <span class="s1">&#39;Original Balance&#39;</span>
+ <span class="s1">&#39;Original Balance per Unit&#39;</span> <span class="s1">&#39;Current Balance&#39;</span> <span class="s1">&#39;Current Balance per Unit&#39;</span>
+ <span class="s1">&#39;of Initial Pool Balance&#39;</span> <span class="s1">&#39;Crossed Loan&#39;</span> <span class="s1">&#39;Related Borrower&#39;</span>
+ <span class="s1">&#39;Interest Rate&#39;</span> <span class="s1">&#39;Admin. Fee&#39;</span> <span class="s1">&#39;Net Mortgage Rate&#39;</span> <span class="s1">&#39;Accrual Type&#39;</span>
+ <span class="s1">&#39;Monthly Debt Service&#39;</span> <span class="s1">&#39;Annual Debt Service&#39;</span> <span class="s1">&#39;Note Date&#39;</span>
+ <span class="s1">&#39;First Payment Date&#39;</span> <span class="s1">&#39;Partial IO Last IO Payment&#39;</span>
+ <span class="s1">&#39;Partial IO Loan First P&amp;I Payment&#39;</span> <span class="s1">&#39;Rem. Term&#39;</span> <span class="s1">&#39;Rem. Amort&#39;</span> <span class="s1">&#39;IO Period&#39;</span>
+ <span class="s1">&#39;Seasoning&#39;</span> <span class="s1">&#39;Payment Due Date&#39;</span> <span class="s1">&#39;Grace Period&#39;</span> <span class="s1">&#39;Grace Period&#39;</span>
+ <span class="s1">&#39;Maturity Date&#39;</span> <span class="s1">&#39;ARD Loan&#39;</span> <span class="s1">&#39;Final Mat Date&#39;</span> <span class="s1">&#39;MaturityARD Balance&#39;</span>
+ <span class="s1">&#39;Maturity LTV&#39;</span> <span class="s1">&#39;Prepayment Provision&#39;</span> <span class="s1">&#39;2008 Revenues&#39;</span>
+ <span class="s1">&#39;2008 Total Expenses&#39;</span> <span class="s1">&#39;2008 NOI&#39;</span> <span class="s1">&#39;2009 Revenues&#39;</span> <span class="s1">&#39;2009 Total Expenses&#39;</span>
+ <span class="s1">&#39;2009 NOI&#39;</span> <span class="s1">&#39;2010 Revenues&#39;</span> <span class="s1">&#39;2010 Total Expenses&#39;</span> <span class="s1">&#39;2010 NOI&#39;</span>
+ <span class="s1">&#39;Most Recent Revenues&#39;</span> <span class="s1">&#39;Most Recent Total Expenses&#39;</span> <span class="s1">&#39;Most Recent NOI&#39;</span>
+ <span class="s1">&#39;As of&#39;</span> <span class="s1">&#39;UW Economic Occupancy&#39;</span> <span class="s1">&#39;UW Revenues&#39;</span> <span class="s1">&#39;UW Total Expenses&#39;</span>
+ <span class="s1">&#39;UW NOI&#39;</span> <span class="s1">&#39;UW Capital Items&#39;</span> <span class="s1">&#39;UW NCF&#39;</span> <span class="s1">&#39;UW NOI DSCR&#39;</span> <span class="s1">&#39;UW NCF DSCR&#39;</span>
+ <span class="s1">&#39;UW NOI Debt Yield&#39;</span> <span class="s1">&#39;UW NCF Debt Yield&#39;</span> <span class="s1">&#39;Title Type&#39;</span>
+ <span class="s1">&#39;Ground Lease Expiration&#39;</span> <span class="s1">&#39;Ground Lease Extension Terms&#39;</span> <span class="s1">&#39;PML&#39;</span>
+ <span class="s1">&#39;Upfront Capex Reserve&#39;</span> <span class="s1">&#39;Upfront Engin. Reserve&#39;</span> <span class="s1">&#39;Upfront Envir. Reserve&#39;</span>
+ <span class="s1">&#39;Upfront TILC Reserve&#39;</span> <span class="s1">&#39;Upfront RE Tax Reserve&#39;</span> <span class="s1">&#39;Upfront Ins. Reserve&#39;</span>
+ <span class="s1">&#39;Upfront Other Reserve&#39;</span> <span class="s1">&#39;Monthly Capex Reserve&#39;</span> <span class="s1">&#39;Monthly Envir. Reserve&#39;</span>
+ <span class="s1">&#39;Monthly TILC Reserve&#39;</span> <span class="s1">&#39;Monthly RE Tax Reserve&#39;</span> <span class="s1">&#39;Monthly Ins. Reserve&#39;</span>
+ <span class="s1">&#39;Monthly Other Reserve&#39;</span> <span class="s1">&#39;Capex Reserve Cap&#39;</span> <span class="s1">&#39;TILC Reserve Cap&#39;</span>
+ <span class="s1">&#39;Single Tenant&#39;</span> <span class="s1">&#39;Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size&#39;</span> <span class="s1">&#39;Lease Expiration&#39;</span>
+ <span class="s1">&#39;2nd Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size&#39;</span> <span class="s1">&#39;Lease Expiration&#39;</span> <span class="s1">&#39;3rd Largest Tenant&#39;</span>
+ <span class="s1">&#39;Unit Size&#39;</span> <span class="s1">&#39;Lease Expiration&#39;</span> <span class="s1">&#39;4th Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size&#39;</span>
+ <span class="s1">&#39;Lease Expiration&#39;</span> <span class="s1">&#39;5th Largest Tenant&#39;</span> <span class="s1">&#39;Unit Size&#39;</span> <span class="s1">&#39;Lease Expiration&#39;</span>
+ <span class="s1">&#39;Loan Purpose&#39;</span> <span class="s1">&#39;Principal Carveout Guarantor&#39;</span> <span class="s1">&#39;Lockbox&#39;</span> <span class="s1">&#39;Lockbox Type&#39;</span>
+ <span class="s1">&#39;Additional Debt Permitted&#39;</span> <span class="s1">&#39;Additional Debt Exist&#39;</span>
+ <span class="s1">&#39;Additional Debt Amount&#39;</span> <span class="s1">&#39;Additional Debt Type&#39;</span>
+ <span class="s1">&#39;Total Debt Current Balance&#39;</span> <span class="s1">&#39;Total Debt UW NCF DSCR&#39;</span>
+ <span class="s1">&#39;Total Debt Current LTV&#39;</span> <span class="s1">&#39;Total Debt UW NOI Debt Yield&#39;</span> <span class="s1">&#39;2008 Occupancy&#39;</span>
+ <span class="s1">&#39;2008 ADR&#39;</span> <span class="s1">&#39;2008 RevPAR&#39;</span> <span class="s1">&#39;2009 Occupancy&#39;</span> <span class="s1">&#39;2009 ADR&#39;</span> <span class="s1">&#39;2009 RevPAR&#39;</span>
+ <span class="s1">&#39;2010 Occupancy&#39;</span> <span class="s1">&#39;2010 ADR&#39;</span> <span class="s1">&#39;2010 RevPAR&#39;</span> <span class="s1">&#39;Most Recent Occupancy&#39;</span>
+ <span class="s1">&#39;Most Recent ADR&#39;</span> <span class="s1">&#39;Most Recent RevPAR&#39;</span> <span class="s1">&#39;UW Occupancy&#39;</span> <span class="s1">&#39;UW ADR&#39;</span>
+ <span class="s1">&#39;UW RevPAR&#39;</span><span class="p">]</span>
+</pre></div>
+<p>The duplciate columns are gone, the annoying symbols are gone and the data is generally much cleaner. Next, I will... <em>actually</em> begin analyzing the data.</p>
+</div>
+
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title"></div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title"></div>
+                        <ul class="list-unstyled">
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="#" target="_blank"></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title"></div>
+                        <ul class="list-unstyled">
+                            <li><a href="linkedin.com/in/sonny-torres-6738b780" target="_blank">LinkedIn</a></li>
+                            <li><a href="https://github.com/sonnycruz" target="_blank">Github</a></li>
+                            <li><a href="https://twitter.com/sonnyctorres" target="_blank">Twitter</a></li>
+                            <li><a href="#" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
