@@ -6,15 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Contents Recap of Part 1 &amp; 2 Join Tables &amp; Stack the Headers The Code to Concatenate and Join the Data header vs. &#34;not header&#34; blank_rows function Iterate Table Files Join and Stack Create the...">
         <meta name="keywords" content="python, tutorial">
-        <link rel="icon" href="../../../../favicon.ico">
+        <link rel="icon" href="https://sonnycruz.github.io/favicon.ico">
 
         <title>End-to-End Data Analysis Project: Part 3. Join and Stack - Sonny's Blog</title>
 
         <!-- Stylesheets -->
-        <link href="../../../../theme/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../../theme/css/fonts.css" rel="stylesheet">
-        <link href="../../../../theme/css/nest.css" rel="stylesheet">
-        <link href="../../../../theme/css/pygment.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/fonts.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/nest.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/pygment.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -35,16 +35,16 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../../../images/art-artistic-background-247676.jpg'); background-position: center; background-size: cover;">
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://sonnycruz.github.io/images/art-artistic-background-247676.jpg'); background-position: center; background-size: cover;">
 
             <!-- Static navbar -->
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="../../../../"><img class="mr20" src="../../../../images/blank.png" alt="logo">Sonny's Blog</a>
+                        <a class="pull-left" href="https://sonnycruz.github.io/"><img class="mr20" src="https://sonnycruz.github.io/images/blank.png" alt="logo">Sonny's Blog</a>
                     </div>
                     <div class="nav pull-right">
-                            <a  href="../../../../pages/about-me.html">About Me</a>
+                            <a  href="https://sonnycruz.github.io/pages/about-me.html">About Me</a>
                     </div>
                 </div>
             </div>
@@ -57,12 +57,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">End-to-End Data Analysis Project: Part 3. Join and Stack</h1>
-                      <p class="header-date"> <a href="../../../../author/sonny-torres.html">Sonny Torres</a>, Tue 23 April 2019,  <a href="../../../../category/python.html">Python</a></p>
+                      <p class="header-date"> <a href="https://sonnycruz.github.io/author/sonny-torres.html">Sonny Torres</a>, Tue 23 April 2019,  <a href="https://sonnycruz.github.io/category/python.html">Python</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="../../../../tag/python.html">python</a>, <a href="../../../../tag/tutorial.html">tutorial</a>                      </p>
+<a href="https://sonnycruz.github.io/tag/python.html">python</a>, <a href="https://sonnycruz.github.io/tag/tutorial.html">tutorial</a>                      </p>
                   </div>
               </div>
         </div>
@@ -91,7 +91,7 @@
 </div>
 <div class="section" id="recap-of-part-1-2">
 <h2><a class="toc-backref" href="#id1"><strong>Recap of Part 1 &amp; 2</strong></a></h2>
-<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will <em>almost</em> be ready for analysis..</p>
+<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will <em>almost</em> be ready for analysis..</p>
 </div>
 <div class="section" id="join-tables-stack-the-headers">
 <h2><a class="toc-backref" href="#id2"><strong>Join Tables &amp; Stack the Headers</strong></a></h2>
@@ -171,7 +171,7 @@
 <p>In my first post, the code was structured so that, with carefully considered criteria, a single header row would be identifiable and distinguished from other rows. For <em>all</em> other rows that didn't meet the special header criteria, they were considered table data and organized as such. However, in the HTML file, there are a few rows which are neither Had my code been built to recognize header <em>and</em> table data ( <strong>IS HEADER</strong> and <strong>IS NOT HEADER</strong> does not mean <strong>IS TABLE DATA</strong>), I would not have to delete blank rows in the table data CSV files.</p>
 <p>The blank lines are a result of hierarchal indexing that occurs on some of the header data where there is a hierarchal index, a blank row and then the header data (see image below).</p>
 <img alt="hierarchal index and blank row" src="/images/hierarch_blank_row.jpg" />
-<p>So the goal for the <tt class="docutils literal">blank_rows</tt> function is to identify if the first row, and only first row, is blank. If the first row is blank, that means the <strong>not header</strong>/blank row in the image above was saved to a table data CSV as if it were indeed table data. Due to some encoding inconsistencies, covered in <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">Part 2</a>, even finding a blank row requires a little more work than a binary True or False.</p>
+<p>So the goal for the <tt class="docutils literal">blank_rows</tt> function is to identify if the first row, and only first row, is blank. If the first row is blank, that means the <strong>not header</strong>/blank row in the image above was saved to a table data CSV as if it were indeed table data. Due to some encoding inconsistencies, covered in <a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/">Part 2</a>, even finding a blank row requires a little more work than a binary True or False.</p>
 <ol class="arabic simple">
 <li>Blank rows are not actually blank rows. Due to encoding differences between Python's default encoding (UTF-8) and the website's encoding (Windows-1252), the &quot;blank&quot; rows actually contain a character called a <a class="reference external" href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space character</a></li>
 <li>In order to identify the non-breaking space character as a blank string, the data must be normalized to Unicode.</li>
@@ -204,7 +204,7 @@
 </div>
 <div class="section" id="iterate-table-files">
 <h2><a class="toc-backref" href="#id6"><strong>Iterate Table Files</strong></a></h2>
-<p>The directory with the table files, created in <a class="reference external" href="../../../../2018/12/23/Getting-Data/">Part 1</a>, should have produced a directory containing all of the table files like the image below.</p>
+<p>The directory with the table files, created in <a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/">Part 1</a>, should have produced a directory containing all of the table files like the image below.</p>
 <img alt="all table files in dir" src="/images/table_files_all.jpg" />
 <p>The code below iterates over each file in the directory, appending the even numbered files to the <tt class="docutils literal">df_top_half</tt> list and appending the odd numbered tables to the <tt class="docutils literal">df_bottom_half</tt> list.</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_files</span><span class="p">):</span>

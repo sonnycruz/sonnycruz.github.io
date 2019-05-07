@@ -6,15 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Contents Recap of Part 3 Return of the Headers Weapon of Choice The Code The Headers: Before Delete Duplicate Columns Clean Up Headers (again) Delete Columns with All NA Values Headers: After...">
         <meta name="keywords" content="python, tutorial">
-        <link rel="icon" href="../../../../favicon.ico">
+        <link rel="icon" href="https://sonnycruz.github.io/favicon.ico">
 
         <title>End-to-End Data Analysis Project: Part 4. More Cleanup!?! - Sonny's Blog</title>
 
         <!-- Stylesheets -->
-        <link href="../../../../theme/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../../theme/css/fonts.css" rel="stylesheet">
-        <link href="../../../../theme/css/nest.css" rel="stylesheet">
-        <link href="../../../../theme/css/pygment.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/fonts.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/nest.css" rel="stylesheet">
+        <link href="https://sonnycruz.github.io/theme/css/pygment.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -35,16 +35,16 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../../../../images/art-artistic-background-247676.jpg'); background-position: center; background-size: cover;">
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://sonnycruz.github.io/images/art-artistic-background-247676.jpg'); background-position: center; background-size: cover;">
 
             <!-- Static navbar -->
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="../../../../"><img class="mr20" src="../../../../images/blank.png" alt="logo">Sonny's Blog</a>
+                        <a class="pull-left" href="https://sonnycruz.github.io/"><img class="mr20" src="https://sonnycruz.github.io/images/blank.png" alt="logo">Sonny's Blog</a>
                     </div>
                     <div class="nav pull-right">
-                            <a  href="../../../../pages/about-me.html">About Me</a>
+                            <a  href="https://sonnycruz.github.io/pages/about-me.html">About Me</a>
                     </div>
                 </div>
             </div>
@@ -57,12 +57,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">End-to-End Data Analysis Project: Part 4. More Cleanup!?!</h1>
-                      <p class="header-date"> <a href="../../../../author/sonny-torres.html">Sonny Torres</a>, Sat 04 May 2019,  <a href="../../../../category/python.html">Python</a></p>
+                      <p class="header-date"> <a href="https://sonnycruz.github.io/author/sonny-torres.html">Sonny Torres</a>, Sat 04 May 2019,  <a href="https://sonnycruz.github.io/category/python.html">Python</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="../../../../tag/python.html">python</a>, <a href="../../../../tag/tutorial.html">tutorial</a>                      </p>
+<a href="https://sonnycruz.github.io/tag/python.html">python</a>, <a href="https://sonnycruz.github.io/tag/tutorial.html">tutorial</a>                      </p>
                   </div>
               </div>
         </div>
@@ -92,11 +92,11 @@
 </div>
 <div class="section" id="recap-of-part-3">
 <h2><a class="toc-backref" href="#id1"><strong>Recap of Part 3</strong></a></h2>
-<p>The CMBS Loan data has been <a class="reference external" href="../../../../2018/12/23/Getting-Data/">scraped</a>, the headers have been <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">parsed</a>, the tables and headers have been <a class="reference external" href="../../../../2019/04/23/Join-Stack/">joined</a> and we can now refine the final dataset that will be used for analysis. Thanks to the meticulous extraction and parsing of the data thus far, there are only minor refinements left to do - most of which are just out of preference and for convenience.</p>
+<p>The CMBS Loan data has been <a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/">scraped</a>, the headers have been <a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/">parsed</a>, the tables and headers have been <a class="reference external" href="https://sonnycruz.github.io/2019/04/23/Join-Stack/">joined</a> and we can now refine the final dataset that will be used for analysis. Thanks to the meticulous extraction and parsing of the data thus far, there are only minor refinements left to do - most of which are just out of preference and for convenience.</p>
 </div>
 <div class="section" id="return-of-the-headers">
 <h2><a class="toc-backref" href="#id2"><strong>Return of the Headers</strong></a></h2>
-<p>After an entire <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">post</a> was dedicated entirely to parsing header data, there are still some ways that the headers could be better. It is important to be able to access columns with as much convenience and ease as possible since indexing by column name is one of the most common operations used while working with data with the Pandas library. Below are the minor changes I will make to the headers and, in some cases, entire columns.</p>
+<p>After an entire <a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/">post</a> was dedicated entirely to parsing header data, there are still some ways that the headers could be better. It is important to be able to access columns with as much convenience and ease as possible since indexing by column name is one of the most common operations used while working with data with the Pandas library. Below are the minor changes I will make to the headers and, in some cases, entire columns.</p>
 <ol class="arabic simple">
 <li>Fix inconsistent spacing in headers.</li>
 <li>Delete unnecessary symbols and parenthesis.</li>
@@ -147,7 +147,7 @@
 </div>
 <div class="section" id="the-headers-before">
 <h2><a class="toc-backref" href="#id5"><strong>The Headers: Before</strong></a></h2>
-<p>Loading the CSV file produced in <a class="reference external" href="../../../../2019/04/23/Join-Stack/">Post 3</a> and calling <tt class="docutils literal">print(cmbs.columns.values)</tt> outputs the following:</p>
+<p>Loading the CSV file produced in <a class="reference external" href="https://sonnycruz.github.io/2019/04/23/Join-Stack/">Post 3</a> and calling <tt class="docutils literal">print(cmbs.columns.values)</tt> outputs the following:</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Loan #&#39;</span> <span class="s1">&#39;Seller(1)&#39;</span> <span class="s1">&#39;Property Name&#39;</span> <span class="s1">&#39;Street Address&#39;</span> <span class="s1">&#39;City&#39;</span> <span class="s1">&#39;State&#39;</span>
  <span class="s1">&#39;Zip Code&#39;</span> <span class="s1">&#39;County&#39;</span> <span class="s1">&#39;Number of Properties&#39;</span> <span class="s1">&#39;Property_2 Type&#39;</span>
  <span class="s1">&#39;Property_9 Subtype&#39;</span> <span class="s1">&#39;Year Built&#39;</span> <span class="s1">&#39;Year Renovated&#39;</span> <span class="s1">&#39;Loan #.1&#39;</span>
@@ -248,7 +248,7 @@ Below, I used a <tt class="docutils literal">for</tt> loop to iterate over the d
 </div>
 <div class="section" id="delete-columns-with-all-na-values">
 <h2><a class="toc-backref" href="#id8"><strong>Delete Columns with All NA Values</strong></a></h2>
-<p>As covered in my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">second post</a>, the data I scraped is encoded using the Windows-1252 encoding and Python's default encoding is UTF-8. So, in order to recognize columns which are entirely filled with &quot;NA&quot; values, the column values must be normalized for Unicode first.</p>
+<p>As covered in my <a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/">second post</a>, the data I scraped is encoded using the Windows-1252 encoding and Python's default encoding is UTF-8. So, in order to recognize columns which are entirely filled with &quot;NA&quot; values, the column values must be normalized for Unicode first.</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">cmbs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
