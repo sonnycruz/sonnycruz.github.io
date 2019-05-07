@@ -116,7 +116,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="n">main_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Users\Username\Desktop\End-to-End-Data-Analysis\1. Get the Data\table&#39;</span>
-<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;CMBS Final.csv&#39;</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;CMBS Table.csv&#39;</span>
 
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">main_dir</span><span class="p">)</span>
 
@@ -141,6 +141,8 @@
             <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">continue</span>
+
+<span class="n">cmbs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;CMBS Final.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="the-headers-before">

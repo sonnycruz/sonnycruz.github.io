@@ -155,7 +155,7 @@
 </div>
 <div class="section" id="the-source-code">
 <h2><a class="toc-backref" href="#id4"><strong>The Source Code</strong></a></h2>
-<p>Link to repository here: <a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis/blob/master/1.%20Get%20the%20Data/a_JPC11C05_parser.py">Github</a>.</p>
+<p>Link to repository here: <a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysisy">Github</a>.</p>
 <div class="section" id="the-tools-used">
 <h3><a class="toc-backref" href="#id5">The Tools Used</a></h3>
 <p>The code in this post is primarily constructed with the main Python library (version 3.6), <a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> and a little bit of <a class="reference external" href="https://docs.python.org/3.7/library/re.html">Regular Expressions</a>.</p>
@@ -232,9 +232,9 @@
 <h2><a class="toc-backref" href="#id12"><strong>Grab the Tables</strong></a></h2>
 <p>Each table of data is encased in <tt class="docutils literal">table</tt> tags in the HTML document. However, there were tables that I did not want, specifically the <tt class="docutils literal">table</tt> tags that consist of only footnotes (at bottom of HTML document). These tables all had a <tt class="docutils literal">border</tt> attribute within the main table tag (see below).</p>
 <p><strong>Good Table</strong></p>
-<img alt="" src="/images/good_table.JPG" />
+<img alt="good table" src="/images/good_table.jpg" />
 <p><strong>Bad Table</strong></p>
-<img alt="" src="/images/bad_table.JPG" />
+<img alt="bad table" src="/images/bad_table.jpg" />
 <p>So, I used a list comprehension to grab all the tables by targeting the <tt class="docutils literal">table</tt> HTML tag and excluded all <tt class="docutils literal">table</tt> tags with a <tt class="docutils literal">'border'</tt> tag attribute. <tt class="docutils literal"><span class="pre">soup.findAll('table')</span></tt> returns a <tt class="docutils literal">bs4.element.ResultSet</tt> which is a list of <tt class="docutils literal">bs4.element.Tag</tt> objects - the <tt class="docutils literal">table</tt> tags. <tt class="docutils literal">table_count</tt> stores the number of tables to iterate over.</p>
 <div class="highlight"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">table</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">attrs</span>
@@ -246,7 +246,7 @@
 <div class="section" id="the-headers">
 <h2><a class="toc-backref" href="#id13"><strong>The Headers</strong></a></h2>
 <p>Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML. Embedded in the <tt class="docutils literal">td</tt> tag, there is a <tt class="docutils literal">font</tt> tag with a <tt class="docutils literal">style</tt> attribute. I found that <em>all</em> header cells contained the word <tt class="docutils literal">bold</tt> in the attribute value for the <tt class="docutils literal">style</tt> attribute (see below) and the table rows <strong>never</strong> contain the <tt class="docutils literal">bold</tt> tag attribute.</p>
-<img alt="" src="/images/header_td.JPG" />
+<img alt="header td" src="/images/header_td.jpg" />
 <div class="section" id="good-headers">
 <h3><a class="toc-backref" href="#id14">Good Headers</a></h3>
 <p>The function I made to identify headers has two parameters, <tt class="docutils literal">tag</tt> and <tt class="docutils literal">keyword</tt>.</p>
@@ -263,9 +263,9 @@
 <div class="section" id="bad-headers">
 <h3><a class="toc-backref" href="#id15">Bad Headers</a></h3>
 <p>However, I wanted to <em>exclude</em> some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns (See &quot;Hotel Operating Statistics&quot; below).</p>
-<img alt="" src="/images/trythisheadercropped.png" />
+<img alt="hotel op stats header" src="/images/trythisheadercropped.png" />
 <p>The above Bad Header is differentiated in the HTML from the Good Header by having a large &quot;colspan&quot; attribute value. <strong>The &quot;colspan&quot; attribute tells us how many columns a given data point spans across</strong>. The HTML below shows that the &quot;Hotel Operating Statistics&quot; header has a colspan value of 15.</p>
-<img alt="" src="/images/colspan15.JPG" />
+<img alt="colspan 15" src="/images/colspan15.jpg" />
 <p>To be clear, in this HTML file, <strong>all colspan attributes are associated with headers but not all headers are associated with a colspan attribute</strong>.</p>
 <p>I then searched the HTML document manually in my browser, using Ctrl+f, for &quot;colspan&quot;. <strong>There are only 20 instances of &quot;colspan&quot; in the entire HTML document and I saw that the highest colspan value for a good header was 2</strong>.</p>
 </div>

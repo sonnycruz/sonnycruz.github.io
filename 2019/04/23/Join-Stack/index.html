@@ -170,7 +170,7 @@
 <h2><a class="toc-backref" href="#id4"><strong>header vs. &quot;not header&quot;</strong></a></h2>
 <p>In my first post, the code was structured so that, with carefully considered criteria, a single header row would be identifiable and distinguished from other rows. For <em>all</em> other rows that didn't meet the special header criteria, they were considered table data and organized as such. However, in the HTML file, there are a few rows which are neither Had my code been built to recognize header <em>and</em> table data ( <strong>IS HEADER</strong> and <strong>IS NOT HEADER</strong> does not mean <strong>IS TABLE DATA</strong>), I would not have to delete blank rows in the table data CSV files.</p>
 <p>The blank lines are a result of hierarchal indexing that occurs on some of the header data where there is a hierarchal index, a blank row and then the header data (see image below).</p>
-<img alt="hierarchal index and blank row" src="/images/hierarch_blank_row.jpg" />
+<img alt="blank row and index" src="/images/blank_row_index.jpg" />
 <p>So the goal for the <tt class="docutils literal">blank_rows</tt> function is to identify if the first row, and only first row, is blank. If the first row is blank, that means the <strong>not header</strong>/blank row in the image above was saved to a table data CSV as if it were indeed table data. Due to some encoding inconsistencies, covered in <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">Part 2</a>, even finding a blank row requires a little more work than a binary True or False.</p>
 <ol class="arabic simple">
 <li>Blank rows are not actually blank rows. Due to encoding differences between Python's default encoding (UTF-8) and the website's encoding (Windows-1252), the &quot;blank&quot; rows actually contain a character called a <a class="reference external" href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space character</a></li>
@@ -205,7 +205,7 @@
 <div class="section" id="iterate-table-files">
 <h2><a class="toc-backref" href="#id6"><strong>Iterate Table Files</strong></a></h2>
 <p>The directory with the table files, created in <a class="reference external" href="../../../../2018/12/23/Getting-Data/">Part 1</a>, should have produced a directory containing all of the table files like the image below.</p>
-<img alt="all table files in dir" src="/images/table_files_all.jpg" />
+<img alt="all csv table files" src="/images/dir_table_files.jpg" />
 <p>The code below iterates over each file in the directory, appending the even numbered files to the <tt class="docutils literal">df_top_half</tt> list and appending the odd numbered tables to the <tt class="docutils literal">df_bottom_half</tt> list.</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_files</span><span class="p">):</span>
 

@@ -40,7 +40,7 @@
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
 
 &lt;span class="n"&gt;main_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C:\Users\Username\Desktop\End-to-End-Data-Analysis\1. Get the Data\table&amp;#39;&lt;/span&gt;
-&lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;CMBS Final.csv&amp;#39;&lt;/span&gt;
+&lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;CMBS Table.csv&amp;#39;&lt;/span&gt;
 
 &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;chdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -65,6 +65,8 @@
             &lt;span class="n"&gt;cmbs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;AttributeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="k"&gt;continue&lt;/span&gt;
+
+&lt;span class="n"&gt;cmbs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;CMBS Final.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;encoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ISO-8859-1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="the-headers-before"&gt;
@@ -322,7 +324,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;header vs. &amp;quot;not header&amp;quot;&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;In my first post, the code was structured so that, with carefully considered criteria, a single header row would be identifiable and distinguished from other rows. For &lt;em&gt;all&lt;/em&gt; other rows that didn't meet the special header criteria, they were considered table data and organized as such. However, in the HTML file, there are a few rows which are neither Had my code been built to recognize header &lt;em&gt;and&lt;/em&gt; table data ( &lt;strong&gt;IS HEADER&lt;/strong&gt; and &lt;strong&gt;IS NOT HEADER&lt;/strong&gt; does not mean &lt;strong&gt;IS TABLE DATA&lt;/strong&gt;), I would not have to delete blank rows in the table data CSV files.&lt;/p&gt;
 &lt;p&gt;The blank lines are a result of hierarchal indexing that occurs on some of the header data where there is a hierarchal index, a blank row and then the header data (see image below).&lt;/p&gt;
-&lt;img alt="hierarchal index and blank row" src="/images/hierarch_blank_row.jpg" /&gt;
+&lt;img alt="blank row and index" src="/images/blank_row_index.jpg" /&gt;
 &lt;p&gt;So the goal for the &lt;tt class="docutils literal"&gt;blank_rows&lt;/tt&gt; function is to identify if the first row, and only first row, is blank. If the first row is blank, that means the &lt;strong&gt;not header&lt;/strong&gt;/blank row in the image above was saved to a table data CSV as if it were indeed table data. Due to some encoding inconsistencies, covered in &lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/"&gt;Part 2&lt;/a&gt;, even finding a blank row requires a little more work than a binary True or False.&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;Blank rows are not actually blank rows. Due to encoding differences between Python's default encoding (UTF-8) and the website's encoding (Windows-1252), the &amp;quot;blank&amp;quot; rows actually contain a character called a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Non-breaking_space"&gt;non-breaking space character&lt;/a&gt;&lt;/li&gt;
@@ -357,7 +359,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;div class="section" id="iterate-table-files"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id6"&gt;&lt;strong&gt;Iterate Table Files&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The directory with the table files, created in &lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;Part 1&lt;/a&gt;, should have produced a directory containing all of the table files like the image below.&lt;/p&gt;
-&lt;img alt="all table files in dir" src="/images/table_files_all.jpg" /&gt;
+&lt;img alt="all csv table files" src="/images/dir_table_files.jpg" /&gt;
 &lt;p&gt;The code below iterates over each file in the directory, appending the even numbered files to the &lt;tt class="docutils literal"&gt;df_top_half&lt;/tt&gt; list and appending the odd numbered tables to the &lt;tt class="docutils literal"&gt;df_bottom_half&lt;/tt&gt; list.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number_of_files&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
 
@@ -560,7 +562,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;li&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Windows-1252"&gt;Windows-1252 or CP-1252&lt;/a&gt;: A single byte character encoding of the Latin alphabet.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Python's default encoding is UTF-8 and the SEC website is encoded with Windows-1252. This mismatch of encodings created frustrating problems I did not understand. I would parse the header data, export to CSV and find strange characters all over the CSV file when I opened it in excel. The root of the problem is succinctly illustrated below in a chart I found on &lt;a class="reference external" href="https://www.i18nqa.com/debug/utf8-debug.html"&gt;this website&lt;/a&gt;.&lt;/p&gt;
-&lt;img alt="" src="/images/utf_encodings.jpg" /&gt;
+&lt;img alt="utf encoding chart" src="/images/utf_encodings.jpg" /&gt;
 &lt;p&gt;In the image above you can see there are not only different &amp;quot;inputs&amp;quot; (code points) but different outputs. The solution for this problem involved using the &lt;tt class="docutils literal"&gt;unicodedata&lt;/tt&gt; library and its &lt;tt class="docutils literal"&gt;.normalize&lt;/tt&gt; method. Using the chart's terminology, the 'NFKD' supplied value in the code below simply converts the &lt;em&gt;actual&lt;/em&gt; character result with the &lt;em&gt;expected&lt;/em&gt; character result under the Unicode standard. In this case, a blank space also known as a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Non-breaking_space"&gt;non-breaking space&lt;/a&gt; is the expected and desired value. This solution made it so that instead of a bunch of &amp;quot;ÂÂÂÂÂÂÂÂ&amp;quot;'s appearing in my excel file, they were blank cells like they were supposed to be before the encoding problem. The blank cells are important because they play an integral part in keeping the entire document's format consistent.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;reader&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;new_line&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;unicodedata&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normalize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;NFKD&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -608,7 +610,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;However, &lt;em&gt;when gluing the header rows together I noticed that my results for duplicate values came out strange&lt;/em&gt;. But only for duplicate values in a given row. My IPython session below illustrates why.&lt;/p&gt;
-&lt;img alt="" src="/images/headers_tuples_strings.jpg" /&gt;
+&lt;img alt="tuples vs strings" src="/images/headers_tuples_strings.jpg" /&gt;
 &lt;p&gt;In the image above, you can see that the majority of header columns are tuples, as expected, but columns 8-10, 12 and 13 are &lt;em&gt;string&lt;/em&gt; values. For reasons I do not know, Pandas will load duplicate values in a MultiIndex not as tuples but as string values. So, when I iterate over each header column like they are tuples as I did with the &lt;tt class="docutils literal"&gt;' &lt;span class="pre"&gt;'.join(col)...&lt;/span&gt;&lt;/tt&gt; list comprehension above, I ended up iterating over each character in those string values causing columns with duplicate values to look like this:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; L e a s e &amp;#39;&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="s1"&gt;&amp;#39; E x p i r a t i o n &amp;#39;&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -708,7 +710,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="the-source-code"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;The Source Code&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Link to repository here: &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis/blob/master/1.%20Get%20the%20Data/a_JPC11C05_parser.py"&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Link to repository here: &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysisy"&gt;Github&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="section" id="the-tools-used"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id5"&gt;The Tools Used&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The code in this post is primarily constructed with the main Python library (version 3.6), &lt;a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"&gt;BeautifulSoup&lt;/a&gt; and a little bit of &lt;a class="reference external" href="https://docs.python.org/3.7/library/re.html"&gt;Regular Expressions&lt;/a&gt;.&lt;/p&gt;
@@ -785,9 +787,9 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;h2&gt;&lt;a class="toc-backref" href="#id12"&gt;&lt;strong&gt;Grab the Tables&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Each table of data is encased in &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags in the HTML document. However, there were tables that I did not want, specifically the &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags that consist of only footnotes (at bottom of HTML document). These tables all had a &lt;tt class="docutils literal"&gt;border&lt;/tt&gt; attribute within the main table tag (see below).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Good Table&lt;/strong&gt;&lt;/p&gt;
-&lt;img alt="" src="/images/good_table.JPG" /&gt;
+&lt;img alt="good table" src="/images/good_table.jpg" /&gt;
 &lt;p&gt;&lt;strong&gt;Bad Table&lt;/strong&gt;&lt;/p&gt;
-&lt;img alt="" src="/images/bad_table.JPG" /&gt;
+&lt;img alt="bad table" src="/images/bad_table.jpg" /&gt;
 &lt;p&gt;So, I used a list comprehension to grab all the tables by targeting the &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; HTML tag and excluded all &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags with a &lt;tt class="docutils literal"&gt;'border'&lt;/tt&gt; tag attribute. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;soup.findAll('table')&lt;/span&gt;&lt;/tt&gt; returns a &lt;tt class="docutils literal"&gt;bs4.element.ResultSet&lt;/tt&gt; which is a list of &lt;tt class="docutils literal"&gt;bs4.element.Tag&lt;/tt&gt; objects - the &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags. &lt;tt class="docutils literal"&gt;table_count&lt;/tt&gt; stores the number of tables to iterate over.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;tables&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
     &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;border&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;
@@ -799,7 +801,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;div class="section" id="the-headers"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id13"&gt;&lt;strong&gt;The Headers&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML. Embedded in the &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag, there is a &lt;tt class="docutils literal"&gt;font&lt;/tt&gt; tag with a &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute. I found that &lt;em&gt;all&lt;/em&gt; header cells contained the word &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; in the attribute value for the &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute (see below) and the table rows &lt;strong&gt;never&lt;/strong&gt; contain the &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; tag attribute.&lt;/p&gt;
-&lt;img alt="" src="/images/header_td.JPG" /&gt;
+&lt;img alt="header td" src="/images/header_td.jpg" /&gt;
 &lt;div class="section" id="good-headers"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id14"&gt;Good Headers&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The function I made to identify headers has two parameters, &lt;tt class="docutils literal"&gt;tag&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;keyword&lt;/tt&gt;.&lt;/p&gt;
@@ -816,9 +818,9 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;div class="section" id="bad-headers"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id15"&gt;Bad Headers&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;However, I wanted to &lt;em&gt;exclude&lt;/em&gt; some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns (See &amp;quot;Hotel Operating Statistics&amp;quot; below).&lt;/p&gt;
-&lt;img alt="" src="/images/trythisheadercropped.png" /&gt;
+&lt;img alt="hotel op stats header" src="/images/trythisheadercropped.png" /&gt;
 &lt;p&gt;The above Bad Header is differentiated in the HTML from the Good Header by having a large &amp;quot;colspan&amp;quot; attribute value. &lt;strong&gt;The &amp;quot;colspan&amp;quot; attribute tells us how many columns a given data point spans across&lt;/strong&gt;. The HTML below shows that the &amp;quot;Hotel Operating Statistics&amp;quot; header has a colspan value of 15.&lt;/p&gt;
-&lt;img alt="" src="/images/colspan15.JPG" /&gt;
+&lt;img alt="colspan 15" src="/images/colspan15.jpg" /&gt;
 &lt;p&gt;To be clear, in this HTML file, &lt;strong&gt;all colspan attributes are associated with headers but not all headers are associated with a colspan attribute&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;I then searched the HTML document manually in my browser, using Ctrl+f, for &amp;quot;colspan&amp;quot;. &lt;strong&gt;There are only 20 instances of &amp;quot;colspan&amp;quot; in the entire HTML document and I saw that the highest colspan value for a good header was 2&lt;/strong&gt;.&lt;/p&gt;
 &lt;/div&gt;
