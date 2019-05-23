@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog - python</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/python.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2019-05-04T04:15:00-05:00</updated><entry><title>End-to-End Data Analysis Project: Part 4. More Cleanup!?!</title><link href="https://sonnycruz.github.io%5C2019/05/04/More-Cleanup/" rel="alternate"></link><published>2019-05-04T04:15:00-05:00</published><updated>2019-05-04T04:15:00-05:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2019,2019-05-04:/05/04/More-Cleanup/</id><summary type="html">&lt;p class="first last"&gt;Merging all disparate files and refining final dataset.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Sonny's Blog - python</title><link href="https://sonnycruz.github.io/" rel="alternate"></link><link href="https://sonnycruz.github.io%5Cfeeds/python.atom.xml" rel="self"></link><id>https://sonnycruz.github.io/</id><updated>2019-05-20T03:55:00-05:00</updated><entry><title>End-to-End Data Analysis Project: Part 5. Data Exploration</title><link href="https://sonnycruz.github.io%5C2019/05/20/data-explore/" rel="alternate"></link><published>2019-05-20T03:55:00-05:00</published><updated>2019-05-20T03:55:00-05:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2019,2019-05-20:/05/20/data-explore/</id><summary type="html">&lt;p class="first last"&gt;Descriptive statistics and graphs.&lt;/p&gt;
+</summary><content type="html">&lt;div class="contents topic" id="contents"&gt;
+&lt;p class="topic-title first"&gt;Contents&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#recap-of-parts-1-4-data-wrangling" id="id1"&gt;&lt;strong&gt;Recap of Parts 1-4 Data Wrangling&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#data-science-is-80-data-preparation" id="id2"&gt;&lt;strong&gt;Data Science is 80% Data Preparation&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#setup" id="id3"&gt;&lt;strong&gt;Setup&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#basic-dataset-characteristics" id="id4"&gt;&lt;strong&gt;Basic Dataset Characteristics&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#the-number-of-rows-and-columns" id="id5"&gt;&lt;strong&gt;The Number of Rows and Columns&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#column-names" id="id6"&gt;&lt;strong&gt;Column Names&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#column-datatypes" id="id7"&gt;&lt;strong&gt;Column Datatypes&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#null-values-per-column" id="id8"&gt;&lt;strong&gt;Null Values Per Column&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="recap-of-parts-1-4-data-wrangling"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id1"&gt;&lt;strong&gt;Recap of Parts 1-4 Data Wrangling&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;Part 1 Getting Data&lt;/a&gt; : I began this data parsing project by using web-scraping techniques to tackle a challenging data scraping task. I used &lt;a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"&gt;BeautifulSoup&lt;/a&gt; and &lt;a class="reference external" href="https://docs.python.org/3.7/library/re.html"&gt;Regular Expressions&lt;/a&gt; to scrape and gather various tables of CMBS loan data from an HTML file downloaded from this &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;SEC webpage&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/"&gt;Part 2 Parsing the Headers&lt;/a&gt;: In order to combine multiple header rows, spread across multiple CSV files, I had to load each header file, account for encoding differences between Python and the data source, account for duplicate header values, join a hierarchal index of header rows into a single header row, save and concatenate the results.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/23/Join-Stack/"&gt;Part 3 Join and Stack&lt;/a&gt;: The table data was joined and stacked horizontally and vertically to piece together the puzzle of data tables first explained in Part 1: Getting Data. Finally, the parsed header row was stacked on to the table data.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2019/05/04/More-Cleanup/"&gt;Part 4 More Cleanup&lt;/a&gt;:  Here, I got rid of annoying symbols and characters in the headers, deleted columns which contained all NA values and deleted duplicate columns (the repeated indices for each table on the web page).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="data-science-is-80-data-preparation"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id2"&gt;&lt;strong&gt;Data Science is 80% Data Preparation&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;There is an axiom that states that 80% of a Data Scientist's time is spent acquiring, cleaning and preparing data. I believe this &lt;a class="reference external" href="https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task-survey-says/#66511b2c6f63"&gt;Forbes article&lt;/a&gt; and the survey cited in the article, done by CrowdFlower, now &lt;a class="reference external" href="https://www.figure-eight.com/"&gt;Figure Eight&lt;/a&gt;, is the main source of this propagated rule of thumb. In my experience, the 80% rule is absolutely true if not understated.&lt;/p&gt;
+&lt;p&gt;It is clear to see that, after 4 blog posts and many lines of code, that acquiring, parsing and joining data can consume the majority of your time when working on a data project (this is certainly the case for this project). Data preparation is loathed by some in the field of Data Science and is sometimes, kind of pejoratively, referred to as &amp;quot;janitorial work&amp;quot; (not that there is anything wrong with janitors. I think humans are decades away from producing a robot that can adequately clean a public restroom). However, I have encountered some profoundly complex and thought provoking challenges when working through the aforementioned &amp;quot;janitorial&amp;quot; data preparation stage (my previous 4 blog posts in particular!) and I feel that I have become a better programmer and data analyst for it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="setup"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id3"&gt;&lt;strong&gt;Setup&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://gist.github.com/sonnycruz/b42bec39d39156110075d59f8a2d51a2"&gt;https://gist.github.com/sonnycruz/b42bec39d39156110075d59f8a2d51a2&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="basic-dataset-characteristics"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;Basic Dataset Characteristics&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;There are four important components of datasets that I will cover that I think are immediately &amp;quot;must know&amp;quot; characteristics for any dataset.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;The number of columns and rows.&lt;/li&gt;
+&lt;li&gt;The name of each column.&lt;/li&gt;
+&lt;li&gt;The datatypes of each column.&lt;/li&gt;
+&lt;li&gt;The number of null values for each column.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-number-of-rows-and-columns"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id5"&gt;&lt;strong&gt;The Number of Rows and Columns&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Call the &lt;tt class="docutils literal"&gt;.shape&lt;/tt&gt; attribute to see a tuple containing (rows, columns).&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;df.shape&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;or you can call the &lt;tt class="docutils literal"&gt;.info()&lt;/tt&gt; method to get a little more information.&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;df.info&lt;/tt&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="column-names"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id6"&gt;&lt;strong&gt;Column Names&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="column-datatypes"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id7"&gt;&lt;strong&gt;Column Datatypes&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="null-values-per-column"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id8"&gt;&lt;strong&gt;Null Values Per Column&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+</content><category term="python"></category><category term="tutorial"></category><category term="pandas"></category><category term="matplotlib"></category></entry><entry><title>End-to-End Data Analysis Project: Part 4. More Cleanup!?!</title><link href="https://sonnycruz.github.io%5C2019/05/04/More-Cleanup/" rel="alternate"></link><published>2019-05-04T04:15:00-05:00</published><updated>2019-05-04T04:15:00-05:00</updated><author><name>Sonny Torres</name></author><id>tag:sonnycruz.github.io\2019,2019-05-04:/05/04/More-Cleanup/</id><summary type="html">&lt;p class="first last"&gt;Merging all disparate files and refining final dataset.&lt;/p&gt;
 </summary><content type="html">&lt;div class="contents topic" id="contents"&gt;
 &lt;p class="topic-title first"&gt;Contents&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -245,7 +303,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="recap-of-part-1-2"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id1"&gt;&lt;strong&gt;Recap of Part 1 &amp;amp; 2&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;After scraping all of the CMBS loan data from the &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;SEC.gov website&lt;/a&gt; (shown in my &lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;first post&lt;/a&gt;) and parsing the unwieldy header data (see my &lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/"&gt;previous post&lt;/a&gt;), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will &lt;em&gt;almost&lt;/em&gt; be ready for analysis..&lt;/p&gt;
+&lt;p&gt;After scraping all of the CMBS loan data from the &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;SEC.gov website&lt;/a&gt; (shown in my &lt;a class="reference external" href="https://sonnycruz.github.io/2018/12/23/Getting-Data/"&gt;first post&lt;/a&gt;) and parsing the unwieldy header data (see my &lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/18/Parse-Headers/"&gt;previous post&lt;/a&gt;), I now have to join all of the table data (which are saved as a bunch of CSV files) pieces and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will &lt;em&gt;almost&lt;/em&gt; be ready for analysis..&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="join-tables-stack-the-headers"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id2"&gt;&lt;strong&gt;Join Tables &amp;amp; Stack the Headers&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
@@ -271,7 +329,9 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 
 &lt;span class="n"&gt;pattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*table.csv&amp;#39;&lt;/span&gt;
 
-&lt;span class="n"&gt;all_table_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt;
+&lt;span class="n"&gt;all_table_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                   &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt;
+
 &lt;span class="n"&gt;number_of_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;all_table_files&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;df_top_half&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
@@ -698,7 +758,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="what-to-expect-in-this-post"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id3"&gt;What to Expect in this Post&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;I will be detailing the process of parsing a messy HTML file with multiple tables and writing the data to CSV files. These files will be combined and cleaned in a future post. This post covers the following:&lt;/p&gt;
+&lt;p&gt;I will be detailing the process of parsing a messy HTML file with multiple tables and writing the data to CSV files. These files will be combined and cleaned in future posts. This particular post covers the following:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;The data source and what the data covers.&lt;/li&gt;
 &lt;li&gt;A walk through of the layout of the web page and the HTML structure.&lt;/li&gt;
@@ -710,7 +770,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="the-source-code"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id4"&gt;&lt;strong&gt;The Source Code&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Link to repository here: &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysisy"&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Link to repository here: &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis"&gt;Github&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="section" id="the-tools-used"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id5"&gt;The Tools Used&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The code in this post is primarily constructed with the main Python library (version 3.6), &lt;a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"&gt;BeautifulSoup&lt;/a&gt; and a little bit of &lt;a class="reference external" href="https://docs.python.org/3.7/library/re.html"&gt;Regular Expressions&lt;/a&gt;.&lt;/p&gt;
@@ -723,7 +783,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;p&gt;To retrieve the HTML file that I used, you can download the HTML file hosted on my github page or you can visit the SEC url and press Ctrl + S to save the file as an HTML document.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Right-click on the link &amp;amp; save as an html file&lt;/strong&gt;: &lt;a class="reference external" href="https://sonnycruz.github.io/files/JPC11C05.html"&gt;Download&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;URL&lt;/strong&gt;: &lt;a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm"&gt;https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;To view the HTML, open the file or website in your browser and right click anywhere on the webpage and click &amp;quot;Inspect&amp;quot;. Ctrl+Shift+I is the windows shortcut to do this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;To view the webpage HTML, open the file or website in your browser and right click anywhere on the webpage and click &amp;quot;Inspect&amp;quot;. Ctrl+Shift+I is the windows shortcut to do this.&lt;/strong&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="what-is-cmbs"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id8"&gt;What is CMBS?&lt;/a&gt;&lt;/h3&gt;
@@ -738,20 +798,20 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="table-arrangement"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id9"&gt;Table Arrangement&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;The dataset is split into many different tables that are vertically lined up on one page&lt;/strong&gt;. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together. &lt;strong&gt;The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file&lt;/strong&gt;. For simplification, the visual only includes 10 Commercial Properties.&lt;/p&gt;
-&lt;p&gt;Below, you can see four tables with various headers, columns and rows (See Legend). Each column, which includes a data point for every row, is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The dataset is split into many different tables that are vertically lined up on one page&lt;/strong&gt;. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together. &lt;strong&gt;The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Below, you can see four tables with various headers, columns and rows. For simplification, the visuals below include only 10 Commercial Properties. Each column, which includes a data point for every row, is broken up into &lt;strong&gt;two separate tables&lt;/strong&gt;. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties - Properties 6-10. Similarly, Table 4 is a continuation of Table 3.&lt;/p&gt;
 &lt;img alt="table of four" src="/images/a_four_tables.jpg" style="width: 346.2px; height: 690.9px;" /&gt;
 &lt;img alt="new legend" src="/images/new_legend.jpg" style="width: 375px; height: 140px;" /&gt;
 &lt;p&gt;&lt;strong&gt;Tables 1 &amp;amp; 2 need to be glued together and 3 &amp;amp; 4 need to be glued together, both along the horizonal axis&lt;/strong&gt;. Notice how the excess headers, (the grey-shaded headers in the above figure) have been eliminated in the figure below.&lt;/p&gt;
 &lt;img alt="table of two" src="/images/table_of_two.jpg" style="width: 375.9px; height: 524.4px;" /&gt;
-&lt;p&gt;The pairs of tables will be joined together on their respective vertical axes. Because &amp;quot;Prop1, Prop2..etc.&amp;quot; represents not only commercial properties in the pool of mortgages, but also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.&lt;/p&gt;
+&lt;p&gt;Next, the pairs of tables then have to be joined together on their respective vertical axes. Because &amp;quot;Prop1, Prop2..etc.&amp;quot; represents not only commercial properties in the pool of mortgages, but are also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.&lt;/p&gt;
 &lt;img alt="table horizontal" src="/images/table_horizontal.jpg" style="width: 668px; height: 245px;" /&gt;
 &lt;p&gt;&lt;strong&gt;When iteratively joining every 4 tables in this way, the result will be a single tabular dataset&lt;/strong&gt;, albeit with plenty of clean up work left to do.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Although the data is not merged into a single data set in this post, assessing the layout significantly informed the way I approached the parsing and writing the data to files as you will see in this post&lt;/strong&gt;. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will explain later in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Although the data is not merged into a single data set in this post, assessing the layout significantly informed the way I approached the parsing and the writing of the data to files as you will see in this post&lt;/strong&gt;. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will explain later in this post.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="the-html-structure"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id10"&gt;The HTML Structure&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). The key to understanding the HTML, for me, was understanding the &lt;a class="reference external" href="https://www.w3schools.com/tags/tag_html.asp"&gt;HTML tag&lt;/a&gt; structure, as well as what characteristics makes certain kinds of data unique, specifically what &lt;a class="reference external" href="https://www.w3schools.com/html/html_attributes.asp"&gt;HTML tag attributes&lt;/a&gt; make a given row of data identifiable as being a header row, a data row or a row to skip.&lt;/p&gt;
+&lt;p&gt;Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). &lt;strong&gt;The key to understanding the HTML, for me, was understanding the `HTML tag &amp;lt;https://www.w3schools.com/tags/tag_html.asp&amp;gt;`_ structure, as well as what characteristics makes certain kinds of data unique, specifically what `HTML tag attributes &amp;lt;https://www.w3schools.com/html/html_attributes.asp&amp;gt;`_ make a given row of data identifiable as being a header row, a data row or a row to skip&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Some HTML Table Basics&lt;/strong&gt;:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags define a table of data.&lt;/li&gt;
@@ -763,7 +823,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="import-libraries-and-make-soup"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id11"&gt;&lt;strong&gt;Import Libraries and Make Soup&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Below are the libraries I used for this task. The &lt;tt class="docutils literal"&gt;working_dir&lt;/tt&gt; variable is the path that contains the html file and the name of the file is assigned to &lt;tt class="docutils literal"&gt;filename&lt;/tt&gt;. I often use the &lt;tt class="docutils literal"&gt;os.chdir()&lt;/tt&gt; method, out of preference, to direct my scripts to the appropriate directory but other methods work just as fine.&lt;/p&gt;
+&lt;p&gt;Below are the libraries I used for this task. The &lt;tt class="docutils literal"&gt;working_dir&lt;/tt&gt; variable is the path that contains the html file and the name of the file is assigned to &lt;tt class="docutils literal"&gt;filename&lt;/tt&gt;. I often use the &lt;tt class="docutils literal"&gt;os.chdir()&lt;/tt&gt; method, out of preference, to direct my scripts to the appropriate directory but other methods work just as well.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Tag&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
@@ -785,7 +845,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="grab-the-tables"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id12"&gt;&lt;strong&gt;Grab the Tables&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Each table of data is encased in &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags in the HTML document. However, there were tables that I did not want, specifically the &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags that consist of only footnotes (at bottom of HTML document). These tables all had a &lt;tt class="docutils literal"&gt;border&lt;/tt&gt; attribute within the main table tag (see below).&lt;/p&gt;
+&lt;p&gt;Each table of data is encased in &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags in the HTML document. However, there were tables that I did not want, specifically the &lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags that consist of only footnotes (at bottom of HTML document). I noticed that these tables all had a &lt;tt class="docutils literal"&gt;border&lt;/tt&gt; attribute within the main table tag (see below).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Good Table&lt;/strong&gt;&lt;/p&gt;
 &lt;img alt="good table" src="/images/good_table.jpg" /&gt;
 &lt;p&gt;&lt;strong&gt;Bad Table&lt;/strong&gt;&lt;/p&gt;
@@ -800,7 +860,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="the-headers"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id13"&gt;&lt;strong&gt;The Headers&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML. Embedded in the &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag, there is a &lt;tt class="docutils literal"&gt;font&lt;/tt&gt; tag with a &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute. I found that &lt;em&gt;all&lt;/em&gt; header cells contained the word &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; in the attribute value for the &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute (see below) and the table rows &lt;strong&gt;never&lt;/strong&gt; contain the &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; tag attribute.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML&lt;/strong&gt;. Embedded in the &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag, there is a &lt;tt class="docutils literal"&gt;font&lt;/tt&gt; tag with a &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute. I found that &lt;em&gt;all&lt;/em&gt; header cells contained the word &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; in the attribute value for the &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute (see below) and the table rows &lt;strong&gt;never&lt;/strong&gt; contained the &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; tag attribute.&lt;/p&gt;
 &lt;img alt="header td" src="/images/header_td.jpg" /&gt;
 &lt;div class="section" id="good-headers"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id14"&gt;Good Headers&lt;/a&gt;&lt;/h3&gt;
@@ -830,7 +890,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;unwanted_header()&lt;/tt&gt; searches the &lt;tt class="docutils literal"&gt;tr&lt;/tt&gt; tag for any &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag that has a &lt;tt class="docutils literal"&gt;colspan&lt;/tt&gt; tag attribute with a numerical string value.&lt;/li&gt;
 &lt;li&gt;The &lt;tt class="docutils literal"&gt;re.compile()&lt;/tt&gt; method is a Regular Expressions method that creates a Regular Expression object with a pattern that can be searched for.&lt;/li&gt;
-&lt;li&gt;The 'r' tells Python not to interpret any backslash characters (for example &amp;quot;n&amp;quot; is interpreted by Python as a newline) and to let BeautifulSoup interpret the backslashes with its own syntax rules. In this case, &lt;tt class="docutils literal"&gt;\d+&lt;/tt&gt; will be interpreted by BeautifulSoup to mean &amp;quot;any numerical string occuring at least one time&amp;quot;.&lt;/li&gt;
+&lt;li&gt;The 'r' tells Python not to interpret any backslash characters (for example &lt;tt class="docutils literal"&gt;\n&lt;/tt&gt; is interpreted by Python as a newline) and to let BeautifulSoup interpret the backslashes with its own syntax rules. In this case, &lt;tt class="docutils literal"&gt;\d+&lt;/tt&gt; will be interpreted by BeautifulSoup to mean &amp;quot;any numerical string occuring at least one time&amp;quot;.&lt;/li&gt;
 &lt;li&gt;If the &lt;tt class="docutils literal"&gt;colspan&lt;/tt&gt; attribute is present in one of the row's &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tags then the &lt;tt class="docutils literal"&gt;colspan_obj&lt;/tt&gt; will exist as a Tag object and the &lt;tt class="docutils literal"&gt;if&lt;/tt&gt; statement is &lt;tt class="docutils literal"&gt;True&lt;/tt&gt;. If the specific tag is not found, the object will be a &lt;tt class="docutils literal"&gt;None&lt;/tt&gt; value and the &lt;tt class="docutils literal"&gt;if&lt;/tt&gt; statement is &lt;tt class="docutils literal"&gt;False&lt;/tt&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;colspan_val&lt;/tt&gt; is a variable assigned to the colspan value, the string value for the &lt;tt class="docutils literal"&gt;colspan&lt;/tt&gt; tag attribute and it is converted to an integer by using the &lt;tt class="docutils literal"&gt;int()&lt;/tt&gt; function.&lt;/li&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;colspan_obj&lt;/tt&gt; is a &lt;tt class="docutils literal"&gt;bs4.element.Tag&lt;/tt&gt; object, which means the tag's attributes can be accessed like a dictionary like this: &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;colspan_obj['colspan']&lt;/span&gt;&lt;/tt&gt;.&lt;/li&gt;
@@ -856,13 +916,13 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;div class="section" id="the-bad-side-of-good-headers"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id17"&gt;The Bad Side of Good Headers&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Before, I mentioned that &lt;strong&gt;there are some good headers with a colspan value equal to 2&lt;/strong&gt;. These headers need to be identified in order to correct a problem they present.&lt;/p&gt;
-&lt;p&gt;In the image below, the figure labeled &amp;quot;HTML&amp;quot; reflects how the website's tags are organized when a header value spans across 2 columns. &lt;strong&gt;A header value with a colspan attribute value of 2 is enclosed in 1 ``td`` tag, while the rows below the single header ``td`` tag have 2 ``td`` tags (see picture for yellow and blue ``td`` tags)&lt;/strong&gt;. This 2-to-1 arrangement is not visible on the website and aligns appropriately in the HTML output, however, &lt;strong&gt;because my script iterates over every ``td`` tag and writes each one to a cell in my CSV file, I ran into a cell alignment problem illustrated in the figure below labeled &amp;quot;CSV Result&amp;quot;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In the image below, the column &amp;quot;Other Reserve Cap&amp;quot; reflects how the website's tags are organized when a header value spans across 2 columns. A header value with a colspan attribute value of 2, &amp;quot;Other Reserve Cap&amp;quot;, is enclosed in 1 &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag, while the rows of data below the header have 2 &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tags (see picture for yellow and blue &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tags). This 2-to-1 arrangement is not visible on the website and aligns appropriately in the HTML output, however, &lt;strong&gt;because my script iterates over every ``td`` tag and writes each one to a cell in my CSV file, I ran into a cell alignment problem illustrated in the figure below labeled &amp;quot;CSV Result&amp;quot;&lt;/strong&gt;.&lt;/p&gt;
 &lt;img alt="cell align new" src="/images/cell_align_new.jpg" style="width: 601.2px; height: 229.5px;" /&gt;
 &lt;p&gt;To identify the good headers with a colspan value of 2, I created a boolean function that returns &lt;tt class="docutils literal"&gt;True&lt;/tt&gt; when all &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tags span the same number of columns, 1 each, and returns False when they do not.&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;Below is the boolean function &lt;tt class="docutils literal"&gt;cells_same_colspan()&lt;/tt&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;colspan_dict&lt;/tt&gt; is a dictionary object where the keys are the row numbers of a table and the values are lists with the colspan values.&lt;/li&gt;
-&lt;li&gt;By using a list comprehension that calls the &lt;tt class="docutils literal"&gt;max()&lt;/tt&gt; function on every list of colspan values, I can create a list of maximum colspan values per row. &lt;tt class="docutils literal"&gt;max()&lt;/tt&gt; is called once again on the list of max values per row to find the highest value of each row's highest colspan value.&lt;/li&gt;
+&lt;li&gt;By using a list comprehension that calls the &lt;tt class="docutils literal"&gt;max()&lt;/tt&gt; function on every list of colspan values, I can create a list of maximum colspan values per row. &lt;tt class="docutils literal"&gt;max()&lt;/tt&gt; is called once again on the list of max values per row to find the highest colspan value for a entire table of data (headers and table rows).&lt;/li&gt;
 &lt;li&gt;The function returns &lt;tt class="docutils literal"&gt;False&lt;/tt&gt; when the largest colspan value does not equal 1.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;cells_same_colspan&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;colspan_dict&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -895,7 +955,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 
 &lt;span class="c1"&gt;# where the dict keys are table rows&lt;/span&gt;
 &lt;span class="c1"&gt;# and the dict values are lists containing tuples&lt;/span&gt;
-&lt;span class="c1"&gt;# a each tuple contains..&lt;/span&gt;
+&lt;span class="c1"&gt;# each tuple contains..&lt;/span&gt;
 &lt;span class="c1"&gt;# (index value of a given data point, the colspan value for given point)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ul class="simple"&gt;

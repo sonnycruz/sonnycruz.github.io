@@ -143,7 +143,7 @@
 </div>
 <div class="section" id="what-to-expect-in-this-post">
 <h3><a class="toc-backref" href="#id3">What to Expect in this Post</a></h3>
-<p>I will be detailing the process of parsing a messy HTML file with multiple tables and writing the data to CSV files. These files will be combined and cleaned in a future post. This post covers the following:</p>
+<p>I will be detailing the process of parsing a messy HTML file with multiple tables and writing the data to CSV files. These files will be combined and cleaned in future posts. This particular post covers the following:</p>
 <ol class="arabic simple">
 <li>The data source and what the data covers.</li>
 <li>A walk through of the layout of the web page and the HTML structure.</li>
@@ -155,7 +155,7 @@
 </div>
 <div class="section" id="the-source-code">
 <h2><a class="toc-backref" href="#id4"><strong>The Source Code</strong></a></h2>
-<p>Link to repository here: <a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysisy">Github</a>.</p>
+<p>Link to repository here: <a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis">Github</a>.</p>
 <div class="section" id="the-tools-used">
 <h3><a class="toc-backref" href="#id5">The Tools Used</a></h3>
 <p>The code in this post is primarily constructed with the main Python library (version 3.6), <a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> and a little bit of <a class="reference external" href="https://docs.python.org/3.7/library/re.html">Regular Expressions</a>.</p>
@@ -168,7 +168,7 @@
 <p>To retrieve the HTML file that I used, you can download the HTML file hosted on my github page or you can visit the SEC url and press Ctrl + S to save the file as an HTML document.</p>
 <p><strong>Right-click on the link &amp; save as an html file</strong>: <a class="reference external" href="../../../../files/JPC11C05.html">Download</a></p>
 <p><strong>URL</strong>: <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm</a></p>
-<p>To view the HTML, open the file or website in your browser and right click anywhere on the webpage and click &quot;Inspect&quot;. Ctrl+Shift+I is the windows shortcut to do this.</p>
+<p><strong>To view the webpage HTML, open the file or website in your browser and right click anywhere on the webpage and click &quot;Inspect&quot;. Ctrl+Shift+I is the windows shortcut to do this.</strong></p>
 </div>
 <div class="section" id="what-is-cmbs">
 <h3><a class="toc-backref" href="#id8">What is CMBS?</a></h3>
@@ -183,20 +183,20 @@
 </div>
 <div class="section" id="table-arrangement">
 <h3><a class="toc-backref" href="#id9">Table Arrangement</a></h3>
-<p><strong>The dataset is split into many different tables that are vertically lined up on one page</strong>. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together. <strong>The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file</strong>. For simplification, the visual only includes 10 Commercial Properties.</p>
-<p>Below, you can see four tables with various headers, columns and rows (See Legend). Each column, which includes a data point for every row, is broken up into two separate tables. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties, Properties 6-10. Similarly, Table 4 is a continuation of Table 3.</p>
+<p><strong>The dataset is split into many different tables that are vertically lined up on one page</strong>. Because I wanted tabular data, I had to first understand how the various tables were organized in order to put them together. <strong>The charts below illustrate how the first four tables are arranged and how they must be transformed in order to fit together as a single dataset like a CSV or excel file</strong>.</p>
+<p>Below, you can see four tables with various headers, columns and rows. For simplification, the visuals below include only 10 Commercial Properties. Each column, which includes a data point for every row, is broken up into <strong>two separate tables</strong>. So, Properties 1-5 are in Table 1 and Table 2 lists the other 5 properties - Properties 6-10. Similarly, Table 4 is a continuation of Table 3.</p>
 <img alt="table of four" src="/images/a_four_tables.jpg" style="width: 346.2px; height: 690.9px;" />
 <img alt="new legend" src="/images/new_legend.jpg" style="width: 375px; height: 140px;" />
 <p><strong>Tables 1 &amp; 2 need to be glued together and 3 &amp; 4 need to be glued together, both along the horizonal axis</strong>. Notice how the excess headers, (the grey-shaded headers in the above figure) have been eliminated in the figure below.</p>
 <img alt="table of two" src="/images/table_of_two.jpg" style="width: 375.9px; height: 524.4px;" />
-<p>The pairs of tables will be joined together on their respective vertical axes. Because &quot;Prop1, Prop2..etc.&quot; represents not only commercial properties in the pool of mortgages, but also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.</p>
+<p>Next, the pairs of tables then have to be joined together on their respective vertical axes. Because &quot;Prop1, Prop2..etc.&quot; represents not only commercial properties in the pool of mortgages, but are also the indices for each table, we will have to go back and delete the duplicate indices that will result from merging the tables in this way.</p>
 <img alt="table horizontal" src="/images/table_horizontal.jpg" style="width: 668px; height: 245px;" />
 <p><strong>When iteratively joining every 4 tables in this way, the result will be a single tabular dataset</strong>, albeit with plenty of clean up work left to do.</p>
-<p><strong>Although the data is not merged into a single data set in this post, assessing the layout significantly informed the way I approached the parsing and writing the data to files as you will see in this post</strong>. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will explain later in this post.</p>
+<p><strong>Although the data is not merged into a single data set in this post, assessing the layout significantly informed the way I approached the parsing and the writing of the data to files as you will see in this post</strong>. The tricky table layout actually pales in comparison, for me, to the complexity of parsing the header rows and creating rules to account for blank spaces in the table, which I will explain later in this post.</p>
 </div>
 <div class="section" id="the-html-structure">
 <h3><a class="toc-backref" href="#id10">The HTML Structure</a></h3>
-<p>Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). The key to understanding the HTML, for me, was understanding the <a class="reference external" href="https://www.w3schools.com/tags/tag_html.asp">HTML tag</a> structure, as well as what characteristics makes certain kinds of data unique, specifically what <a class="reference external" href="https://www.w3schools.com/html/html_attributes.asp">HTML tag attributes</a> make a given row of data identifiable as being a header row, a data row or a row to skip.</p>
+<p>Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). <strong>The key to understanding the HTML, for me, was understanding the `HTML tag &lt;https://www.w3schools.com/tags/tag_html.asp&gt;`_ structure, as well as what characteristics makes certain kinds of data unique, specifically what `HTML tag attributes &lt;https://www.w3schools.com/html/html_attributes.asp&gt;`_ make a given row of data identifiable as being a header row, a data row or a row to skip</strong>.</p>
 <p><strong>Some HTML Table Basics</strong>:</p>
 <ol class="arabic simple">
 <li><tt class="docutils literal">table</tt> tags define a table of data.</li>
@@ -208,7 +208,7 @@
 </div>
 <div class="section" id="import-libraries-and-make-soup">
 <h2><a class="toc-backref" href="#id11"><strong>Import Libraries and Make Soup</strong></a></h2>
-<p>Below are the libraries I used for this task. The <tt class="docutils literal">working_dir</tt> variable is the path that contains the html file and the name of the file is assigned to <tt class="docutils literal">filename</tt>. I often use the <tt class="docutils literal">os.chdir()</tt> method, out of preference, to direct my scripts to the appropriate directory but other methods work just as fine.</p>
+<p>Below are the libraries I used for this task. The <tt class="docutils literal">working_dir</tt> variable is the path that contains the html file and the name of the file is assigned to <tt class="docutils literal">filename</tt>. I often use the <tt class="docutils literal">os.chdir()</tt> method, out of preference, to direct my scripts to the appropriate directory but other methods work just as well.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">Tag</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
@@ -230,7 +230,7 @@
 </div>
 <div class="section" id="grab-the-tables">
 <h2><a class="toc-backref" href="#id12"><strong>Grab the Tables</strong></a></h2>
-<p>Each table of data is encased in <tt class="docutils literal">table</tt> tags in the HTML document. However, there were tables that I did not want, specifically the <tt class="docutils literal">table</tt> tags that consist of only footnotes (at bottom of HTML document). These tables all had a <tt class="docutils literal">border</tt> attribute within the main table tag (see below).</p>
+<p>Each table of data is encased in <tt class="docutils literal">table</tt> tags in the HTML document. However, there were tables that I did not want, specifically the <tt class="docutils literal">table</tt> tags that consist of only footnotes (at bottom of HTML document). I noticed that these tables all had a <tt class="docutils literal">border</tt> attribute within the main table tag (see below).</p>
 <p><strong>Good Table</strong></p>
 <img alt="good table" src="/images/good_table.jpg" />
 <p><strong>Bad Table</strong></p>
@@ -245,7 +245,7 @@
 </div>
 <div class="section" id="the-headers">
 <h2><a class="toc-backref" href="#id13"><strong>The Headers</strong></a></h2>
-<p>Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML. Embedded in the <tt class="docutils literal">td</tt> tag, there is a <tt class="docutils literal">font</tt> tag with a <tt class="docutils literal">style</tt> attribute. I found that <em>all</em> header cells contained the word <tt class="docutils literal">bold</tt> in the attribute value for the <tt class="docutils literal">style</tt> attribute (see below) and the table rows <strong>never</strong> contain the <tt class="docutils literal">bold</tt> tag attribute.</p>
+<p><strong>Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML</strong>. Embedded in the <tt class="docutils literal">td</tt> tag, there is a <tt class="docutils literal">font</tt> tag with a <tt class="docutils literal">style</tt> attribute. I found that <em>all</em> header cells contained the word <tt class="docutils literal">bold</tt> in the attribute value for the <tt class="docutils literal">style</tt> attribute (see below) and the table rows <strong>never</strong> contained the <tt class="docutils literal">bold</tt> tag attribute.</p>
 <img alt="header td" src="/images/header_td.jpg" />
 <div class="section" id="good-headers">
 <h3><a class="toc-backref" href="#id14">Good Headers</a></h3>
@@ -275,7 +275,7 @@
 <ul class="simple">
 <li><tt class="docutils literal">unwanted_header()</tt> searches the <tt class="docutils literal">tr</tt> tag for any <tt class="docutils literal">td</tt> tag that has a <tt class="docutils literal">colspan</tt> tag attribute with a numerical string value.</li>
 <li>The <tt class="docutils literal">re.compile()</tt> method is a Regular Expressions method that creates a Regular Expression object with a pattern that can be searched for.</li>
-<li>The 'r' tells Python not to interpret any backslash characters (for example &quot;n&quot; is interpreted by Python as a newline) and to let BeautifulSoup interpret the backslashes with its own syntax rules. In this case, <tt class="docutils literal">\d+</tt> will be interpreted by BeautifulSoup to mean &quot;any numerical string occuring at least one time&quot;.</li>
+<li>The 'r' tells Python not to interpret any backslash characters (for example <tt class="docutils literal">\n</tt> is interpreted by Python as a newline) and to let BeautifulSoup interpret the backslashes with its own syntax rules. In this case, <tt class="docutils literal">\d+</tt> will be interpreted by BeautifulSoup to mean &quot;any numerical string occuring at least one time&quot;.</li>
 <li>If the <tt class="docutils literal">colspan</tt> attribute is present in one of the row's <tt class="docutils literal">td</tt> tags then the <tt class="docutils literal">colspan_obj</tt> will exist as a Tag object and the <tt class="docutils literal">if</tt> statement is <tt class="docutils literal">True</tt>. If the specific tag is not found, the object will be a <tt class="docutils literal">None</tt> value and the <tt class="docutils literal">if</tt> statement is <tt class="docutils literal">False</tt>.</li>
 <li><tt class="docutils literal">colspan_val</tt> is a variable assigned to the colspan value, the string value for the <tt class="docutils literal">colspan</tt> tag attribute and it is converted to an integer by using the <tt class="docutils literal">int()</tt> function.</li>
 <li><tt class="docutils literal">colspan_obj</tt> is a <tt class="docutils literal">bs4.element.Tag</tt> object, which means the tag's attributes can be accessed like a dictionary like this: <tt class="docutils literal"><span class="pre">colspan_obj['colspan']</span></tt>.</li>
@@ -301,13 +301,13 @@
 <div class="section" id="the-bad-side-of-good-headers">
 <h3><a class="toc-backref" href="#id17">The Bad Side of Good Headers</a></h3>
 <p>Before, I mentioned that <strong>there are some good headers with a colspan value equal to 2</strong>. These headers need to be identified in order to correct a problem they present.</p>
-<p>In the image below, the figure labeled &quot;HTML&quot; reflects how the website's tags are organized when a header value spans across 2 columns. <strong>A header value with a colspan attribute value of 2 is enclosed in 1 ``td`` tag, while the rows below the single header ``td`` tag have 2 ``td`` tags (see picture for yellow and blue ``td`` tags)</strong>. This 2-to-1 arrangement is not visible on the website and aligns appropriately in the HTML output, however, <strong>because my script iterates over every ``td`` tag and writes each one to a cell in my CSV file, I ran into a cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;</strong>.</p>
+<p>In the image below, the column &quot;Other Reserve Cap&quot; reflects how the website's tags are organized when a header value spans across 2 columns. A header value with a colspan attribute value of 2, &quot;Other Reserve Cap&quot;, is enclosed in 1 <tt class="docutils literal">td</tt> tag, while the rows of data below the header have 2 <tt class="docutils literal">td</tt> tags (see picture for yellow and blue <tt class="docutils literal">td</tt> tags). This 2-to-1 arrangement is not visible on the website and aligns appropriately in the HTML output, however, <strong>because my script iterates over every ``td`` tag and writes each one to a cell in my CSV file, I ran into a cell alignment problem illustrated in the figure below labeled &quot;CSV Result&quot;</strong>.</p>
 <img alt="cell align new" src="/images/cell_align_new.jpg" style="width: 601.2px; height: 229.5px;" />
 <p>To identify the good headers with a colspan value of 2, I created a boolean function that returns <tt class="docutils literal">True</tt> when all <tt class="docutils literal">td</tt> tags span the same number of columns, 1 each, and returns False when they do not.</p>
 <ul class="simple">
 <li>Below is the boolean function <tt class="docutils literal">cells_same_colspan()</tt>.</li>
 <li><tt class="docutils literal">colspan_dict</tt> is a dictionary object where the keys are the row numbers of a table and the values are lists with the colspan values.</li>
-<li>By using a list comprehension that calls the <tt class="docutils literal">max()</tt> function on every list of colspan values, I can create a list of maximum colspan values per row. <tt class="docutils literal">max()</tt> is called once again on the list of max values per row to find the highest value of each row's highest colspan value.</li>
+<li>By using a list comprehension that calls the <tt class="docutils literal">max()</tt> function on every list of colspan values, I can create a list of maximum colspan values per row. <tt class="docutils literal">max()</tt> is called once again on the list of max values per row to find the highest colspan value for a entire table of data (headers and table rows).</li>
 <li>The function returns <tt class="docutils literal">False</tt> when the largest colspan value does not equal 1.</li>
 </ul>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cells_same_colspan</span><span class="p">(</span><span class="n">colspan_dict</span><span class="p">):</span>
@@ -340,7 +340,7 @@
 
 <span class="c1"># where the dict keys are table rows</span>
 <span class="c1"># and the dict values are lists containing tuples</span>
-<span class="c1"># a each tuple contains..</span>
+<span class="c1"># each tuple contains..</span>
 <span class="c1"># (index value of a given data point, the colspan value for given point)</span>
 </pre></div>
 <ul class="simple">

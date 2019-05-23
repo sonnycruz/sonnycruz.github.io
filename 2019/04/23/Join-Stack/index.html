@@ -91,7 +91,7 @@
 </div>
 <div class="section" id="recap-of-part-1-2">
 <h2><a class="toc-backref" href="#id1"><strong>Recap of Part 1 &amp; 2</strong></a></h2>
-<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will <em>almost</em> be ready for analysis..</p>
+<p>After scraping all of the CMBS loan data from the <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC.gov website</a> (shown in my <a class="reference external" href="../../../../2018/12/23/Getting-Data/">first post</a>) and parsing the unwieldy header data (see my <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">previous post</a>), I now have to join all of the table data (which are saved as a bunch of CSV files) pieces and save the data as one CSV file. After joining all of the disparate data pieces the final data set will be one table and the data will <em>almost</em> be ready for analysis..</p>
 </div>
 <div class="section" id="join-tables-stack-the-headers">
 <h2><a class="toc-backref" href="#id2"><strong>Join Tables &amp; Stack the Headers</strong></a></h2>
@@ -117,7 +117,9 @@
 
 <span class="n">pattern</span> <span class="o">=</span> <span class="s1">&#39;*table.csv&#39;</span>
 
-<span class="n">all_table_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_dir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">))]</span>
+<span class="n">all_table_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_dir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">))]</span>
+
 <span class="n">number_of_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_table_files</span><span class="p">)</span>
 
 <span class="n">df_top_half</span> <span class="o">=</span> <span class="p">[]</span>
