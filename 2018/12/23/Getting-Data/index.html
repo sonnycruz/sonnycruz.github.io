@@ -148,7 +148,7 @@
 <li>The data source and what the data covers.</li>
 <li>A walk through of the layout of the web page and the HTML structure.</li>
 <li>Helper functions that are utilized in the main script.</li>
-<li>A break down of the main script.</li>
+<li>A break down of the main HTML parsing script.</li>
 </ol>
 <p><strong>This is not a Python beginner-friendly post</strong>, however, I created visualizations where I thought they would help, included several website links throughout to reference some fundamental programming concepts and aimed to explain everything in detail while trying to keep things as simple as possible.</p>
 </div>
@@ -232,9 +232,9 @@
 <h2><a class="toc-backref" href="#id12"><strong>Grab the Tables</strong></a></h2>
 <p>Each table of data is encased in <tt class="docutils literal">table</tt> tags in the HTML document. However, there were tables that I did not want, specifically the <tt class="docutils literal">table</tt> tags that consist of only footnotes (at bottom of HTML document). I noticed that these tables all had a <tt class="docutils literal">border</tt> attribute within the main table tag (see below).</p>
 <p><strong>Good Table</strong></p>
-<img alt="good table" src="/images/good_table.jpg" />
+<img alt="good table" src="/images/good_table.JPG" />
 <p><strong>Bad Table</strong></p>
-<img alt="bad table" src="/images/bad_table.jpg" />
+<img alt="bad table" src="/images/bad_table.JPG" />
 <p>So, I used a list comprehension to grab all the tables by targeting the <tt class="docutils literal">table</tt> HTML tag and excluded all <tt class="docutils literal">table</tt> tags with a <tt class="docutils literal">'border'</tt> tag attribute. <tt class="docutils literal"><span class="pre">soup.findAll('table')</span></tt> returns a <tt class="docutils literal">bs4.element.ResultSet</tt> which is a list of <tt class="docutils literal">bs4.element.Tag</tt> objects - the <tt class="docutils literal">table</tt> tags. <tt class="docutils literal">table_count</tt> stores the number of tables to iterate over.</p>
 <div class="highlight"><pre><span></span><span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">table</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">attrs</span>
