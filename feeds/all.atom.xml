@@ -47,7 +47,7 @@
 &lt;p&gt;First, you can assess the general quality of the data using the &lt;tt class="docutils literal"&gt;.head()&lt;/tt&gt; method in a Python interpreter.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;img alt="df head4" src="/images/dfhead4.png" /&gt;
+&lt;img alt="df head4" src="/images/dfhead4.PNG" /&gt;
 &lt;p&gt;Next, there are four components that &amp;quot;must know&amp;quot; characteristics for me for any dataset.&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;The number of columns and rows.&lt;/li&gt;
@@ -61,11 +61,11 @@
 &lt;p&gt;You can access the Pandas' &lt;tt class="docutils literal"&gt;.shape&lt;/tt&gt; attribute and you will see a tuple containing the rows and columns in the format (rows, columns).&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;img alt="df shape2" src="/images/dfshape2.png" style="width: 85%;" /&gt;
+&lt;img alt="df shape2" src="/images/dfshape2.PNG" style="width: 85%;" /&gt;
 &lt;p&gt;or you can call the &lt;tt class="docutils literal"&gt;df.info()&lt;/tt&gt; method to get a little more information, such as memory usuage.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;img alt="df info" src="/images/dfinfo.png" style="width: 85%;" /&gt;
+&lt;img alt="df info" src="/images/dfinfo.PNG" style="width: 85%;" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="column-names"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id7"&gt;&lt;strong&gt;Column Names&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
