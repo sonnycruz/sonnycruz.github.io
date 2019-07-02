@@ -37,6 +37,11 @@ SOCIAL = (('', r''),
 
 DEFAULT_PAGINATION = 10
 STATIC_PATHS = ['images', 'files']
+PLUGIN_PATHS = [r'C:\Users\storres.759NYY1\Desktop\Portfolio\sonnysblog\Lib\site-packages']
+PLUGINS = [
+    'pelican_gist'
+    ]
+
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
