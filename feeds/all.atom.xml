@@ -998,7 +998,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;div class="section" id="the-headers"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id13"&gt;&lt;strong&gt;The Headers&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML&lt;/strong&gt;. Embedded in the &lt;tt class="docutils literal"&gt;td&lt;/tt&gt; tag, there is a &lt;tt class="docutils literal"&gt;font&lt;/tt&gt; tag with a &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute. I found that &lt;em&gt;all&lt;/em&gt; header cells contained the word &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; in the attribute value for the &lt;tt class="docutils literal"&gt;style&lt;/tt&gt; attribute (see below) and the table rows &lt;strong&gt;never&lt;/strong&gt; contained the &lt;tt class="docutils literal"&gt;bold&lt;/tt&gt; tag attribute.&lt;/p&gt;
-&lt;img alt="header td" src="/images/header_td.jpg" /&gt;
+&lt;img alt="header td" src="/images/header_td.JPG" /&gt;
 &lt;div class="section" id="good-headers"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id14"&gt;Good Headers&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The function I made to identify headers has two parameters, &lt;tt class="docutils literal"&gt;tag&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;keyword&lt;/tt&gt;.&lt;/p&gt;
@@ -1017,7 +1017,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;p&gt;However, I wanted to &lt;em&gt;exclude&lt;/em&gt; some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns (See &amp;quot;Hotel Operating Statistics&amp;quot; below).&lt;/p&gt;
 &lt;img alt="hotel op stats header" src="/images/trythisheadercropped.png" /&gt;
 &lt;p&gt;The above Bad Header is differentiated in the HTML from the Good Header by having a large &amp;quot;colspan&amp;quot; attribute value. &lt;strong&gt;The &amp;quot;colspan&amp;quot; attribute tells us how many columns a given data point spans across&lt;/strong&gt;. The HTML below shows that the &amp;quot;Hotel Operating Statistics&amp;quot; header has a colspan value of 15.&lt;/p&gt;
-&lt;img alt="colspan 15" src="/images/colspan15.jpg" /&gt;
+&lt;img alt="colspan 15" src="/images/colspan15.JPG" /&gt;
 &lt;p&gt;To be clear, in this HTML file, &lt;strong&gt;all colspan attributes are associated with headers but not all headers are associated with a colspan attribute&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;I then searched the HTML document manually in my browser, using Ctrl+f, for &amp;quot;colspan&amp;quot;. &lt;strong&gt;There are only 20 instances of &amp;quot;colspan&amp;quot; in the entire HTML document and I saw that the highest colspan value for a good header was 2&lt;/strong&gt;.&lt;/p&gt;
 &lt;/div&gt;

@@ -246,7 +246,7 @@
 <div class="section" id="the-headers">
 <h2><a class="toc-backref" href="#id13"><strong>The Headers</strong></a></h2>
 <p><strong>Because the table headers came with their own unique challenges, I wanted to keep track of the headers and table rows separately. I first needed to see what distinguished the headers in the HTML</strong>. Embedded in the <tt class="docutils literal">td</tt> tag, there is a <tt class="docutils literal">font</tt> tag with a <tt class="docutils literal">style</tt> attribute. I found that <em>all</em> header cells contained the word <tt class="docutils literal">bold</tt> in the attribute value for the <tt class="docutils literal">style</tt> attribute (see below) and the table rows <strong>never</strong> contained the <tt class="docutils literal">bold</tt> tag attribute.</p>
-<img alt="header td" src="/images/header_td.jpg" />
+<img alt="header td" src="/images/header_td.JPG" />
 <div class="section" id="good-headers">
 <h3><a class="toc-backref" href="#id14">Good Headers</a></h3>
 <p>The function I made to identify headers has two parameters, <tt class="docutils literal">tag</tt> and <tt class="docutils literal">keyword</tt>.</p>
@@ -265,7 +265,7 @@
 <p>However, I wanted to <em>exclude</em> some of the header rows. Some of the tables have a hierarchal index structure where one large header row describes a group of columns (See &quot;Hotel Operating Statistics&quot; below).</p>
 <img alt="hotel op stats header" src="/images/trythisheadercropped.png" />
 <p>The above Bad Header is differentiated in the HTML from the Good Header by having a large &quot;colspan&quot; attribute value. <strong>The &quot;colspan&quot; attribute tells us how many columns a given data point spans across</strong>. The HTML below shows that the &quot;Hotel Operating Statistics&quot; header has a colspan value of 15.</p>
-<img alt="colspan 15" src="/images/colspan15.jpg" />
+<img alt="colspan 15" src="/images/colspan15.JPG" />
 <p>To be clear, in this HTML file, <strong>all colspan attributes are associated with headers but not all headers are associated with a colspan attribute</strong>.</p>
 <p>I then searched the HTML document manually in my browser, using Ctrl+f, for &quot;colspan&quot;. <strong>There are only 20 instances of &quot;colspan&quot; in the entire HTML document and I saw that the highest colspan value for a good header was 2</strong>.</p>
 </div>
