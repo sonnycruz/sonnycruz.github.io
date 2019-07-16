@@ -87,11 +87,12 @@
 <li><a class="reference internal" href="#null-values-per-column" id="id8"><strong>Null Values Per Column</strong></a></li>
 <li><a class="reference internal" href="#column-datatypes" id="id9"><strong>Column Datatypes</strong></a></li>
 <li><a class="reference internal" href="#bar-graph-for-different-property-types" id="id10"><strong>Bar Graph for Different Property Types</strong></a></li>
+<li><a class="reference internal" href="#other-basic-descriptive-statistics" id="id11"><strong>Other Basic Descriptive Statistics</strong></a></li>
 </ul>
 </div>
 <div class="section" id="recap-of-parts-1-4-data-wrangling">
 <h2><a class="toc-backref" href="#id3"><strong>Recap of Parts 1-4 Data Wrangling</strong></a></h2>
-<p>I set out to refine, document and showcase my data scraping, combining, parsing, cleaning and analysis skills with Python. Now I have a complete dataset (a large feat, indeed, given the self-imposed constraints). Below I will recap the journey thus far.</p>
+<p>I set out to practice, document and showcase my data scraping, combining, parsing, cleaning and analysis skills with Python. Now I have a complete dataset (a large feat, indeed, given the self-imposed constraints). Below I will recap the journey thus far.</p>
 <ol class="arabic simple">
 <li><a class="reference external" href="../../../../2018/12/23/Getting-Data/">Part 1 Getting Data</a> : I didn't want to begin my blog with training wheels and write &quot;I just copied and pasted the data from a website&quot;. I wanted the dataset to be gathered from scratch! A fools errand? Not if you are practicing your programming skills. Is it worth creating a scraper in the real world? I guess it depends on the time it takes, the quantity and quality of the data and what it is used for. To gather the data, I used <a class="reference external" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> and <a class="reference external" href="https://docs.python.org/3.7/library/re.html">Regular Expressions</a> to scrape and gather various tables of CMBS loan data from an HTML file downloaded from this <a class="reference external" href="https://www.sec.gov/Archives/edgar/data/1013611/000152153611000217/q1100154_fwpa1-jpm.htm">SEC webpage</a>.</li>
 <li><a class="reference external" href="../../../../2019/04/18/Parse-Headers/">Part 2 Parsing the Headers</a>: In order to combine multiple header rows, spread across multiple CSV files, I had to load each header file, account for encoding differences between Python and the data source, account for duplicate header values, join a hierarchal index of header rows into a single header row, save and concatenate the results.</li>
@@ -106,11 +107,12 @@
 </div>
 <div class="section" id="exploring-the-dataset">
 <h2><a class="toc-backref" href="#id5"><strong>Exploring the Dataset</strong></a></h2>
-<p>When exploring a dataset I like to use an <a class="reference external" href="https://en.wikipedia.org/wiki/Interpreter_(computing)">interpreter</a> and interact with the dataset. I used IPython to develop the code for this post, and appropriately the code for this section are meant to be typed at a Python interpreter, otherwise you will have to use <tt class="docutils literal"><span class="pre">print([code])</span></tt>.</p>
-<p>Below are the imports and settings modifications for Pandas to view more rows and columns in the interpreter.</p>
+<p>When exploring a dataset I like to use an <a class="reference external" href="https://en.wikipedia.org/wiki/Interpreter_(computing)">interpreter</a> and interact with the dataset. I used the IPython command shell to develop the code for this post, and appropriately the code for this section is meant to be typed at a Python interpreter, otherwise you will have to use <tt class="docutils literal"><span class="pre">print([code])</span></tt>.</p>
+<p>Below are the imports and settings modifications for Pandas to view more output in the interpreter.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">nan</span> <span class="k">as</span> <span class="n">NA</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
@@ -124,7 +126,7 @@
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 <img alt="df head4" src="/images/dfhead4.PNG" />
-<p>Next, there are four components that &quot;must know&quot; characteristics for me for any dataset.</p>
+<p>Next, there are four &quot;must know&quot; characteristics for me for any data set.</p>
 <ol class="arabic simple">
 <li>The number of columns and rows.</li>
 <li>The name of each column.</li>
@@ -145,7 +147,7 @@
 </div>
 <div class="section" id="column-names">
 <h2><a class="toc-backref" href="#id7"><strong>Column Names</strong></a></h2>
-<p>In my experience with working with Pandas, indexing by column names is one of the most common operations. For example, I may index column names to change the column datatypes, combine columns, perform merge operations, rename columns and aggregate statistics. Below is one way to see all of the columns for a dataset.</p>
+<p>In my experience with working with Pandas, indexing by column names is one of the most common operations. For example, I may index column names to change the column data types, combine columns, merge data sets, rename columns or produce aggregate statistics. Below is one way to see all of the columns for a data set.</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 <img alt="dfcolval" src="/images/dfcolval.PNG" style="width: 85%;" />
@@ -159,34 +161,33 @@
 </pre></div>
 <p>Above, the empty list <tt class="docutils literal">indx_cols</tt> is the data container which will contain all of the column information.</p>
 <p>I then iterated over each tuple that <tt class="docutils literal">enumerate</tt> produces when passed <tt class="docutils literal">df.columns.values</tt>.</p>
-<p>The index and column values are then appended to the list <tt class="docutils literal">indx_cols</tt>.</p>
-<p><tt class="docutils literal">np.savetxt</tt> will save a text file with each column index number and column name, below.</p>
-<p>This way, you have a text file to refer to where you can highlight, copy and paste values when you are writing code that involves indexing long column names.</p>
+<p>The index values and column names are then appended to the list <tt class="docutils literal">indx_cols</tt>.</p>
+<p><tt class="docutils literal">np.savetxt</tt> then saves a text file with each column index number and column name, below.</p>
+<img alt="cmbs_cols_txt_file_two" src="/images/cmbs_cols_two.JPG" />
+<p>This way, you have a text file to refer to where you can highlight, copy and paste values when you are writing code that involves indexing long column names or, in this case, there are 100+ columns to work with.</p>
 </div>
 <div class="section" id="null-values-per-column">
 <h2><a class="toc-backref" href="#id8"><strong>Null Values Per Column</strong></a></h2>
-<p>This particular dataset has many null values and because I wanted to gather descriptive statistics on columns that consider each data point, it was useful to know how many data points and missing data points (null values) there are per column.</p>
+<p>This particular dataset has many null values and because I wanted to gather descriptive statistics on columns that consider each data point, it is useful to know how many data points and missing data points (null values) there are per column. For example, a median or average value for a given column of data is not so relevant when only 20% of the data is not null.</p>
 <p>But first, I wanted to change the encoding (<a class="reference external" href="../../../../2019/04/23/Join-Stack/">covered in this post</a>) to make sure that the null values show up at all. I was reminded that I needed to encode these values to UTF-8 when I saw that there were <em>NO null values</em>, which you can easily see is incorrect when opening the file in Excel. The null values were just read by Python (UTF-8 encoding) as string values that look like this: <tt class="docutils literal">'\xa0 '</tt>. I could just replace these strange looking string values with NA values, but I prefer to convert to Python's native encoding to avoid any other issues.</p>
-<p>Below will convert the the <a class="reference external" href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252 or CP-1252</a> encoded dataset into UTF-8 encoding, column by column.</p>
+<p>Below will convert the the <a class="reference external" href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252 or CP-1252</a> encoded dataset into UTF-8 encoding, column by column. I used portions of code from Josh Devlin's really cool blog on making Pandas dataframes more memory efficient, which you can <a class="reference external" href="https://www.dataquest.io/blog/pandas-big-data/">check out here</a>.</p>
 <div class="highlight"><pre><span></span><span class="n">str_dtypes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span>
 <span class="n">utf_encoded</span> <span class="o">=</span> <span class="n">str_dtypes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">utf_encoded</span><span class="o">.</span><span class="n">columns</span><span class="p">]]</span> <span class="o">=</span> <span class="n">utf_encoded</span>
 <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">NA</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
-<p>First, in order to target <em>just the columns with string values</em> (or 'object' as they are labeled) and not the columns of numerical data types I used the <tt class="docutils literal">.select_dtypes</tt> Pandas dataframe method. I select only the string columns because using <tt class="docutils literal">.apply</tt> on a Dataframe with a lambda function that is meant for only strings actually converts the numerical column to all null values.</p>
+<p>First, in order to target <em>just the columns with string values</em> (in Python 'everything is an object' but this method is referring to strings with the keyword ''object'') and not the columns of numerical data types I used the <tt class="docutils literal">.select_dtypes</tt> Pandas dataframe method. I select only the string columns because using <tt class="docutils literal">.apply</tt> on a Dataframe with a lambda function that is meant for only strings actually converts the numerical column to all null values.</p>
 <p>Next, I used Pandas' <tt class="docutils literal">.apply</tt> method and passed a lambda function where every <tt class="docutils literal">x</tt> is a column that will have its <tt class="docutils literal">.str.</tt> attribute accessed and the <tt class="docutils literal">normalize</tt> method is used to convert the non-break space character into its correct character representation, a string value consisting of 3 spaces.</p>
 <p>Because I want these non-break space characters to show up as blanks, or null values, I call <tt class="docutils literal">df.replace</tt> so the string value <tt class="docutils literal">'&nbsp;&nbsp; '</tt> is replaced with null values.</p>
 <p>Now, I can call <tt class="docutils literal">df.count()</tt> and see how many non-null values there are in each column. Or, rather than viewing the raw number of values that are valid values per row, you can view the <em>percentage</em> of values that are present in each column using the code below.</p>
 <div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
-<p>[INSERT IMAGE HERE]</p>
 </div>
 <div class="section" id="column-datatypes">
 <h2><a class="toc-backref" href="#id9"><strong>Column Datatypes</strong></a></h2>
 <p>Below is a convenient way to see what each column's datatype is.</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
 </pre></div>
-<p>[INSERT IMAGE]</p>
 <p>Working with financial data, one of the most common datatype conversions I do is converting dollars and dates to usable, sortable data types. Below are two functions that I created to use for this purpose.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">currency</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
       <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;[$,()%]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
@@ -194,17 +195,38 @@
 <span class="k">def</span> <span class="nf">date_convert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
       <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
-<p>Notice that the <tt class="docutils literal">currency</tt> function will not only replace dollar symbols, parentheses and commas with empty strings but also the percent symbol - another symbol often seen in business and finance. See the documentation for Pandas' <tt class="docutils literal">.replace</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.replace.html">at this link</a>.</p>
-<p>The <tt class="docutils literal">date_convert</tt> function is a simple way to use the <tt class="docutils literal">pd.to_datetime</tt> Pandas method but is convenient shorthand. Surprisingly, the parameter and argument <tt class="docutils literal">infer_datetime_format=True</tt> speeds up an otherwise lengthy conversion process (i.e. '5/26/2018' a string, is converted to 2018-05-26, a sortable date). See the documentation for Pandas' <tt class="docutils literal">.to_datetime</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html">here</a>.</p>
-<p>I will use both of these functions later in this post.</p>
+<p>Notice that the <tt class="docutils literal">currency</tt> function will not only replace dollar symbols, parentheses and commas with empty strings but also the percent symbol - another symbol often seen in business and finance. See the documentation for Pandas' <tt class="docutils literal">.replace</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.replace.html">at this link</a>. Also, <a class="reference external" href="https://towardsdatascience.com/5-methods-to-remove-the-from-your-data-in-python-and-the-fastest-one-281489382455">here</a> is a cool article by Chaim Gluck about different ways to convert financial data.</p>
+<p>Before:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<p>[IMAGE]</p>
+<p>After:</p>
+<div class="highlight"><pre><span></span><span class="n">currency</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Current Balance&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<p>[IMAGE]</p>
+<p>The <tt class="docutils literal">date_convert</tt> function is a simple way to use the <tt class="docutils literal">pd.to_datetime</tt> Pandas method but is convenient shorthand. Surprisingly, the parameter and argument <tt class="docutils literal">infer_datetime_format=True</tt> speeds up an otherwise lengthy conversion process (i.e. '5/26/2018' a string, is converted to 2018-05-26, a sortable date). See the documentation for Pandas' <tt class="docutils literal">.to_datetime</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html">click here</a>.</p>
+<p>Before:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Final Mat Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<p>[IMAGE]</p>
+<p>After:</p>
+<div class="highlight"><pre><span></span><span class="n">date_convert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Final Mat Date&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Final Mat Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<p>Another Metric I will look at is DSCR, Net Operating Income for a given period, divided by the total debt service due for that period.</p>
+<p>[IMAGE]</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
 </div>
 <div class="section" id="bar-graph-for-different-property-types">
 <h2><a class="toc-backref" href="#id10"><strong>Bar Graph for Different Property Types</strong></a></h2>
-<p>After assessing the basic characteristics of the data, you might want to produce some simple visualizations for a more intuitive understanding of the data, i.e. a histogram representing a distribution of values for some category or column.</p>
-<p><a class="reference external" href="https://matplotlib.org/3.1.0/index.html">Matplotlib</a>, Python's main graphing library, is notoriously low-level at times and like Regular Expressions often requires programmers to Google basic syntax, not to mention the more esoteric functionality of the libraries. Also like Regular Expressions, Matplotlib can be as simple or as complicated/customized as you want it to be.</p>
-<p>To make things more complicated, there are two different ways, or two interfaces, for Matplotlib. On his website, Data Scientist Jake Vanderplas artfully <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/04.00-introduction-to-matplotlib.html#Two-Interfaces-for-the-Price-of-One">described</a> how Matplotlib has a quick MATLAB-style interface and an object-oriented interface for more customizable graphs.</p>
-<p>The method of experimentation with Matplotlib that I found the most helpful was using the IPython shell coupled with its magic command <tt class="docutils literal">%matplotlib</tt>, so that I could see the changes to the graph in real time.</p>
-<p>Because it often took me many lines of code to produce, for example, a basic bar chart, I created a function with parameters that produces a customizable bar chart from a dictionary of data.</p>
+<p>After assessing the basic characteristics of the data, I try to produce simple visualizations to gain a more intuitive understanding of the data. For example, a histogram representing a distribution of values for some category of data.</p>
+<p>Regular Expressions, the text pattern matching library, has low-level syntax and complex rules for matching wordsRegular Expressions canmatch a word or more complex text like emails, phone numbers, phrases or other custom patterns.</p>
+<p><a class="reference external" href="https://matplotlib.org/3.1.0/index.html">Matplotlib</a>, Python's primary graphing library, has relatively low-level syntax compared to the main Python library. Creating a graph with  changes in the detail of the graph can require many lines of code, each instructing a small change, such as the color or size of the background or text.</p>
+<p>To make things more complicated, Matplotlib tutorials often look vastly different for similar operations. This is due to the fact that the library has two different ways, or two interfaces. Data Scientist Jake Vanderplas artfully <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/04.00-introduction-to-matplotlib.html#Two-Interfaces-for-the-Price-of-One">described</a> how Matplotlib has a quick MATLAB-style interface and an object-oriented interface for more customizable graphs.</p>
+<p>The method of experimentation with Matplotlib that I found the most helpful was using the IPython shell coupled with its magic command <tt class="docutils literal">%matplotlib</tt>, so that I could see the changes to the graph in real time as I tinkered with different presentation details.</p>
+<p>Because it often took me many lines of code to produce a basic bar chart, I created a function with parameters that produces a customizable bar chart from a dictionary of data.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cmbs_bars</span><span class="p">(</span><span class="n">dict_data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">ylim_low</span><span class="p">,</span> <span class="n">ylim_high</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">y_thousands</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
               <span class="n">text_message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text_c1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">text_c2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;seaborn-bright&#39;</span><span class="p">,</span>
               <span class="n">bar_color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">xtick_rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xtick_font</span><span class="o">=</span><span class="s1">&#39;large&#39;</span><span class="p">,</span>
@@ -236,18 +258,40 @@
                     <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;{:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
       <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<p>Above, are the 24 lines of code that I use to construct a bar chart from a dictionary. I summarized the esoteric matplotlib functions and include links for reference in the footnotes <a class="footnote-reference" href="#id2" id="id1">[1]</a>. // Unlike using the graphing tool in Excel, where you can choose a series of templates and drop-down options, to customize a graph, with Matplotlib you have to create each component of the graph such as...</p>
+<p>Above, are the 24 lines of code that can be called to construct a bar chart from a dictionary of data. Does the function look extremely complicated and have a <strong>ridiculous amount of parameters?</strong> Yes, however only 5 of the parameters are <em>required</em>, and I would rather compromise with a cumbersome function with 17 parameters, than have to write 24 lines of code with 800 characters to produce the graph I want. I summarized the matplotlib syntax and functions in the footnotes at the bottom of this post <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<p>In short, unlike using the graphing tool in Excel where you can choose from a series of templates and drop-down menus, Matplotlib requires the user to use specific commands to construct a graph <em>one basic characteristic at a time</em>. For example:</p>
 <ol class="arabic simple">
 <li><tt class="docutils literal">plt.figure</tt> instantiates the figure object.</li>
-<li><tt class="docutils literal">fig.add_subplot</tt> creates a subplot (a blank square with a y &amp; x axis).</li>
-<li><tt class="docutils literal">ax1.bar</tt> creates a bar graph within the subplot. The subplot details provided to the function (all using parameter names I created in the cmbs_bars function) are the <tt class="docutils literal">data_index</tt> or the number of x-ticks, <tt class="docutils literal">data_values</tt> the quantity or y-values for each x-tick, <tt class="docutils literal">align</tt> which accepts 'center' or 'edge'</li>
-<li><tt class="docutils literal">plt.xticks</tt> creates the x-axis lables (property types in this instance). <tt class="docutils literal">data_index</tt> is the location of the xticks, <tt class="docutils literal">data_keys</tt> are the actual lables (Hotel, Retail...etc.), <tt class="docutils literal">rotation</tt> will rotate the x-axis labels if desired and <tt class="docutils literal">fontsize</tt> will change the font size.</li>
-<li><tt class="docutils literal">ax1.set_ylim</tt> allows the customization of the y-axis so that different ranges are visible.</li>
+<li><tt class="docutils literal">fig.add_subplot</tt> creates a subplot (a blank square with a Y &amp; X axis) inside the figure object.</li>
+<li><tt class="docutils literal">ax1.bar</tt> creates a bar graph within the subplot. The subplot details provided to the function are the <tt class="docutils literal">data_index</tt> or the number of x-ticks, <tt class="docutils literal">data_values</tt> the quantity or y-values for each x-tick and <tt class="docutils literal">align</tt> which accepts 'center' or 'edge'.</li>
 </ol>
-<p>Now I can pass a dictionary of data containing categories and quantities and pass it to the bar chart function. Below is the dictionary of data I'll use for the bar chart, the dictionary passed to the function <tt class="docutils literal">cmbs_bars</tt> and finally the visual the function produces.</p>
-<p>[INSERT IMAGE]</p>
-<div class="highlight"><pre><span></span><span class="n">prop_dict</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Property Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<p>Most of the remaining parameters in the function <tt class="docutils literal">cmbs_bars()</tt> are for minor aesthetic changes to the graph. See documentation for function.</p>
+<p>Below is a dictionary of property types that is then passed to the function <tt class="docutils literal">cmbs_bars</tt>.</p>
+<div class="highlight"><pre><span></span><span class="n">prop_dict</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Property Type&#39;</span><span class="p">)[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 </pre></div>
+<p>The simple use of the <tt class="docutils literal">.groupby()</tt> method above represents a small fraction of the kind data filtering operations that are possible with Pandas' <tt class="docutils literal">.groupby()</tt> method. More on the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">Group By Method in the Pandas Documentation</a>.</p>
+<p>And the dictionary values below:</p>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;Hotel&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+ <span class="s1">&#39;Manufactured Housing&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s1">&#39;Mixed Use&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+ <span class="s1">&#39;Multifamily&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+ <span class="s1">&#39;Office&#39;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+ <span class="s1">&#39;Retail&#39;</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
+ <span class="s1">&#39;Self Storage&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</pre></div>
+<p>Passing this dictionary to the function below...</p>
+<div class="highlight"><pre><span></span><span class="n">cmbs_bars</span><span class="p">(</span><span class="n">dict_data</span><span class="o">=</span><span class="n">prop_dict</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of Properties by Property Type&#39;</span><span class="p">,</span> <span class="n">ylim_low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+          <span class="n">ylim_high</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">,</span> <span class="n">xtick_rotation</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">xtick_font</span><span class="o">=</span><span class="mf">8.5</span><span class="p">)</span>
+</pre></div>
+<p>produces the following graph...</p>
+<img alt="prop_type_graph" src="/images/prop_types_three.PNG" style="width: 100%;" />
+<p>There are of course other graphing libraries. Basemap is a graphing library that requires a given set of coordinates, 3 shapefiles and returns a geographic map with the coordinate data plotted on the map based on a given coordinate system.</p>
+<p>Below is a graph I made some time ago with the Basemap library:</p>
+<img alt="cmbs_5mm" src="/images/all_cmbs_52mm.png" style="width: 100%;" />
+<p>The map above is good example of a large group of location coordinates being clearly presented in a way that highlights the underlying characteristic of the data, in this case - the disparity in concentration of CMBS properties in various regions of the United States. Most notably, the northeast has a heavy concentration of CMBS propeties, as well as areas of Texas, California and Florida. There is far less CMBS exposure in states like North and South Dakota, Montana and Nebraska.</p>
+</div>
+<div class="section" id="other-basic-descriptive-statistics">
+<h2><a class="toc-backref" href="#id11"><strong>Other Basic Descriptive Statistics</strong></a></h2>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

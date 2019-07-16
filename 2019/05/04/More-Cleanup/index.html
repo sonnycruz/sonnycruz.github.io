@@ -96,9 +96,9 @@
 </div>
 <div class="section" id="return-of-the-headers">
 <h2><a class="toc-backref" href="#id2"><strong>Return of the Headers</strong></a></h2>
-<p>After an entire <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">post</a> was dedicated entirely to parsing header data, there are still some ways that the headers could be better. It is important to be able to access columns with as much convenience and ease as possible since indexing by column name is one of the most common operations used while working with data with the Pandas library. Below are the minor changes I will make to the headers and, in some cases, entire columns.</p>
+<p>After an entire <a class="reference external" href="../../../../2019/04/18/Parse-Headers/">post</a> was dedicated entirely to parsing header data, there are still some ways that the headers could be better. It is important to be able to access columns with as much convenience and ease as possible since indexing by a column name is one of the most common operations used while working with data with the Pandas library. Below are the minor changes I will make to the headers and, in some cases, entire columns.</p>
 <ol class="arabic simple">
-<li>Fix inconsistent spacing in headers.</li>
+<li>Fix inconsistent spacing in the header string values.</li>
 <li>Delete unnecessary symbols and parenthesis.</li>
 <li>Delete duplicate columns.</li>
 <li>Delete columns that are completely empty.</li>
@@ -212,14 +212,13 @@
 </div>
 <div class="section" id="delete-duplicate-columns">
 <h2><a class="toc-backref" href="#id6"><strong>Delete Duplicate Columns</strong></a></h2>
-<p>The duplicate columns stem from the fact that my data source was arranged such that each table of data always contained three specific columns <em>(Loan, Seller &amp; Property Name)</em>. Rather than deleting each observation individually, I decided to create a list of duplicate column names to iterate over which would be used to identify the various columns I want to delete.</p>
+<p>The duplicate columns stem from the fact that the data source was arranged such that each table of data <strong>always</strong> contained three specific columns <em>(Loan, Seller &amp; Property Name)</em>. Rather than deleting each observation individually, I decided to create a list of duplicate column names to iterate over which would be used to identify the various columns I want to delete.</p>
 <div class="highlight"><pre><span></span><span class="n">loan_seller_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;(^Loan\s#|^Seller|^Property\sName)&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)][</span><span class="mi">3</span><span class="p">:]</span>
 </pre></div>
 <p>The list comprehension above creates a list of columns by iterating over every column in the dataframe and appending to the list the column names that are one of the three repeated columns.
-The Regular Expression pattern is a group of three individual regex patterns separated <tt class="docutils literal">|</tt> meaning &quot;or&quot;. So, if a given column starts with (<tt class="docutils literal">^</tt> the carrot indicating the pattern is at the beginning of a string) &quot;Loan #&quot;, or &quot;Seller&quot; or &quot;Property Name&quot;, the column value is returned if <tt class="docutils literal">re.search</tt> is <tt class="docutils literal">True</tt>, meaning one of the three subject columns have been found.
-An important note is that I did not want to delete <em>all</em> columns that matches with this pattern. Indexing the list with <tt class="docutils literal">[3:]</tt> skips the first three values because those first three observations of &quot;Loan&quot;, &quot;Seller&quot;, &quot;Property Name&quot; are the <em>good</em> columns I wanted to keep.
+The Regular Expression pattern is a group of three individual regex patterns separated by a vertical bar, <tt class="docutils literal">|</tt>, meaning &quot;or&quot;. So, if a given column starts with (<tt class="docutils literal">^</tt> the carrot indicating the pattern is at the beginning of a string) &quot;Loan #&quot;, or &quot;Seller&quot; or &quot;Property Name&quot;, the column value is returned if <tt class="docutils literal">re.search</tt> is <tt class="docutils literal">True</tt>, meaning one of the three subject columns have been found.
+An <strong>important note</strong> is that I did not want to delete <em>all</em> columns that matched with this pattern. Indexing the list with <tt class="docutils literal">[3:]</tt> skips the first three values because those first three observations of &quot;Loan&quot;, &quot;Seller&quot;, &quot;Property Name&quot; are the <em>good</em> columns I wanted to keep.
 Below, I used a <tt class="docutils literal">for</tt> loop to iterate over the duplicate columns to delete.</p>
-<p>FOR LOOP</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">loan_seller_cols</span><span class="p">:</span>
     <span class="n">cmbs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -240,11 +239,11 @@ Below, I used a <tt class="docutils literal">for</tt> loop to iterate over the d
 <li><tt class="docutils literal">^\s+'</tt> any space occuring one or more times at the beginning of a string.</li>
 <li><tt class="docutils literal"><span class="pre">'\s+?'</span></tt> any space occuring one or more times at the end of a string.</li>
 </ul>
-<p>Now, I can iterate over the dictionary <tt class="docutils literal">regex_dict</tt> to output and use each dictionary key (the regex pattern) and value (the replacement strings)</p>
+<p>Now, I can iterate over the dictionary <tt class="docutils literal">regex_dict</tt> and use each dictionary key (the regex pattern) and value (the replacement strings)</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">regex_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cmbs</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 </pre></div>
-<p>The <tt class="docutils literal">for</tt> loop modifies all columns slightly for each iteration until every regex pattern in the dictionary has been located in the headers and then replaced with replaced with an empty string. All of the replacement values are an empty string except for the one for <tt class="docutils literal">\s\s+</tt> which is replaced by a single space because I want to preserve spaces, I just don't want to have inconsistent spacing.</p>
+<p>The <tt class="docutils literal">for</tt> loop modifies each column with a matching character slightly for each iteration until every regex pattern in the dictionary has been located in the headers and then replaced with an empty string. All of the replacement values are an empty string except for the one for <tt class="docutils literal">\s\s+</tt> which is replaced by a single space because I want to preserve spaces, I just don't want to have inconsistent spacing.</p>
 </div>
 <div class="section" id="delete-columns-with-all-na-values">
 <h2><a class="toc-backref" href="#id8"><strong>Delete Columns with All NA Values</strong></a></h2>
