@@ -210,11 +210,11 @@
           &lt;span class="n"&gt;ylim_high&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Number of Properties&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xtick_rotation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xtick_font&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;8.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;produces the following graph...&lt;/p&gt;
-&lt;img alt="prop_type_graph" src="/images/prop_types_three.PNG" style="width: 100%;" /&gt;
+&lt;img alt="prop_type_graph_three" src="/images/prop_types_three.png" style="width: 100%;" /&gt;
 &lt;p&gt;There are of course other graphing libraries. Basemap is a graphing library that requires a given set of coordinates, 3 shapefiles and returns a geographic map with the coordinate data plotted on the map based on a given coordinate system.&lt;/p&gt;
 &lt;p&gt;Below is a graph I made some time ago with the Basemap library:&lt;/p&gt;
 &lt;img alt="cmbs_5mm" src="/images/all_cmbs_52mm.png" style="width: 100%;" /&gt;
-&lt;p&gt;The map above is good example of a large group of location coordinates being clearly presented in a way that highlights the underlying characteristic of the data, in this case - the disparity in concentration of CMBS properties in various regions of the United States. Most notably, the northeast has a heavy concentration of CMBS propeties, as well as areas of Texas, California and Florida. There is far less CMBS exposure in states like North and South Dakota, Montana and Nebraska.&lt;/p&gt;
+&lt;p&gt;The map above is good example of how a large group of location data can be clearly presented in a way that highlights the underlying characteristic of the data, in this case - the disparity in the concentration of CMBS properties in various regions of the United States. Most notably, the northeast has a heavy concentration of CMBS propeties, as well as areas of Texas, California and Florida. There is far less CMBS exposure in states like North and South Dakota, Montana and Nebraska.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="unique-keys"&gt;
 &lt;h2&gt;&lt;a class="toc-backref" href="#id11"&gt;&lt;strong&gt;Unique Keys&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
