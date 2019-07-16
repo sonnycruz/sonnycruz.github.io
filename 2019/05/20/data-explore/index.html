@@ -18,8 +18,6 @@
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Full Atom Feed" />
-        <link href="https://sonnycruz.github.io/feeds/python.atom.xml" type="application/atom+xml" rel="alternate" title="Sonny's Blog Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -87,7 +85,9 @@
 <li><a class="reference internal" href="#null-values-per-column" id="id8"><strong>Null Values Per Column</strong></a></li>
 <li><a class="reference internal" href="#column-datatypes" id="id9"><strong>Column Datatypes</strong></a></li>
 <li><a class="reference internal" href="#bar-graph-for-different-property-types" id="id10"><strong>Bar Graph for Different Property Types</strong></a></li>
-<li><a class="reference internal" href="#other-basic-descriptive-statistics" id="id11"><strong>Other Basic Descriptive Statistics</strong></a></li>
+<li><a class="reference internal" href="#unique-keys" id="id11"><strong>Unique Keys</strong></a></li>
+<li><a class="reference internal" href="#loan-vs-property" id="id12"><strong>Loan vs. Property</strong></a></li>
+<li><a class="reference internal" href="#other-basic-descriptive-statistics" id="id13"><strong>Other Basic Descriptive Statistics</strong></a></li>
 </ul>
 </div>
 <div class="section" id="recap-of-parts-1-4-data-wrangling">
@@ -290,8 +290,42 @@
 <img alt="cmbs_5mm" src="/images/all_cmbs_52mm.png" style="width: 100%;" />
 <p>The map above is good example of a large group of location coordinates being clearly presented in a way that highlights the underlying characteristic of the data, in this case - the disparity in concentration of CMBS properties in various regions of the United States. Most notably, the northeast has a heavy concentration of CMBS propeties, as well as areas of Texas, California and Florida. There is far less CMBS exposure in states like North and South Dakota, Montana and Nebraska.</p>
 </div>
+<div class="section" id="unique-keys">
+<h2><a class="toc-backref" href="#id11"><strong>Unique Keys</strong></a></h2>
+<p>When merging different data sets or filtering a data set to work with a subset of the data, an important index or key I have learned to be aware of are a data set's unique row or record identifier. What column or columns uniquely, meaning the values do not repeat in any other row, demarcate a given row? For CMBS data, the key is the &quot;Deal ID&quot; and the &quot;Prospectus ID&quot;. When coupled or grouped together these two attributes distinguish every row from all the others.</p>
+</div>
+<div class="section" id="loan-vs-property">
+<h2><a class="toc-backref" href="#id12"><strong>Loan vs. Property</strong></a></h2>
+<p>A single loan can be backed by multiple commercial properties. If a loan is backed by more than one property, the loan is listed first, followed by the properties that are the collateral for the loan. In order to extract information about the <em>loans</em>, a subset of the data which does not include property information for loans backed by more than one property, I created a simple but effective filtering mechanism using Pandas' string method <tt class="docutils literal">.endswith()</tt> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.str.endswith.html">documentation here</a>). <tt class="docutils literal">.endswith()</tt> does not accept a Regular Expression object, rather, it is used for simple match cases like the one below:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">loans</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">),:]</span>
+</pre></div>
+<p>Now, any aggregate statistic such as a the sum of all values in a column, will reflect only the loan-level detail.</p>
+</div>
 <div class="section" id="other-basic-descriptive-statistics">
-<h2><a class="toc-backref" href="#id11"><strong>Other Basic Descriptive Statistics</strong></a></h2>
+<h2><a class="toc-backref" href="#id13"><strong>Other Basic Descriptive Statistics</strong></a></h2>
+<p>The dataframe <tt class="docutils literal">loans</tt> contains all the information for the 44 loans in the pool. Below is a function I made to give an example of a function which accepts a dataframe and outputs basic and fundamental statistics to describe the data. Basically, the function below <tt class="docutils literal">cmbs_stats()</tt> is like the native Python function I used earlier, <tt class="docutils literal">.describe()</tt>, the difference here being that <tt class="docutils literal">cmbs_stats()</tt> contextualizes the data with instructions to produce domain related measurements and benchmarks such as risk and return variability and property type related information.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cmbs_stats</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+      <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+      <span class="n">loans</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">),:]</span>
+      <span class="n">num_loans</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">num_props</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+      <span class="n">prop_type_count</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Property Type&#39;</span><span class="p">)[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+      <span class="n">prop_dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">prop_type_count</span> <span class="o">/</span> <span class="n">num_props</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+      <span class="n">dsc_describe</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">])</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of Loans: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num_loans</span><span class="p">)))</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of Properties: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num_props</span><span class="p">)))</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Percent of Properties by Property Type: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">prop_dist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total Loan Balance of Pool: </span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loans</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;UW NOI DSCR: </span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dsc_describe</span><span class="p">))</span>
+</pre></div>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -328,7 +362,6 @@
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title"></div>
                         <ul class="list-unstyled">
-                            <li><a href="https://sonnycruz.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"></a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
