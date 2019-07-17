@@ -141,11 +141,11 @@
 <p>You can access the Pandas' <tt class="docutils literal">.shape</tt> attribute and you will see a tuple containing the rows and columns in the format (rows, columns).</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
-<img alt="df shape2" src="/images/dfshape2.PNG" style="width: 85%;" />
+<img alt="dfshape3" src="/images/row_col_count.JPG" style="width: 25%;" />
 <p>or you can call the <tt class="docutils literal">df.info()</tt> method to get a little more information, such as memory usuage.</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
-<img alt="df info" src="/images/dfinfo.PNG" style="width: 85%;" />
+<img alt="df info" src="/images/info_two.JPG" style="width: 45%;" />
 </div>
 <div class="section" id="column-names">
 <h2><a class="toc-backref" href="#id7"><strong>Column Names</strong></a></h2>
@@ -198,26 +198,34 @@
       <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">infer_datetime_format</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 <p>Notice that the <tt class="docutils literal">currency</tt> function will not only replace dollar symbols, parentheses and commas with empty strings but also the percent symbol - another symbol often seen in business and finance. See the documentation for Pandas' <tt class="docutils literal">.replace</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.replace.html">at this link</a>. Also, <a class="reference external" href="https://towardsdatascience.com/5-methods-to-remove-the-from-your-data-in-python-and-the-fastest-one-281489382455">here</a> is a cool article by Chaim Gluck about different ways to convert financial data.</p>
-<p>Before:</p>
+<ul class="simple">
+<li>Before:</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<p>[IMAGE]</p>
-<p>After:</p>
+<img alt="dollars" src="/images/before_money.JPG" style="width: 60%;" />
+<ul class="simple">
+<li>After:</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">currency</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Current Balance&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<p>[IMAGE]</p>
+<img alt="dollar_after" src="/images/after_money.JPG" style="width: 60%;" />
 <p>The <tt class="docutils literal">date_convert</tt> function is a simple way to use the <tt class="docutils literal">pd.to_datetime</tt> Pandas method but is convenient shorthand. Surprisingly, the parameter and argument <tt class="docutils literal">infer_datetime_format=True</tt> speeds up an otherwise lengthy conversion process (i.e. '5/26/2018' a string, is converted to 2018-05-26, a sortable date). See the documentation for Pandas' <tt class="docutils literal">.to_datetime</tt> method <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html">click here</a>.</p>
-<p>Before:</p>
+<ul class="simple">
+<li>Before:</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Final Mat Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<p>[IMAGE]</p>
-<p>After:</p>
+<img alt="date_obj" src="/images/before_date_two.JPG" style="width: 65%;" />
+<ul class="simple">
+<li>After:</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">date_convert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;Final Mat Date&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Final Mat Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
+<img alt="date_type" src="/images/date_after.JPG" style="width: 65%;" />
 <p>Another Metric I will look at is DSCR, Net Operating Income for a given period, divided by the total debt service due for that period.</p>
-<p>[IMAGE]</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -298,7 +306,8 @@
 </div>
 <div class="section" id="loan-vs-property">
 <h2><a class="toc-backref" href="#id12"><strong>Loan vs. Property</strong></a></h2>
-<p>A single loan can be backed by multiple commercial properties. If a loan is backed by more than one property, the loan is listed first, followed by the properties that are the collateral for the loan. In order to extract information about the <em>loans</em>, a subset of the data which does not include property information for loans backed by more than one property, I created a simple but effective filtering mechanism using Pandas' string method <tt class="docutils literal">.endswith()</tt> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.str.endswith.html">documentation here</a>). <tt class="docutils literal">.endswith()</tt> does not accept a Regular Expression object, rather, it is used for simple match cases like the one below:</p>
+<p>A single loan can be backed by multiple commercial properties. If a loan is backed by more than one property, the loan is listed first, followed by the properties that are the collateral for the loan. In order to extract information about the <em>loans</em>, a subset of the data which does not include property information for loans backed by more than one property, I created a simple but effective filtering mechanism using Pandas' string method <tt class="docutils literal">.endswith()</tt> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.str.endswith.html">documentation here</a>).
+<tt class="docutils literal">.endswith()</tt> does not accept a Regular Expression object, rather, it is used for simple match cases like the one below:</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 <span class="n">loans</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">),:]</span>
 </pre></div>
@@ -308,26 +317,27 @@
 <h2><a class="toc-backref" href="#id13"><strong>Other Basic Descriptive Statistics</strong></a></h2>
 <p>The dataframe <tt class="docutils literal">loans</tt> contains all the information for the 44 loans in the pool. Below is a function I made to give an example of a function which accepts a dataframe and outputs basic and fundamental statistics to describe the data. Basically, the function below <tt class="docutils literal">cmbs_stats()</tt> is like the native Python function I used earlier, <tt class="docutils literal">.describe()</tt>, the difference here being that <tt class="docutils literal">cmbs_stats()</tt> contextualizes the data with instructions to produce domain related measurements and benchmarks such as risk and return variability and property type related information.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cmbs_stats</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-      <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-      <span class="n">loans</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Loan Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">),:]</span>
-      <span class="n">num_loans</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-      <span class="n">num_props</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-      <span class="n">prop_type_count</span> <span class="o">=</span> <span class="n">loans</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Property Type&#39;</span><span class="p">)[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-      <span class="n">prop_dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">prop_type_count</span> <span class="o">/</span> <span class="n">num_props</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-      <span class="n">dsc_describe</span> <span class="o">=</span> <span class="n">loans</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">])</span>
+      <span class="n">num_loans</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">num_props</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+      <span class="n">prop_type_count</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Property Type&#39;</span><span class="p">)[</span><span class="s1">&#39;Number of Properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+      <span class="n">prop_dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">prop_type_count</span> <span class="o">/</span> <span class="n">num_props</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+      <span class="n">dsc_describe</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;UW NOI DSCR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">])</span>
       <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
       <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of Loans: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num_loans</span><span class="p">)))</span>
       <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
       <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Number of Properties: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">num_props</span><span class="p">)))</span>
       <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Percent of Properties by Property Type: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Percentage of Properties by Property Type:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
       <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">prop_dist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
       <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total Loan Balance of Pool: </span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loans</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total Loan Balance of Pool: </span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Current Balance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
       <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
       <span class="k">print</span><span class="p">(</span><span class="s2">&quot;UW NOI DSCR: </span><span class="se">\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dsc_describe</span><span class="p">))</span>
 </pre></div>
+<div class="highlight"><pre><span></span><span class="n">cmbs_stats</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">loans</span><span class="p">)</span>
+</pre></div>
+<img alt="stat_out" src="/images/get_stat_output.JPG" style="width: 45%;" />
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
