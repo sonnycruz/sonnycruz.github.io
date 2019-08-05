@@ -54,7 +54,7 @@ GITHUB_SKIP_FORK = True
 
 YEAR_ARCHIVE_SAVE_AS = u'posts/{date:%Y}/index.html'
 
-THEME = "nest"
+THEME = r'C:\Users\storres.759NYY1\Desktop\Portfolio\sonnysblog\sonnycruz.github.io\pelican-themes-master\nest'
 
 READERS = {'html': None}
 
