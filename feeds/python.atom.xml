@@ -26,6 +26,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2019/04/23/Join-Stack/"&gt;Part 3 Join and Stack&lt;/a&gt;: The table data was joined and stacked horizontally and vertically to piece together the puzzle of data tables first explained in Part 1: Getting Data. Finally, the parsed header row was stacked on to the table data.&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://sonnycruz.github.io/2019/05/04/More-Cleanup/"&gt;Part 4 More Cleanup&lt;/a&gt;:  Here, I got rid of annoying symbols and characters in the headers, deleted columns which contained all NA values and deleted duplicate columns (the repeated indices for each table on the web page).&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;Again, the source code for each post can be found &lt;a class="reference external" href="https://github.com/sonnycruz/End-to-End-Data-Analysis"&gt;in my Github&lt;/a&gt; account.&lt;/p&gt;
 &lt;p&gt;Now, the data is one uniform file and is easy to manage. Below I will walk through some common data exploration techniques I use to understand a data set.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="exploring-the-data-set"&gt;
