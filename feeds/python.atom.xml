@@ -14,6 +14,7 @@
 &lt;li&gt;&lt;a class="reference internal" href="#loan-vs-property" id="id17"&gt;&lt;strong&gt;Loan vs. Property&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#other-basic-descriptive-statistics" id="id18"&gt;&lt;strong&gt;Other Basic Descriptive Statistics&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference internal" href="#in-closing" id="id19"&gt;&lt;strong&gt;In Closing&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#footnotes" id="id20"&gt;&lt;strong&gt;Footnotes&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="recap-of-parts-1-4-data-wrangling"&gt;
@@ -265,6 +266,9 @@
 &lt;p&gt;I have learned so much in 2.5 years of computer coding with Python and I am barely scratching the surface of what is possible! I am excited to start learning Javascript next. Happy coding, everyone!&lt;/p&gt;
 &lt;p&gt;Again, please feel free to email me with any comments/questions: &lt;a class="reference external" href="mailto:sonnycruztorres&amp;#64;gmail.com"&gt;sonnycruztorres&amp;#64;gmail.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Thanks!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="footnotes"&gt;
+&lt;h2&gt;&lt;a class="toc-backref" href="#id20"&gt;&lt;strong&gt;Footnotes&lt;/strong&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
 &lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
 &lt;tbody valign="top"&gt;
@@ -1061,7 +1065,7 @@ The &lt;tt class="docutils literal"&gt;for&lt;/tt&gt; loop is organized by the &
 &lt;/div&gt;
 &lt;div class="section" id="the-html-structure"&gt;
 &lt;h3&gt;&lt;a class="toc-backref" href="#id10"&gt;The HTML Structure&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). &lt;strong&gt;The key to understanding the HTML, for me, was understanding the `HTML tag &amp;lt;https://www.w3schools.com/tags/tag_html.asp&amp;gt;`_ structure, as well as what characteristics makes certain kinds of data unique, specifically what `HTML tag attributes &amp;lt;https://www.w3schools.com/html/html_attributes.asp&amp;gt;`_ make a given row of data identifiable as being a header row, a data row or a row to skip&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Before writing any code, I first had to carefully examine the HTML structure (Ctrl+Shift+I on windows to view the HTML followed by Ctrl+F to find keywords). The key to understanding the HTML, for me, was understanding the &lt;a class="reference external" href="https://www.w3schools.com/tags/tag_html.asp"&gt;HTML tag&lt;/a&gt; structure, as well as what characteristics makes certain kinds of data unique, specifically what &lt;a class="reference external" href="https://www.w3schools.com/html/html_attributes.asp"&gt;HTML tag attributes&lt;/a&gt; make a given row of data identifiable as being a header row, a data row or a row to skip.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Some HTML Table Basics&lt;/strong&gt;:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;tt class="docutils literal"&gt;table&lt;/tt&gt; tags define a table of data.&lt;/li&gt;
