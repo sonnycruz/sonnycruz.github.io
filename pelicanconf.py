@@ -26,7 +26,7 @@ NEST_INDEX_HEADER_SUBTITLE = r'Manipulating & Analyzing Data with Programming'
 NEST_HEADER_LOGO = '/images/blank.png'
 
 # Blogroll
-LINKS = (('LinkedIn', 'linkedin.com/in/sonny-torres-6738b780'),
+LINKS = (('LinkedIn', 'https://www.linkedin.com/in/sonny-torres-6738b780'),
          ('Github', 'https://github.com/sonnycruz'),
          ('Twitter', 'https://twitter.com/sonnyctorres'),
          ('', '#'),)
